@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:elevation="5dp"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/imageView_itemReviewMain_itemImg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        android:src="@drawable/img_review_item2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <RatingBar
+        android:id="@+id/ratingBar_itemReviewMain_starScore"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:numStars="5"
+        android:rating="3.0"
+        app:layout_constraintBottom_toBottomOf="@id/textView_itemReviewMain_starScore"
+        app:layout_constraintEnd_toStartOf="@id/textView_itemReviewMain_starScore"
+        app:layout_constraintStart_toStartOf="@id/imageView_itemReviewMain_itemImg"
+        app:layout_constraintTop_toBottomOf="@id/imageView_itemReviewMain_itemImg"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <TextView
+        android:id="@+id/textView_itemReviewMain_starScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="3.0"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="@id/imageView_itemReviewMain_itemImg"
+        app:layout_constraintStart_toEndOf="@id/ratingBar_itemReviewMain_starScore"
+        app:layout_constraintTop_toTopOf="@id/ratingBar_itemReviewMain_starScore" />
+
+    <TextView
+        android:id="@+id/textView_itemReviewMain_itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="파워에이드)퍼플스톰 600ml"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar_itemReviewMain_starScore" />
+
+    <TextView
+        android:id="@+id/textView_itemReviewMain_itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="1,700원"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@id/textView_itemReviewMain_itemName"
+        app:layout_constraintTop_toBottomOf="@id/textView_itemReviewMain_itemName" />
+
+    <ImageView
+        android:id="@+id/imageView_itemReviewMain_heartImg"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/ic_all_filledheart"
+        app:layout_constraintBottom_toBottomOf="@id/textView_itemReviewMain_itemPrice"
+        app:layout_constraintEnd_toStartOf="@id/textView_itemReviewMain_heartNum"
+        app:layout_constraintTop_toTopOf="@id/textView_itemReviewMain_itemPrice" />
+
+    <TextView
+        android:id="@+id/textView_itemReviewMain_heartNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="13"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_itemReviewMain_heartImg"
+        app:layout_constraintEnd_toStartOf="@id/imageView_itemReviewMain_commentImg"
+        app:layout_constraintTop_toTopOf="@id/imageView_itemReviewMain_heartImg" />
+
+    <ImageView
+        android:id="@+id/imageView_itemReviewMain_commentImg"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/ic_all_comment"
+        app:layout_constraintBottom_toBottomOf="@id/textView_itemReviewMain_itemPrice"
+        app:layout_constraintEnd_toStartOf="@id/textView_itemReviewMain_commentNum"
+        app:layout_constraintTop_toTopOf="@id/textView_itemReviewMain_itemPrice" />
+
+    <TextView
+        android:id="@+id/textView_itemReviewMain_commentNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="9"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_itemReviewMain_commentImg"
+        app:layout_constraintEnd_toEndOf="@id/textView_itemReviewMain_itemName"
+        app:layout_constraintTop_toTopOf="@id/imageView_itemReviewMain_commentImg" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

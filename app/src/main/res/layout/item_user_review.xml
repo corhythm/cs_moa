@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:elevation="5dp"
+    android:background="@drawable/bg_round_corner_15"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView_itemUserReview_profileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/img_all_myface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textView_itemUserReview_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView_itemUserReview_profileImage"
+        android:layout_marginStart="20dp"
+        android:text="인생은 실전이다"
+        android:textStyle="bold"
+        android:fontFamily="@font/jetbrainsmono_bold"/>
+
+    <TextView
+        android:id="@+id/textView_itemUserReview_updatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/textView_itemUserReview_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView_itemUserReview_username"
+        app:layout_constraintHorizontal_bias="0.85"
+        android:text="20/03/2020"
+        android:fontFamily="@font/nunitosans_black"
+        android:textColor="#000000"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar_itemUserReview_starScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/textView_itemUserReview_username"
+        app:layout_constraintTop_toBottomOf="@id/textView_itemUserReview_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".0"
+        android:rating="4"
+        android:numStars="5"
+        style="?android:attr/ratingBarStyleSmall"/>
+
+        <TextView
+            android:id="@+id/textView_itemUserReview_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:text="저희 집 근처 CU에서는 팔지 않고 특정 매장에만 팔아서 찾기가 힘들었어요. 그래도 먹어보니 맛있네요. 가격도 저렴하고 겉도 바삭바삭한 감이 유지돼서 만족도가 높았어요."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ratingBar_itemUserReview_starScore" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

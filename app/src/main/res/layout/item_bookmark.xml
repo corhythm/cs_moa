@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView_itemBookmark_itemImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img_review_item1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_itemBookmark_itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="CJ)비비고 썰은배추김치 100g"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageView_itemBookmark_itemImg"
+        app:layout_constraintTop_toTopOf="@id/imageView_itemBookmark_itemImg"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <TextView
+        android:id="@+id/textView_itemBookmark_itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="4,600원"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@id/textView_itemBookmark_itemName"
+        app:layout_constraintTop_toBottomOf="@id/textView_itemBookmark_itemName" />
+
+    <RatingBar
+        android:id="@+id/ratingBar_itemBookmark_itemStarScore"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="4"
+        app:layout_constraintStart_toStartOf="@id/textView_itemBookmark_itemName"
+        app:layout_constraintTop_toBottomOf="@id/textView_itemBookmark_itemPrice" />
+
+    <TextView
+        android:id="@+id/textView_itemBookmark_itemStarScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="3.5"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/ratingBar_itemBookmark_itemStarScore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toEndOf="@id/ratingBar_itemBookmark_itemStarScore"
+        app:layout_constraintTop_toTopOf="@id/ratingBar_itemBookmark_itemStarScore" />
+
+
+    <ImageView
+        android:id="@+id/imageView_itemBookmark_heartImg"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_all_filledheart"
+        app:layout_constraintBottom_toBottomOf="@id/textView_itemBookmark_heartNum"
+        app:layout_constraintEnd_toStartOf="@id/textView_itemBookmark_heartNum"
+        app:layout_constraintTop_toTopOf="@id/textView_itemBookmark_heartNum" />
+
+    <TextView
+        android:id="@+id/textView_itemBookmark_heartNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="21"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_itemBookmark_commentImg"
+        app:layout_constraintEnd_toStartOf="@id/imageView_itemBookmark_commentImg"
+        app:layout_constraintTop_toTopOf="@id/imageView_itemBookmark_commentImg" />
+
+    <ImageView
+        android:id="@+id/imageView_itemBookmark_commentImg"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_all_comment"
+        app:layout_constraintBottom_toBottomOf="@id/textView_itemBookmark_commentNum"
+        app:layout_constraintEnd_toStartOf="@id/textView_itemBookmark_commentNum"
+        app:layout_constraintTop_toTopOf="@id/textView_itemBookmark_commentNum" />
+
+    <TextView
+        android:id="@+id/textView_itemBookmark_commentNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunitosans_black"
+        android:text="15"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="#bdbdbd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView_itemBookmark_itemImg"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

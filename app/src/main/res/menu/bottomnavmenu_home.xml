@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottomNavMenu_home_itemReview"
+        android:icon="@drawable/ic_home_itemreview"
+        android:title="제품 리뷰"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/bottomNavMenu_home_itemEvent"
+        android:icon="@drawable/ic_home_eventitem"
+        android:title="행사 상품"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/bottomNavMenu_home_map"
+        android:icon="@drawable/ic_all_map"
+        android:title="주변 편의점"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/bottomNavMenu_home_recipe"
+        android:icon="@drawable/ic_home_recipe"
+        android:title="우리들의 레시피"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/bottomNavMenu_home_more"
+        android:icon="@drawable/ic_dotdotdot"
+        android:title="더보기"
+        app:showAsAction="always" />
+
+</menu>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".SignInActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView_signIn_appImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/img_all_myface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_signIn_startDivider"
+            android:layout_width="130dp"
+            android:layout_height="1dp"
+            android:background="#bdbdbd"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_signIn_appImage"
+            app:layout_constraintEnd_toStartOf="@id/imageView_signIn_appImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageView_signIn_appImage" />
+
+        <View
+            android:id="@+id/view_signIn_endDivider"
+            android:layout_width="130dp"
+            android:layout_height="1dp"
+            android:background="#bdbdbd"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_signIn_appImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView_signIn_appImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_signIn_appImage" />
+
+        <View
+            android:id="@+id/view_signIn_hidden"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView_signIn_appImage" />
+
+        <TextView
+            android:id="@+id/textView_signIn_emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/jetbrainsmono_bold"
+            android:text="이메일"
+            android:textColor="#bdbdbd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_signIn_hidden" />
+
+        <EditText
+            android:id="@+id/editText_signIn_emailInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/nunitosans_black"
+            app:layout_constraintStart_toStartOf="@id/textView_signIn_emailLabel"
+            app:layout_constraintTop_toBottomOf="@id/textView_signIn_emailLabel"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <TextView
+            android:id="@+id/textView_signIn_passwordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/jetbrainsmono_bold"
+            android:text="비밀번호"
+            android:textColor="#bdbdbd"
+            app:layout_constraintStart_toStartOf="@id/textView_signIn_emailLabel"
+            app:layout_constraintTop_toBottomOf="@id/editText_signIn_emailInput" />
+
+        <EditText
+            android:id="@+id/editText_signIn_passwordInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:drawableEnd="@drawable/ic_signinup_showpassword"
+            android:fontFamily="@font/nunitosans_black"
+            app:layout_constraintStart_toStartOf="@id/textView_signIn_passwordLabel"
+            app:layout_constraintTop_toBottomOf="@id/textView_signIn_passwordLabel"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <TextView
+            android:id="@+id/textView_signIn_forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/nunitosans_black"
+            android:text="비밀번호를 잊어버리셨나요?"
+            app:layout_constraintEnd_toEndOf="@id/editText_signIn_passwordInput"
+            app:layout_constraintTop_toBottomOf="@id/editText_signIn_passwordInput" />
+
+        <Button
+            android:id="@+id/button_signIn_signUp"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"
+            android:elevation="10dp"
+            android:fontFamily="@font/nunitosans_black"
+            android:text="회원가입"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toStartOf="@id/button_signIn_signIn"
+            app:layout_constraintStart_toStartOf="@id/textView_signIn_passwordLabel"
+            app:layout_constraintTop_toBottomOf="@id/textView_signIn_forgotPassword"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <Button
+            android:id="@+id/button_signIn_signIn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#303030"
+            android:fontFamily="@font/nunitosans_black"
+            android:text="로그인"
+            app:layout_constraintEnd_toEndOf="@id/editText_signIn_passwordInput"
+            app:layout_constraintStart_toEndOf="@id/button_signIn_signUp"
+            app:layout_constraintTop_toBottomOf="@id/textView_signIn_forgotPassword"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <ImageButton
+            android:id="@+id/button_signIn_kakaoSignIn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/img_signinup_kakaosignin"
+            app:layout_constraintEnd_toEndOf="@id/button_signIn_signIn"
+            app:layout_constraintStart_toStartOf="@id/button_signIn_signUp"
+            app:layout_constraintTop_toBottomOf="@id/button_signIn_signUp"
+            app:layout_constraintWidth_percent="0.75" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_signIn_googleSignIn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_rounded_corner_google_login_btn"
+            android:drawableStart="@drawable/img_google_login_btn"
+            android:elevation="0dp"
+            android:fontFamily="@font/roboto_black"
+            android:text="구글로 로그인"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@id/button_signIn_signIn"
+            app:layout_constraintStart_toStartOf="@id/button_signIn_signUp"
+            app:layout_constraintTop_toBottomOf="@id/button_signIn_kakaoSignIn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.75" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

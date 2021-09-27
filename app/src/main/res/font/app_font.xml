@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+<!--    font resource file은 API 26 이상부터 지원하기 때문에 이보다 낮은 버전에서도 적용하기 위해 app namesapce를 사용한다.-->
+<!--    font : 사용할 글꼴 파일 위치-->
+<!--    fontStyle : 해당 글꼴의 스타일-->
+<!--    fontWeight : 글꼴의 굵기-->
+
+    <font
+        android:font="@font/nunitosans_black"
+        android:fontStyle="normal"
+        android:fontWeight="300"
+        app:font="@font/nunitosans_black"
+        app:fontStyle="normal"
+        app:fontWeight="300"/>
+
+    <font
+        android:font="@font/jetbrainsmono_bold"
+        android:fontStyle="normal"
+        android:fontWeight="300"
+        app:font="@font/jetbrainsmono_bold"
+        app:fontStyle="normal"
+        app:fontWeight="300"/>
+
+</font-family>
