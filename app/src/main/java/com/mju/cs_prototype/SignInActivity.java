@@ -1,10 +1,15 @@
 package com.mju.cs_prototype;
 
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mju.cs_prototype.databinding.ActivitySignInBinding;
@@ -13,7 +18,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +26,11 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         init();
 
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        getWindow().setNavigationBarColor(Color.TRANSPARENT);
+//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+//                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
     private void init() {

@@ -36,10 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="총 5개"
-        android:fontFamily="@font/nunitosans_black"
-        android:textSize="15dp"
+
+        android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout_more_appbarLayout"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="수정"
         android:textColor="#3B28E3"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,10 +62,14 @@
         android:id="@+id/recyclerView_bookmark_bookmarkList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_bookmark_bookmarkNum"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
     <style name="Theme.Cs_prototype" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
@@ -9,28 +9,40 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
 
+        <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+
+
+<!--         &lt;!&ndash; StatusBar Translucent(반투명) &ndash;&gt; -->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--        &lt;!&ndash; Navigation Translucent(반투명) &ndash;&gt;-->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
+
+<!--         statusBar가 최상위 부모 레이아웃을 겹치지 않게 조정 -->
         <item name="android:fitsSystemWindows">true</item>
 
-        <!-- Customize your theme here. -->
+        <!-- set default font -->
+        <item name="android:textViewStyle">@style/mapleStoryLightTextView</item>
     </style>
 
-    <style name="Text.TitleStyle" parent="android:TextAppearance">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/colorGray</item>
-        <item name="android:fontFamily">@font/app_font</item>
-        <item name="android:includeFontPadding">false</item>
+    <!-- 이건 무슨 역할인지 잘 모르겠음 -->
+<!--    <style name="Theme.Cs_prototype.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+<!--    <style name="Theme.Cs_prototype.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+<!--    <style name="Text.TitleStyle" parent="android:TextAppearance">-->
+<!--        <item name="android:textStyle">normal</item>-->
+<!--        <item name="android:textSize">@dimen/text_size_14</item>-->
+<!--        <item name="android:textColor">@color/colorGray</item>-->
+<!--        <item name="android:fontFamily">@font/app_font</item>-->
+<!--        <item name="android:includeFontPadding">false</item>-->
+<!--    </style>-->
+
+    <!-- declaration font -->
+    <style name="mapleStoryLightTextView" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/maple_story_light</item>
     </style>
-    <style name="Theme.Cs_prototype.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="Theme.Cs_prototype.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.Cs_prototype.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 
 </resources>
