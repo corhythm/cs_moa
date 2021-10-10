@@ -1,4 +1,4 @@
-package com.mju.cs_prototype;
+package com.mju.csmoa;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mju.cs_prototype.databinding.ActivityMoreBinding;
-import com.mju.cs_prototype.databinding.ItemMoreBinding;
+import com.mju.csmoa.databinding.ActivityMoreBinding;
+import com.mju.csmoa.databinding.ItemMoreBinding;
 
 import java.util.ArrayList;
 import java.util.List;

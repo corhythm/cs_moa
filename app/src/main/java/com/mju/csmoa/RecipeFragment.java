@@ -1,4 +1,4 @@
-package com.mju.cs_prototype;
+package com.mju.csmoa;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.mju.cs_prototype.databinding.FragmentRecipeBinding;
+import com.mju.csmoa.databinding.FragmentRecipeBinding;
 
 public class RecipeFragment extends Fragment {
 

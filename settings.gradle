@@ -5,5 +5,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "cs_prototype"
+rootProject.name = "csmoa"
 include ':app'

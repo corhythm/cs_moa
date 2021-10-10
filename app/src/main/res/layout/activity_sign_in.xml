@@ -51,71 +51,76 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView_signIn_appImage" />
 
-        <TextView
-            android:id="@+id/textView_signIn_emailLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/jetbrainsmono_bold"
-            android:text="이메일"
-            android:textColor="#bdbdbd"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_signIn_hidden" />
 
-        <EditText
-            android:id="@+id/editText_signIn_emailInput"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_signIn_emailInputLayout"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="@font/nunitosans_black"
-            app:layout_constraintStart_toStartOf="@id/textView_signIn_emailLabel"
-            app:layout_constraintTop_toBottomOf="@id/textView_signIn_emailLabel"
-            app:layout_constraintWidth_percent="0.8" />
+            app:errorEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_signIn_hidden"
+            app:layout_constraintWidth_percent="0.8">
 
-        <TextView
-            android:id="@+id/textView_signIn_passwordLabel"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditText_signIn_emailInput"
+                style="@style/TextInputEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="아이디(이메일)"
+                android:background="#00000000"
+                app:background="@null" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout_signIn_passwordInputLayout"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/jetbrainsmono_bold"
-            android:text="비밀번호"
-            android:textColor="#bdbdbd"
-            app:layout_constraintStart_toStartOf="@id/textView_signIn_emailLabel"
-            app:layout_constraintTop_toBottomOf="@id/editText_signIn_emailInput" />
+            app:hintAnimationEnabled="true"
+            app:layout_constraintEnd_toEndOf="@id/textInputLayout_signIn_emailInputLayout"
+            app:layout_constraintStart_toStartOf="@id/textInputLayout_signIn_emailInputLayout"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayout_signIn_emailInputLayout"
+            app:passwordToggleEnabled="true">
 
-        <EditText
-            android:id="@+id/editText_signIn_passwordInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:drawableEnd="@drawable/ic_signinup_showpassword"
-            android:fontFamily="@font/nunitosans_black"
-            app:layout_constraintStart_toStartOf="@id/textView_signIn_passwordLabel"
-            app:layout_constraintTop_toBottomOf="@id/textView_signIn_passwordLabel"
-            app:layout_constraintWidth_percent="0.8" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditText_signIn_passwordInput"
+                style="@style/TextInputEditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="비밀번호"
+                android:background="#00000000"
+                android:inputType="textPassword"
+                app:background="@null" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView_signIn_forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/nunitosans_black"
+            android:layout_marginTop="20dp"
             android:text="비밀번호를 잊어버리셨나요?"
-            app:layout_constraintEnd_toEndOf="@id/editText_signIn_passwordInput"
-            app:layout_constraintTop_toBottomOf="@id/editText_signIn_passwordInput" />
+            app:layout_constraintEnd_toEndOf="@id/textInputLayout_signIn_passwordInputLayout"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="@id/textInputLayout_signIn_passwordInputLayout"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayout_signIn_passwordInputLayout" />
+
 
         <Button
             android:id="@+id/button_signIn_signUp"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/white"
             android:elevation="10dp"
-            android:fontFamily="@font/nunitosans_black"
+            android:fontFamily="@font/maple_story_light"
             android:text="회원가입"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@id/button_signIn_signIn"
-            app:layout_constraintStart_toStartOf="@id/textView_signIn_passwordLabel"
+            app:layout_constraintStart_toStartOf="@id/textInputLayout_signIn_passwordInputLayout"
             app:layout_constraintTop_toBottomOf="@id/textView_signIn_forgotPassword"
             app:layout_constraintWidth_percent="0.35" />
 
@@ -123,13 +128,13 @@
             android:id="@+id/button_signIn_signIn"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
             android:backgroundTint="#303030"
-            android:fontFamily="@font/nunitosans_black"
+            android:fontFamily="@font/maple_story_light"
             android:text="로그인"
-            app:layout_constraintEnd_toEndOf="@id/editText_signIn_passwordInput"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/textInputLayout_signIn_passwordInputLayout"
             app:layout_constraintStart_toEndOf="@id/button_signIn_signUp"
-            app:layout_constraintTop_toBottomOf="@id/textView_signIn_forgotPassword"
+            app:layout_constraintTop_toTopOf="@id/button_signIn_signUp"
             app:layout_constraintWidth_percent="0.35" />
 
         <ImageButton
@@ -152,14 +157,13 @@
             android:background="@drawable/bg_rounded_corner_google_login_btn"
             android:drawableStart="@drawable/img_google_login_btn"
             android:elevation="0dp"
-            android:fontFamily="@font/roboto_black"
             android:text="구글로 로그인"
             android:textColor="@color/white"
             android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/button_signIn_signIn"
             app:layout_constraintStart_toStartOf="@id/button_signIn_signUp"
             app:layout_constraintTop_toBottomOf="@id/button_signIn_kakaoSignIn"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintWidth_percent="0.75" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

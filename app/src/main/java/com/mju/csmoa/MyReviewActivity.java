@@ -1,4 +1,4 @@
-package com.mju.cs_prototype;
+package com.mju.csmoa;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.mju.cs_prototype.databinding.ActivityMyReviewBinding;
-import com.mju.cs_prototype.databinding.ItemMyReviewBinding;
+import com.mju.csmoa.databinding.ActivityMyReviewBinding;
+import com.mju.csmoa.databinding.ItemMyReviewBinding;
 
 import java.util.ArrayList;
 import java.util.List;

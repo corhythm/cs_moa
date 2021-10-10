@@ -1,4 +1,4 @@
-package com.mju.cs_prototype;
+package com.mju.csmoa;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mju.cs_prototype.databinding.ActivityReviewDetailsBinding;
-import com.mju.cs_prototype.databinding.ItemUserReviewBinding;
+import com.mju.csmoa.databinding.ActivityReviewDetailsBinding;
+import com.mju.csmoa.databinding.ItemUserReviewBinding;
 
 import java.util.ArrayList;
 import java.util.List;

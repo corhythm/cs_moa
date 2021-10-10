@@ -1,4 +1,4 @@
-package com.mju.cs_prototype;
+package com.mju.csmoa;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mju.cs_prototype.databinding.FragmentReviewMainBinding;
-import com.mju.cs_prototype.databinding.ItemReviewMainBinding;
+import com.mju.csmoa.databinding.FragmentReviewMainBinding;
+import com.mju.csmoa.databinding.ItemReviewMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
