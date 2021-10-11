@@ -69,12 +69,6 @@ public class MoreActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
     }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_back_in, R.anim.activity_slide_back_out);
-    }
 }
 
 class ItemMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -53,12 +53,6 @@ public class MyReviewActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         binding.recyclerViewMyReviewMyReviewList.addItemDecoration(new RecyclerViewDecoration(70));
     }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_back_in, R.anim.activity_slide_back_out);
-    }
 }
 
 class MyReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

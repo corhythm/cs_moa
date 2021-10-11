@@ -57,12 +57,6 @@ public class ReviewDetailsActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         binding.recyclerViewReviewDetailsReviewList.addItemDecoration(decoration);
     }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_back_in, R.anim.activity_slide_back_out);
-    }
 }
 
 // 리사이클러뷰 관련 클래스 프로젝트 관리를 위해 임시로 이렇게 사용

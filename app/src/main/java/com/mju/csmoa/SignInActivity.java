@@ -1,6 +1,7 @@
 package com.mju.csmoa;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -61,34 +62,18 @@ public class SignInActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) { }
         });
 
-
          // signUp
         binding.buttonSignInSignUp.setOnClickListener((View view) -> {
             startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
-            overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_slide_out);
         });
-//
-//        // 로그인 성공 -> 메인 페이지
-//        binding.buttonSignInSignIn.setOnClickListener(v -> {
-//
-//        });
-//
-//        // 카카오 로그인
-//        binding.buttonSignInKakaoSignIn.setOnClickListener(v -> {
-//            startActivity(new Intent(SignInActivity.this, ReviewDetailsActivity.class));
-//            overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_slide_out);
-//        });
-//
-//        // 구글 로그인
-//        binding.buttonSignInGoogleSignIn.setOnClickListener(v -> {
-//            startActivity(new Intent(SignInActivity.this, MyReviewActivity.class));
-//            overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_slide_out);
-//        });
-    }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_back_in, R.anim.activity_slide_back_out);
+        // 로그인 성공 -> 홈
+        // TODO
+
+        // 카카오 로그인
+        // TODO
+
+        // 구글 로그인
+        // TODO
     }
 }

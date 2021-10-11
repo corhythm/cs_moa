@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet_container"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background">
+
+    <TextView
+        android:id="@+id/textView_lottieAnimationView_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/airbnb_cereal_bold"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textColor="@color/colorGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Exit?" />
+
+    <View
+        android:id="@+id/view_layoutBottomSheet_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#DAD2D2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_lottieAnimationView_title" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/layoutBottomSheet_lottieAnimationView_lottie"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_layoutBottomSheet_divider"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="question_mark2.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1"/>
+
+
+    <TextView
+        android:id="@+id/textView_layoutBottomSheet_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="18dp"
+        android:textColor="@color/colorGray"
+        android:fontFamily="@font/baemin_hanna_air"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutBottomSheet_lottieAnimationView_lottie"
+        tools:text="회원가입을 중단하실 건가요?\n중간에 나가시면 기존 정보는 저장되지 않아요 :(" />
+
+    <Button
+        android:id="@+id/button_layoutBottomSheet_No"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/white"
+        android:elevation="30dp"
+        android:text="No"
+        android:textColor="@color/azure"
+        android:layout_marginEnd="20dp"
+        android:textSize="20dp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toStartOf="@id/button_layoutBottomSheet_Yes"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_layoutBottomSheet_message" />
+
+    <Button
+        android:id="@+id/button_layoutBottomSheet_Yes"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#ED1818"
+        android:text="Yes"
+        android:textStyle="italic|bold"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toEndOf="@id/button_layoutBottomSheet_No"
+        app:layout_constraintTop_toTopOf="@id/button_layoutBottomSheet_No" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

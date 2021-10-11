@@ -1,8 +1,6 @@
 package com.mju.csmoa;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +12,9 @@ import com.mju.csmoa.databinding.ActivitySignUpBinding;
 
 import java.util.Objects;
 
-public class SignUpActivity extends AppCompatActivity {
+import lombok.SneakyThrows;
+
+public class SignUpActivity extends AppCompatActivity{
 
     private ActivitySignUpBinding binding;
 
@@ -35,10 +35,10 @@ public class SignUpActivity extends AppCompatActivity {
             finish();
         });
 
-        // 닉네임 중복 처리
+        // 닉네임 중복 처리 (Debounce)
         // TODO
 
-        // 아이디(이메일) 중복 처리
+        // 아이디(이메일) 중복 처리 (Debounce)
         // TODO
 
         // 비밀번호 확인
@@ -67,13 +67,31 @@ public class SignUpActivity extends AppCompatActivity {
         binding.buttonSignUpSignUp.setOnClickListener(v -> {
 
         });
-
-
     }
 
+    @SneakyThrows
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_back_in, R.anim.activity_slide_back_out);
+    public void onBackPressed() {
+
+        CustomBottomSheetDialog bottomSheetDialog = CustomBottomSheetDialog
+                .builder()
+                .context(SignUpActivity.this)
+                .theme(R.style.BottomSheetDialogTheme)
+                .lottieName("man_question.json")
+                .title("Exit?")
+                .message("회원가입을 중단하실 건가요?\n중간에 나가시면 기존 정보는 저장되지 않아요 :(")
+                .build();
+
+        // is best?
+        bottomSheetDialog.getBinding().buttonLayoutBottomSheetYes.setOnClickListener(v -> {
+            super.onBackPressed();
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.getBinding().buttonLayoutBottomSheetNo.setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.show();
     }
 }

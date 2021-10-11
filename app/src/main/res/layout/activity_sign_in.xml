@@ -154,7 +154,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_rounded_corner_google_login_btn"
+            android:background="@drawable/btn_google_login_background"
             android:drawableStart="@drawable/img_google_login_btn"
             android:elevation="0dp"
             android:text="구글로 로그인"

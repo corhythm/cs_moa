@@ -73,10 +73,4 @@ public class HomeActivity extends AppCompatActivity {
                 .replace(R.id.frameLayout_home_container, fragment)
                 .commit();
     }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_back_in, R.anim.activity_slide_back_out);
-    }
 }

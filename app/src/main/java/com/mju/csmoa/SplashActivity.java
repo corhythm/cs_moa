@@ -24,7 +24,8 @@ public class SplashActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             startActivity(new Intent(SplashActivity.this, SignInActivity.class));
             finish();
-            overridePendingTransition(R.anim.activity_slide_in, R.anim.activity_slide_out); // not working
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
         }, 200);
     }
 }

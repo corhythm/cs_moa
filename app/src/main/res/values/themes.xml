@@ -13,31 +13,35 @@
         <!-- Status bar color. -->
 <!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
 
-
         <item name="android:windowTranslucentStatus">true</item> <!-- StatusBar Translucent(반투명) -->
         <item name="android:windowTranslucentNavigation">true</item> <!-- Navigation Translucent(반투명) -->
 
-<!--         statusBar가 최상위 부모 레이아웃을 겹치지 않게 조정 -->
+        <!-- statusBar가 최상위 부모 레이아웃을 겹치지 않게 조정 -->
         <item name="android:fitsSystemWindows">true</item>
 
         <!-- set default font -->
-        <item name="android:textViewStyle">@style/mapleStoryLightTextView</item>
-        <item name="android:buttonStyle">@style/mapleStoryLightButton</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:buttonStyle">@style/ButtonStyle</item>
 <!--        <item name="materialButtonStyle">@style/mapleStoryLightButton</item>-->
+
+        <!-- set animation -->
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
 
-
-    <style name="mapleStoryLightTextView" parent="@android:style/Widget.DeviceDefault.TextView">
+    <!-- TextView 폰트 -->
+    <style name="TextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:fontFamily">@font/maple_story_light</item>
     </style>
 
 
-    <style name="mapleStoryLightButton" parent="@android:style/Widget.DeviceDefault.Button">
+    <!-- Button 폰트 -->
+    <style name="ButtonStyle" parent="@android:style/Widget.DeviceDefault.Button">
         <item name="android:fontFamily">@font/maple_story_light</item>
     </style>
 
 
+    <!-- TextInputLayout 테마 -->
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <!--FilledBox일 경우 밑줄 색상, OutlinedBox일 경우 테두리 색상-->
         <item name="boxStrokeColor">@color/blue_grey</item>
@@ -93,6 +97,23 @@
     </style>
 
 
+    <!-- BottomSheetDialog 테마 -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <!-- custom slide animation -->
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Translucent">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
 
 
 

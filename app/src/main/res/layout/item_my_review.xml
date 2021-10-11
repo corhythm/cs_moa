@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="5dp"
-    android:background="@drawable/bg_round_corner_15"
+    android:background="@drawable/rounded_corner_background"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
     android:padding="10dp">
