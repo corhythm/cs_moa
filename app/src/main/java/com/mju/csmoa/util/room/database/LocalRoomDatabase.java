@@ -43,6 +43,8 @@ public abstract class LocalRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+
+    // migrate 할 때 사용, 근데 그냥 콘솔로 들어가서 내부 DB 다 지우면 됨
     public static final Migration MIGRATION_1_2 = new Migration(1, 2) { // From version 1 to version 2
         @Override
         public void migrate(SupportSQLiteDatabase database) {

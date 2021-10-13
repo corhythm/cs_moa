@@ -6,13 +6,17 @@ import android.app.Service;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
@@ -35,8 +39,6 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         init();
-
-
     }
 
     // menu inflate
@@ -49,25 +51,29 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.searchMenu_searchBar_search) { // 검색이 클릭됐을 때
-            // save search history
-            String searchWord = binding.editTextSearchSearchbar.getText().toString();
-            String currentDate = new SimpleDateFormat("yy.MM.dd", Locale.getDefault()).format(new Date());
-
-            LocalRoomDatabase database = LocalRoomDatabase.getDatabase(this);
-            LocalRoomDatabase.getDatabaseWriteExecutor().execute(() -> {
-                database.getSearchHistoryDao().insertSearchHistory(
-                        SearchHistory
-                                .builder()
-                                .searchWord(searchWord)
-                                .createdAt(currentDate)
-                                .type(0)
-                                .build());
-            });
-
-            binding.editTextSearchSearchbar.setText("");
+            saveSearchHistory();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // save search history
+    private void saveSearchHistory() {
+
+        String searchWord = binding.editTextSearchSearchbar.getText().toString();
+        String currentDate = new SimpleDateFormat("yy.MM.dd", Locale.getDefault()).format(new Date());
+
+        LocalRoomDatabase database = LocalRoomDatabase.getDatabase(this);
+        LocalRoomDatabase.getDatabaseWriteExecutor().execute(() -> {
+            database.getSearchHistoryDao().insertSearchHistory(
+                    SearchHistory
+                            .builder()
+                            .searchWord(searchWord)
+                            .createdAt(currentDate)
+                            .type(0)
+                            .build());
+        });
+        binding.editTextSearchSearchbar.setText("");
     }
 
     private void init() {
@@ -110,6 +116,18 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+
+        // when search icon is clicked in soft keyboard.
+        binding.editTextSearchSearchbar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    saveSearchHistory();
+                    return true;
+                }
+                return false;
             }
         });
 
