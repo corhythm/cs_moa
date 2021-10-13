@@ -1,5 +1,6 @@
 package com.mju.csmoa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,9 +13,7 @@ import com.mju.csmoa.databinding.ActivitySignUpBinding;
 
 import java.util.Objects;
 
-import lombok.SneakyThrows;
-
-public class SignUpActivity extends AppCompatActivity{
+public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
 
@@ -44,7 +43,8 @@ public class SignUpActivity extends AppCompatActivity{
         // 비밀번호 확인
         binding.textInputEditTextSignUpConfirmPasswordInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -60,7 +60,8 @@ public class SignUpActivity extends AppCompatActivity{
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // click signUp button
@@ -69,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity{
         });
     }
 
-    @SneakyThrows
+
     @Override
     public void onBackPressed() {
 
@@ -82,14 +83,18 @@ public class SignUpActivity extends AppCompatActivity{
                 .message("회원가입을 중단하실 건가요?\n중간에 나가시면 기존 정보는 저장되지 않아요 :(")
                 .build();
 
-        // is best?
-        bottomSheetDialog.getBinding().buttonLayoutBottomSheetYes.setOnClickListener(v -> {
-            super.onBackPressed();
-            bottomSheetDialog.dismiss();
-        });
+        // dirty code (builder에서 전달해서 처리하고 싶은데, super.onBackPressed()가 안 먹는다)
+        bottomSheetDialog.setOnClickListener(new DialogButtonDelegate() {
+            @Override
+            public void setOnYesClickedListener(DialogInterface dialogInterface) {
+                dialogInterface.dismiss();
+                SignUpActivity.super.onBackPressed();
+            }
 
-        bottomSheetDialog.getBinding().buttonLayoutBottomSheetNo.setOnClickListener(v -> {
-            bottomSheetDialog.dismiss();
+            @Override
+            public void setOnNoClickedListener(DialogInterface dialogInterface) {
+                dialogInterface.dismiss();
+            }
         });
 
         bottomSheetDialog.show();

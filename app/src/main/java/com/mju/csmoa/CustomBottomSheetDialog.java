@@ -1,6 +1,7 @@
 package com.mju.csmoa;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,7 @@ public class CustomBottomSheetDialog extends BottomSheetDialog {
 
     @Builder
     public CustomBottomSheetDialog(@NonNull Context context, int theme, String title,
-                                   String message, String lottieName) throws IOException {
+                                   String message, String lottieName, DialogButtonDelegate dialogButtonDelegate) {
         super(context, theme);
         binding = LayoutBottomSheetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -39,14 +40,27 @@ public class CustomBottomSheetDialog extends BottomSheetDialog {
         binding.textViewLottieAnimationViewTitle.setText(title);
         binding.textViewLayoutBottomSheetMessage.setText(message);
 
-        // check if lottie file exists.
-        if (Arrays.asList(context.getAssets().list("")).contains(lottieName)) {
-            binding.layoutBottomSheetLottieAnimationViewLottie.setAnimation(lottieName);
-        } else {
-            binding.layoutBottomSheetLottieAnimationViewLottie.setAnimation("question_mark.json");
+        // (dirty code) check if lottie file exists.
+        try {
+            if (Arrays.asList(context.getAssets().list("")).contains(lottieName)) {
+                binding.lottieAnimationViewLottieAnimationViewLottie.setAnimation(lottieName);
+            } else {
+                binding.lottieAnimationViewLottieAnimationViewLottie.setAnimation("question_mark.json");
+            }
+        } catch(java.io.IOException exception) {
+            Log.d("로그", "CustomBottomSheetDialog: " + exception.getMessage());
         }
-
     }
 
-    public LayoutBottomSheetBinding getBinding() { return binding; }
+    // dirty code
+    public void setOnClickListener(DialogButtonDelegate dialogButtonDelegate) {
+        binding.buttonLayoutBottomSheetYes.setOnClickListener(v -> dialogButtonDelegate.setOnYesClickedListener(this));
+        binding.buttonLayoutBottomSheetNo.setOnClickListener(v -> dialogButtonDelegate.setOnNoClickedListener(this));
+    }
 }
+
+interface DialogButtonDelegate {
+    void setOnYesClickedListener(DialogInterface dialogInterface);
+    void setOnNoClickedListener(DialogInterface dialogInterface);
+}
+

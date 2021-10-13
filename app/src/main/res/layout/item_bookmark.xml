@@ -31,7 +31,7 @@
         android:id="@+id/imageView_itemBookmark_delete"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/ic_bookmark_delete"
+        android:src="@drawable/ic_all_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textView_itemBookmark_itemName"
         app:layout_constraintStart_toEndOf="@id/textView_itemBookmark_itemName"/>

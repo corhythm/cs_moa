@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout_search_appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:padding="10dp"
+            app:navigationIcon="@drawable/ic_all_back">
+
+            <EditText
+                android:id="@+id/editText_search_searchbar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+
+                android:background="@drawable/search_edittext_background"
+                android:drawablePadding="10dp"
+                android:elevation="10dp"
+                android:hint="검색어를 입력하세요."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLength="70"
+                android:maxLines="1"
+                android:paddingStart="15dp"
+                android:paddingEnd="10dp"
+                android:textCursorDrawable="@drawable/edittext_cursor_color" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout_search_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout_search_appBarLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,36 +3,15 @@
     package="com.mju.csmoa">
 
     <application
+        android:name=".util.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Cs_prototype">
-
         <activity
-            android:name="com.mju.csmoa.BookmarkActivity"
-            android:exported="true"/>
-
-        <activity
-            android:name="com.mju.csmoa.MoreActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.mju.csmoa.MyReviewActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.mju.csmoa.HomeActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.mju.csmoa.SignUpActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.mju.csmoa.SignInActivity"
-            android:exported="true">
-
-        </activity>
-        <activity
-            android:name="com.mju.csmoa.SplashActivity"
+            android:name=".SearchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,8 +20,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mju.csmoa.ReviewDetailsActivity"
-            android:exported="true"/>
+            android:name=".BookmarkActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MoreActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MyReviewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SignInActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".ReviewDetailsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
