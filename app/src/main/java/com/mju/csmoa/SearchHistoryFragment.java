@@ -80,6 +80,7 @@ public class SearchHistoryFragment extends Fragment implements RemoveButtonClick
 
     @Override
     public void onDestroyView() {
+        Log.d(TAG, "SearchHistoryFragment.onDestroyView: ");
         super.onDestroyView();
         binding = null;
     }
@@ -136,7 +137,7 @@ class SearchHistoryViewHolder extends RecyclerView.ViewHolder {
         itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.setText(searchHistory.searchWord);
         itemSearchHistoryBinding.textViewItemRecentSearchDate.setText(searchHistory.createdAt);
 
-        Log.d("로그", "bind: " + searchHistory.searchHistoryId + ", " + searchHistory.searchWord + ", " + searchHistory.createdAt);
+//        Log.d("로그", "bind: " + searchHistory.searchHistoryId + ", " + searchHistory.searchWord + ", " + searchHistory.createdAt);
         // 특정 검색어 삭제 버튼을 눌렀을 때
         itemSearchHistoryBinding.imageViewItemRecentSearchRemove.setOnClickListener(v -> {
             removeButtonClickListener.setOnClicked(searchHistory);

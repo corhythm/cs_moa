@@ -61,6 +61,7 @@ public class ReviewMainFragment extends Fragment {
     // binding = null 안 해주면면
     @Override
     public void onDestroyView() {
+        Log.d("로그", "ReviewMainFragment.onDestroyView: ");
         super.onDestroyView();
         binding = null;
     }

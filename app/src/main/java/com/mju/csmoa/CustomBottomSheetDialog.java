@@ -7,16 +7,15 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.mju.csmoa.databinding.LayoutBottomSheetBinding;
+import com.mju.csmoa.databinding.DialogBottomSheetBinding;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import lombok.Builder;
 
 public class CustomBottomSheetDialog extends BottomSheetDialog {
 
-    private LayoutBottomSheetBinding binding;
+    private DialogBottomSheetBinding binding;
 
     public CustomBottomSheetDialog(@NonNull Context context) {
         super(context);
@@ -34,7 +33,7 @@ public class CustomBottomSheetDialog extends BottomSheetDialog {
     public CustomBottomSheetDialog(@NonNull Context context, int theme, String title,
                                    String message, String lottieName, DialogButtonDelegate dialogButtonDelegate) {
         super(context, theme);
-        binding = LayoutBottomSheetBinding.inflate(getLayoutInflater());
+        binding = DialogBottomSheetBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.textViewLottieAnimationViewTitle.setText(title);

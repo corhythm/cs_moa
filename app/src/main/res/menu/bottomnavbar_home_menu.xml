@@ -20,7 +20,7 @@
     <item
         android:id="@+id/bottomNavMenu_home_recipe"
         android:icon="@drawable/ic_home_recipe"
-        android:title="우리들의 레시피"
+        android:title="꿀조합 레시피"
         app:showAsAction="always" />
     <item
         android:id="@+id/bottomNavMenu_home_more"
