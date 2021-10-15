@@ -20,7 +20,7 @@ import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SearchHistoryFragment : Fragment(), RemoveButtonClickListener {
+class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
     private var _binding: FragmentSearchHistoryBinding? = null
     private val searchHistoryViewModel: SearchHistoryViewModel by viewModels {
         SearchHistoryViewModelFactory(MyApplication.instance.repository)
@@ -76,7 +76,7 @@ class SearchHistoryFragment : Fragment(), RemoveButtonClickListener {
 
     }
 
-    override fun setOnClicked(searchHistory: SearchHistory) {
+    override fun setOnXButtonClicked(searchHistory: SearchHistory) {
         // remove specific search history
         val database = LocalRoomDatabase.getDatabase(requireContext())
         lifecycleScope.launch {
@@ -86,6 +86,10 @@ class SearchHistoryFragment : Fragment(), RemoveButtonClickListener {
         searchHistoryAdapter.notifyDataSetChanged()
     }
 
+    override fun setOnSearchWordClicked(searchWord: String) {
+        (requireActivity() as HomeActivity).saveSearchHistory(searchWord)
+    }
+
     override fun onDestroyView() {
         Log.d(TAG, "SearchHistoryFragment.onDestroyView: ")
         super.onDestroyView()
@@ -93,58 +97,62 @@ class SearchHistoryFragment : Fragment(), RemoveButtonClickListener {
     }
 }
 
-internal class SearchHistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchHistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var searchHistoryList: List<SearchHistory?>? = ArrayList()
-    private lateinit var removeButtonClickListener: RemoveButtonClickListener
+    private var searchHistoryList: List<SearchHistory> = ArrayList()
+    private lateinit var itemButtonClickListener: ItemButtonClickListener
 
-    fun submitList(searchHistoryList: List<SearchHistory?>?) {
+    fun submitList(searchHistoryList: List<SearchHistory>) {
         this.searchHistoryList = searchHistoryList
     }
 
-    fun setRemoveButtonClickListener(removeButtonClickListener: RemoveButtonClickListener) {
-        this.removeButtonClickListener = removeButtonClickListener
+    fun setRemoveButtonClickListener(itemButtonClickListener: ItemButtonClickListener) {
+        this.itemButtonClickListener = itemButtonClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val searchHistoryViewHolder = SearchHistoryViewHolder(
             ItemSearchHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
-        searchHistoryViewHolder.setRemoveButtonClickListener(removeButtonClickListener)
+        searchHistoryViewHolder.setRemoveButtonClickListener(itemButtonClickListener)
         return searchHistoryViewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as SearchHistoryViewHolder).bind(searchHistoryList!![position])
+        (holder as SearchHistoryViewHolder).bind(searchHistoryList[position])
     }
 
     override fun getItemCount(): Int {
-        return searchHistoryList!!.size
+        return searchHistoryList.size
     }
 }
 
-internal class SearchHistoryViewHolder(private val itemSearchHistoryBinding: ItemSearchHistoryBinding) :
+class SearchHistoryViewHolder(private val itemSearchHistoryBinding: ItemSearchHistoryBinding) :
     RecyclerView.ViewHolder(itemSearchHistoryBinding.root) {
 
-    private lateinit var removeButtonClickListener: RemoveButtonClickListener
+    private lateinit var itemButtonClickListener: ItemButtonClickListener
 
-    fun setRemoveButtonClickListener(removeButtonClickListener: RemoveButtonClickListener) {
-        this.removeButtonClickListener = removeButtonClickListener
+    fun setRemoveButtonClickListener(removeButtonClickListener: ItemButtonClickListener) {
+        this.itemButtonClickListener = removeButtonClickListener
     }
 
-    fun bind(searchHistory: SearchHistory?) {
-        itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.text =
-            searchHistory!!.searchWord
+    fun bind(searchHistory: SearchHistory) {
+        itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.text = searchHistory.searchWord
         itemSearchHistoryBinding.textViewItemRecentSearchDate.text = searchHistory.createdAt
 
-//        Log.d("로그", "bind: " + searchHistory.searchHistoryId + ", " + searchHistory.searchWord + ", " + searchHistory.createdAt);
         // 특정 검색어 삭제 버튼을 눌렀을 때
         itemSearchHistoryBinding.imageViewItemRecentSearchRemove.setOnClickListener {
-            removeButtonClickListener.setOnClicked(searchHistory)
+            itemButtonClickListener.setOnXButtonClicked(searchHistory)
+        }
+
+        // 특정 검색어 눌렀을 때 -> 검색된 페이지로 이동
+        itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.setOnClickListener {
+            itemButtonClickListener.setOnSearchWordClicked(searchHistory.searchWord)
         }
     }
 }
 
-internal interface RemoveButtonClickListener {
-    fun setOnClicked(searchHistory: SearchHistory)
+interface ItemButtonClickListener {
+    fun setOnXButtonClicked(searchHistory: SearchHistory)
+    fun setOnSearchWordClicked(searchWord: String)
 }

@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.mju.csmoa.databinding.ActivityHomeBinding
-import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.entity.SearchHistory
 import kotlinx.coroutines.launch
@@ -24,9 +23,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityHomeBinding
     private var isSearchbarState = false
-    private var nowFragment: Fragment? = null
+    private lateinit var nowFragment: Fragment
     private val TAG = "로그"
     private var backKeyPressedTime: Long = 0 // 마지막으로 back key를 눌렀던 시간
 
@@ -54,7 +54,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.searchMenu_searchBar_search) { // 검색이 클릭됐을 때
             if (isSearchbarState) { // 검색창 상태일 때
-                saveSearchHistory()
+                saveSearchHistory(binding.includeHomeSearchToolbar
+                    .editTextSearchToolbarSearchbar.text.toString().trim())
             } else { // 그냥 일반상태 일 때 -> 프래그먼트 교체
 //                Toast.makeText(this, "test toast", Toast.LENGTH_SHORT).show();
                 initSearchState()
@@ -78,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
 
     // 검색창상태 때
     private fun initSearchState() {
-        Log.d(TAG, "initSearchState: ")
+
         isSearchbarState = true
         setSupportActionBar(binding.includeHomeSearchToolbar.toolbarSearchToolbarToolbar)
         nowFragment = SearchHistoryFragment()
@@ -92,7 +93,7 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavViewHomeBottomMenu.visibility = View.INVISIBLE
 
         // when navigationIcon clicked in searchState
-        binding.includeHomeSearchToolbar.toolbarSearchToolbarToolbar.setNavigationOnClickListener { finish() }
+        binding.includeHomeSearchToolbar.toolbarSearchToolbarToolbar.setNavigationOnClickListener { onBackPressed() }
 
         // focus searchWindow
         binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.requestFocus()
@@ -100,46 +101,44 @@ class HomeActivity : AppCompatActivity() {
         // forced to raise keyboard up (exception)
 //        InputMethodManager imm = (InputMethodManager) this.getSystemService(Service.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput((View) binding.editTextHomeSearchbar.getWindowToken(), 0);
-
+//        val imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.showSoftInput(binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.windowToken as View, 0)
 
         // when text is input in searchbar
-        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.addTextChangedListener(
-            object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
+        val searchBarTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
+                        .isNotEmpty()
                 ) {
+                    binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_all_delete2),
+                        null
+                    )
+                } else {
+                    binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        null,
+                        null
+                    )
                 }
+            }
 
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    if (binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
-                            .isNotEmpty()
-                    ) {
-                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            ContextCompat.getDrawable(this@HomeActivity, R.drawable.ic_all_delete2),
-                            null
-                        )
-                    } else {
-                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setCompoundDrawablesWithIntrinsicBounds(
-                            null,
-                            null,
-                            null,
-                            null
-                        )
-                    }
-                }
+            override fun afterTextChanged(s: Editable) {}
+        }
 
-                override fun afterTextChanged(s: Editable) {}
-            })
+        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.addTextChangedListener(
+            searchBarTextWatcher
+        )
 
         // when search icon is clicked in soft keyboard.
         binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                saveSearchHistory()
+                saveSearchHistory(binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString().trim())
                 return@setOnEditorActionListener true
             }
             false
@@ -147,13 +146,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     // save search history
-    private fun saveSearchHistory() {
-        if (binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.isEmpty()) {
+    fun saveSearchHistory(searchWord: String) {
+        if (searchWord.isEmpty()) {
             Toast.makeText(baseContext, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
-        val searchWord =
-            binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString().trim()
+
         val currentDate = SimpleDateFormat("yy.MM.dd", Locale.getDefault()).format(Date())
         val database = LocalRoomDatabase.getDatabase(this)
         lifecycleScope.launch {
@@ -178,12 +176,13 @@ class HomeActivity : AppCompatActivity() {
 
         // dirty code
         if (isSearchbarState) { // back previous fragment
-//            initMainState();
-            if (nowFragment is NoSearchResultFragment) {
-                initSearchState()
-            }
-            if (nowFragment is SearchHistoryFragment) {
-                initMainState()
+            when (nowFragment) {
+                is NoSearchResultFragment -> {
+                    initSearchState()
+                }
+                is SearchHistoryFragment -> {
+                    initMainState()
+                }
             }
         } else { // Application end
             if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
