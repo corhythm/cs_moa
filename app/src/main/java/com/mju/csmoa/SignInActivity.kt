@@ -11,12 +11,10 @@ import com.mju.csmoa.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
 
-    //    private ActivitySignInBinding binding;
     private lateinit var binding: ActivitySignInBinding
 
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
@@ -42,6 +40,8 @@ class SignInActivity : AppCompatActivity() {
                     binding.textInputEditTextSignInEmailInput.setCompoundDrawablesWithIntrinsicBounds(
                             null, null, ContextCompat.getDrawable(baseContext, R.drawable.ic_all_checked), null);
                 } else {
+
+
                     binding.textInputLayoutSignInEmailInputLayout.error = "올바른 이메일 양식이 아닙니다"
                     binding.textInputEditTextSignInEmailInput.setCompoundDrawablesWithIntrinsicBounds(
                             null, null, null, null);
@@ -53,7 +53,6 @@ class SignInActivity : AppCompatActivity() {
 
         // email input
         binding.textInputEditTextSignInEmailInput.addTextChangedListener(textWatcher)
-
 
         // signUp
         binding.buttonSignInSignUp.setOnClickListener {

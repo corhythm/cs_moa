@@ -2,52 +2,66 @@ package com.mju.csmoa.util.room.database
 
 import android.content.Context
 import androidx.room.Database
-import com.mju.csmoa.util.room.entity.SearchHistory
-import androidx.room.RoomDatabase
-import com.mju.csmoa.util.room.dao.SearchHistoryDao
-import java.util.concurrent.ExecutorService
-import kotlin.jvm.Volatile
-import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import lombok.Getter
+import com.mju.csmoa.util.room.dao.SearchHistoryDao
+import com.mju.csmoa.util.room.database.LocalRoomDatabase
+import com.mju.csmoa.util.room.entity.SearchHistory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @Database(entities = [SearchHistory::class], version = 2, exportSchema = false)
 abstract class LocalRoomDatabase : RoomDatabase() {
+
     // abstract method
-    abstract val searchHistoryDao: SearchHistoryDao?
+    abstract fun searchHistoryDao(): SearchHistoryDao
+
+//    private class LocalRoomDatabaseCallback(private val scope: CoroutineScope) :
+//        RoomDatabase.Callback() {
+//
+//        override fun onCreate(db: SupportSQLiteDatabase) {
+//            super.onCreate(db)
+//            INSTANCE?.let { database ->
+//                scope.launch {
+//                    val searchHistoryDao = database.searchHistoryDao()
+//
+//                    searchHistoryDao.deleteAllSearchHistory()
+//                }
+//            }
+//        }
+//    }
 
     companion object {
-        @Getter
-        private val databaseWriteExecutor =
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
         @Volatile
         private var INSTANCE: LocalRoomDatabase? = null
-        fun getDatabase(context: Context): LocalRoomDatabase? {
-            if (INSTANCE == null) {
-                synchronized(LocalRoomDatabase::class.java) {
-                    if (INSTANCE == null) {
-//                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-//                            LocalRoomDatabase.class, "local_database")
-//                            .build();
-                        INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            LocalRoomDatabase::class.java,
-                            "database-name"
-                        )
-                            .addMigrations(MIGRATION_1_2)
-                            .build()
-                    }
-                }
+
+        fun getDatabase(context: Context, scope: CoroutineScope? = null): LocalRoomDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance =
+                    Room.databaseBuilder(
+                        context.applicationContext,
+                        LocalRoomDatabase::class.java, "csmoa_local_db"
+                    ).build();
+//                    Room.databaseBuilder(
+//                    context.applicationContext,
+//                    LocalRoomDatabase::class.java,
+//                    "csmoa_local_db")
+//                    .addMigrations(MIGRATION_1_2)
+////                    .addCallback(LocalRoomDatabaseCallback(scope)) // 지금 당장에 사용 안 함. 패턴 정도만 익히자.
+//                    .build()
+                INSTANCE = instance
+                // return instance
+                instance
             }
-            return INSTANCE
         }
 
         // migrate 할 때 사용, 근데 그냥 콘솔로 들어가서 내부 DB 다 지우면 됨
-        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             // From version 1 to version 2
             override fun migrate(database: SupportSQLiteDatabase) {
                 // Remove the table
