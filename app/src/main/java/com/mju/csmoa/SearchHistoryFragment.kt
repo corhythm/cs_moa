@@ -146,7 +146,7 @@ class SearchHistoryViewHolder(private val itemSearchHistoryBinding: ItemSearchHi
         }
 
         // 특정 검색어 눌렀을 때 -> 검색된 페이지로 이동
-        itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.setOnClickListener {
+        itemSearchHistoryBinding.root.setOnClickListener {
             itemButtonClickListener.setOnSearchWordClicked(searchHistory.searchWord)
         }
     }
