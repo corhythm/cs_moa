@@ -22,12 +22,13 @@ import java.util.*
 
 class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
     private var _binding: FragmentSearchHistoryBinding? = null
+    private val binding get() = _binding!!
     private val searchHistoryViewModel: SearchHistoryViewModel by viewModels {
         SearchHistoryViewModelFactory(MyApplication.instance.repository)
     }
     private val TAG = "로그"
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
-    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
