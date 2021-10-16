@@ -10,22 +10,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Cs_prototype">
-
+        <activity
+            android:name=".SearchResultActivity"
+            android:exported="false" />
         <activity
             android:name=".HomeActivity"
-            android:exported="true" >
-        </activity>
-
-
+            android:exported="true"></activity>
         <activity
             android:name=".SignUpActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".SignInActivity"
             android:exported="true" />
-
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -35,7 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

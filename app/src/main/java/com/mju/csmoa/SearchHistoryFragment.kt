@@ -1,12 +1,10 @@
 package com.mju.csmoa
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,8 +18,6 @@ import com.mju.csmoa.util.room.entity.SearchHistory
 import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModel
 import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModelFactory
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
@@ -64,7 +60,7 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
             Log.d(TAG, "SearchHistoryFragment.viewLifeCycleOwner: $viewLifecycleOwner")
             searchHistories.let {
                 searchHistoryAdapter.submitList(searchHistories)
-                searchHistoryAdapter.notifyDataSetChanged()
+                searchHistoryAdapter.notifyItemChanged(0)
             }
         }
 
@@ -75,10 +71,15 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
                 database.searchHistoryDao().deleteAllSearchHistory()
             }
             // 최근 검색어 데이터 양이 많지 않으므로 notifyDataSetChanged() 호출해도 오버헤드가 크지 않을 듯.
-            searchHistoryAdapter.notifyDataSetChanged()
+            searchHistoryAdapter.notifyItemChanged(0)
         }
+    }
 
-
+    // 최근 검색 기록 스크롤 맨 위로
+    override fun onResume() {
+        val lineaLayoutManager: LinearLayoutManager = binding.recyclerViewRecentSearchSearchList.layoutManager as LinearLayoutManager
+        lineaLayoutManager.scrollToPositionWithOffset(0, 0)
+        super.onResume()
     }
 
     override fun setOnXButtonClicked(searchHistory: SearchHistory) {
@@ -88,11 +89,11 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
             database.searchHistoryDao().deleteSearchHistory(searchHistory)
         }
         // 이 코드를 위 스레드 스코프에서 실행하면 UI 스레드가 아니어서 앱 죽음
-        searchHistoryAdapter.notifyDataSetChanged()
+        searchHistoryAdapter.notifyItemChanged(0)
     }
 
     override fun setOnSearchWordClicked(searchWord: String) {
-        (requireActivity() as HomeActivity).saveSearchHistory(searchWord)
+        (requireActivity() as HomeActivity).goToSearchResult(searchWord)
     }
 
     override fun onDestroyView() {
@@ -141,7 +142,6 @@ class SearchHistoryViewHolder(private val itemSearchHistoryBinding: ItemSearchHi
         this.itemButtonClickListener = removeButtonClickListener
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun bind(searchHistory: SearchHistory) {
         itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.text = searchHistory.searchWord
         itemSearchHistoryBinding.textViewItemRecentSearchDate.text = searchHistory.createdAt.split(' ')[0]

@@ -1,9 +1,9 @@
 package com.mju.csmoa
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -14,12 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.mju.csmoa.databinding.ActivityHomeBinding
-import com.mju.csmoa.util.room.database.LocalRoomDatabase
-import com.mju.csmoa.util.room.entity.SearchHistory
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
@@ -52,13 +47,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.searchMenu_searchBar_search) { // 검색이 클릭됐을 때
-            if (isSearchbarState) { // 검색창 상태일 때
-                saveSearchHistory(binding.includeHomeSearchToolbar
-                    .editTextSearchToolbarSearchbar.text.toString().trim())
-            } else { // 그냥 일반상태 일 때 -> 프래그먼트 교체
+        when (item.itemId) {
+            R.id.searchMenu_searchBar_search -> {
+                if (isSearchbarState) { // 검색창 상태일 때
+                    val searchWord =
+                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
+                            .trim()
+                    goToSearchResult(searchWord)
+                } else { // 그냥 일반상태 일 때 -> 프래그먼트 교체
 //                Toast.makeText(this, "test toast", Toast.LENGTH_SHORT).show();
-                initSearchState()
+                    initSearchState()
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -66,8 +65,14 @@ class HomeActivity : AppCompatActivity() {
 
     // 일반상태일 떄
     private fun initMainState() {
+
+        // init toolbar
         isSearchbarState = false
         setSupportActionBar(binding.includeHomeMainToolBar.toolbarMainToolbarToolbar)
+
+        // change fragment
+        nowFragment = ReviewMainFragment()
+        replaceFragment(nowFragment)
 
         // MainToolbar visible
         binding.includeHomeMainToolBar.root.visibility = View.VISIBLE
@@ -80,8 +85,11 @@ class HomeActivity : AppCompatActivity() {
     // 검색창상태 때
     private fun initSearchState() {
 
+        // init toolbar
         isSearchbarState = true
         setSupportActionBar(binding.includeHomeSearchToolbar.toolbarSearchToolbarToolbar)
+
+        // change fragment
         nowFragment = SearchHistoryFragment()
         replaceFragment(nowFragment as SearchHistoryFragment)
 
@@ -128,71 +136,64 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(s: Editable) { }
         }
 
-        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.addTextChangedListener(
-            searchBarTextWatcher
-        )
+        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar
+            .addTextChangedListener(searchBarTextWatcher)
 
         // when search icon is clicked in soft keyboard.
         binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                saveSearchHistory(binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString().trim())
+                val searchWord = binding.includeHomeSearchToolbar
+                    .editTextSearchToolbarSearchbar.text.toString().trim()
+                goToSearchResult(searchWord)
+
                 return@setOnEditorActionListener true
             }
             false
         }
     }
 
-    // save search history
-    fun saveSearchHistory(searchWord: String) {
-        if (searchWord.isEmpty()) {
+    fun goToSearchResult(searchWord: String) {
+
+        if (searchWord.trim().isEmpty()) {
             Toast.makeText(baseContext, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val currentDate = SimpleDateFormat("yy.MM.dd HH:mm:ss", Locale.getDefault()).format(Date())
-        val database = LocalRoomDatabase.getDatabase(this)
-        lifecycleScope.launch {
-            database.searchHistoryDao().insertSearchHistory(
-                SearchHistory(searchWord = searchWord, createdAt = currentDate, type = 0)
-            )
+        val searchIntent = Intent(this@HomeActivity, SearchResultActivity::class.java).apply {
+            putExtra("searchWord", searchWord)
         }
-        //        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setText("");
-
-        // 검색 결과 없음 프래그먼트로 이동
-        nowFragment = NoSearchResultFragment()
-        replaceFragment(nowFragment as NoSearchResultFragment)
+        startActivity(searchIntent)
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout_home_container, fragment)
+            .replace(binding.frameLayoutHomeContainer.id, fragment)
             .commit()
     }
 
     override fun onBackPressed() {
 
-        // dirty code
         if (isSearchbarState) { // back previous fragment
-            when (nowFragment) {
-                is NoSearchResultFragment -> {
-                    initSearchState()
-                }
-                is SearchHistoryFragment -> {
-                    initMainState()
-                }
-            }
-        } else { // Application end
-            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-                backKeyPressedTime = System.currentTimeMillis()
-                Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
-                return
-            }
-            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-                finish()
-            }
+            initMainState()
+            return
         }
+
+        // Application end
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis()
+            Toast.makeText(this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish()
+        }
+
     }
+
+
 }
