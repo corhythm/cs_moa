@@ -152,7 +152,7 @@ class HomeActivity : AppCompatActivity() {
             return
         }
 
-        val currentDate = SimpleDateFormat("yy.MM.dd", Locale.getDefault()).format(Date())
+        val currentDate = SimpleDateFormat("yy.MM.dd HH:mm:ss", Locale.getDefault()).format(Date())
         val database = LocalRoomDatabase.getDatabase(this)
         lifecycleScope.launch {
             database.searchHistoryDao().insertSearchHistory(

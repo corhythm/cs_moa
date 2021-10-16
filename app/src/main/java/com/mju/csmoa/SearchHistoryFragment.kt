@@ -1,10 +1,12 @@
 package com.mju.csmoa
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +20,8 @@ import com.mju.csmoa.util.room.entity.SearchHistory
 import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModel
 import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModelFactory
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
@@ -137,9 +141,10 @@ class SearchHistoryViewHolder(private val itemSearchHistoryBinding: ItemSearchHi
         this.itemButtonClickListener = removeButtonClickListener
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun bind(searchHistory: SearchHistory) {
         itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.text = searchHistory.searchWord
-        itemSearchHistoryBinding.textViewItemRecentSearchDate.text = searchHistory.createdAt
+        itemSearchHistoryBinding.textViewItemRecentSearchDate.text = searchHistory.createdAt.split(' ')[0]
 
         // 특정 검색어 삭제 버튼을 눌렀을 때
         itemSearchHistoryBinding.imageViewItemRecentSearchRemove.setOnClickListener {
@@ -147,7 +152,7 @@ class SearchHistoryViewHolder(private val itemSearchHistoryBinding: ItemSearchHi
         }
 
         // 특정 검색어 눌렀을 때 -> 검색된 페이지로 이동
-        itemSearchHistoryBinding.textViewItemRecentSearchSearchWord.setOnClickListener {
+        itemSearchHistoryBinding.root.setOnClickListener {
             itemButtonClickListener.setOnSearchWordClicked(searchHistory.searchWord)
         }
     }
