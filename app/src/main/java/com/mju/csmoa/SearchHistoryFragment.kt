@@ -60,7 +60,8 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
             Log.d(TAG, "SearchHistoryFragment.viewLifeCycleOwner: $viewLifecycleOwner")
             searchHistories.let {
                 searchHistoryAdapter.submitList(searchHistories)
-                searchHistoryAdapter.notifyItemChanged(0)
+                // 성능 부분에서 좀 손해를 보겠으나, 이 정도는 괜찮을 듯
+                searchHistoryAdapter.notifyDataSetChanged()
             }
         }
 
@@ -71,7 +72,7 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
                 database.searchHistoryDao().deleteAllSearchHistory()
             }
             // 최근 검색어 데이터 양이 많지 않으므로 notifyDataSetChanged() 호출해도 오버헤드가 크지 않을 듯.
-            searchHistoryAdapter.notifyItemChanged(0)
+            searchHistoryAdapter.notifyDataSetChanged()
         }
     }
 
@@ -89,7 +90,7 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
             database.searchHistoryDao().deleteSearchHistory(searchHistory)
         }
         // 이 코드를 위 스레드 스코프에서 실행하면 UI 스레드가 아니어서 앱 죽음
-        searchHistoryAdapter.notifyItemChanged(0)
+        searchHistoryAdapter.notifyDataSetChanged()
     }
 
     override fun setOnSearchWordClicked(searchWord: String) {

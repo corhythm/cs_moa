@@ -12,29 +12,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_searchToolbar_toolbar"
+            android:id="@+id/toolbar_mainToolbar_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:padding="10dp"
-            app:menu="@menu/toolbar_search_menu"
-            app:navigationIcon="@drawable/ic_all_back">
-
-            <EditText
-                android:id="@+id/editText_searchToolbar_searchbar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/search_edittext_background"
-                android:drawablePadding="10dp"
-                android:elevation="10dp"
-                android:hint="검색어를 입력하세요."
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLength="70"
-                android:maxLines="1"
-                android:paddingStart="15dp"
-                android:paddingEnd="10dp"
-                android:textCursorDrawable="@drawable/edittext_cursor_color" />
+            app:title="행사상품"
+            app:menu="@menu/toolbar_search_menu">
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

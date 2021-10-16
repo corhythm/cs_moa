@@ -38,8 +38,8 @@ class ReviewMainFragment : Fragment() {
                 ))
         }
         val reviewMainRecyclerViewAdapter = ReviewMainRecyclerViewAdapter(reviewMainList)
-        binding.recyclerViewItemReviewItemList.adapter = reviewMainRecyclerViewAdapter
-        binding.recyclerViewItemReviewItemList.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerViewReviewMainMvpReviewList.adapter = reviewMainRecyclerViewAdapter
+        binding.recyclerViewReviewMainMvpReviewList.layoutManager = GridLayoutManager(context, 2)
     }
 
     // binding = null 안 해주면면

@@ -29,11 +29,12 @@ class SignUpActivity : AppCompatActivity() {
             finish()
         }
 
-        // 닉네임 중복 처리 (Debounce)
-        // TODO
+        // TODO: 닉네임 중복 처리 (Debounce)
 
-        // 아이디(이메일) 중복 처리 (Debounce)
-        // TODO
+        // TODO: 아이디(이메일) 중복 처리 (Debounce)
+
+        // 닉네임 regex - 한글, 영어, 숫자, 띄어쓰기 안 됨
+        val regex = Regex("^[가-힣ㄱ-ㅎa-zA-Z0-9]+\$")
 
         // 비밀번호 확인
         binding.textInputEditTextSignUpConfirmPasswordInput.addTextChangedListener(object :
@@ -72,7 +73,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val bottomSheetDialog = CustomBottomSheetDialog(
+        val bottomSheetDialog = YesOrNoBottomSheetDialog(
             context = this@SignUpActivity,
             theme = R.style.BottomSheetDialogTheme,
             lottieName = "man_question.json",

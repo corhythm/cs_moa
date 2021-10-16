@@ -5,11 +5,11 @@ import android.content.DialogInterface
 import android.util.Log
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.mju.csmoa.databinding.DialogBottomSheetBinding
+import com.mju.csmoa.databinding.DialogYesOrNoBottomSheetBinding
 import java.io.IOException
 
-class CustomBottomSheetDialog : BottomSheetDialog {
-    private var binding: DialogBottomSheetBinding = DialogBottomSheetBinding.inflate(layoutInflater)
+class YesOrNoBottomSheetDialog : BottomSheetDialog {
+    private var binding: DialogYesOrNoBottomSheetBinding = DialogYesOrNoBottomSheetBinding.inflate(layoutInflater)
 
     constructor(context: Context) : super(context) {}
     constructor(context: Context, theme: Int) : super(context, theme) {}

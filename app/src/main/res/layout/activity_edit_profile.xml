@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfileActivity">
+
+    <include
+        android:id="@+id/include_common_toolbar"
+        layout="@layout/layout_common_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_editProfile_imageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_common_toolbar"
+        app:layout_constraintVertical_bias="0.1">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView_editProfile_profileImg"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/img_all_myface" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/imageView_editProfile_profileImg"
+            android:layout_alignBottom="@id/imageView_editProfile_profileImg"
+            android:background="@drawable/img_profile_edit" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_editProfile_nicknameInputLayout"
+        style="@style/TextInputLayout.OutlinedBox.Style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:counterMaxLength="20"
+        app:counterEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout_editProfile_imageContainer">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_editProfile_nicknameInput"
+            style="@style/TextInputEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="김말이"
+            android:gravity="center"
+            android:inputType="text"
+            app:background="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button_editProfile_save"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/disabled"
+        android:text="완료"
+        android:hint="닉네임을 입력해주세요"
+        android:textSize="22dp"
+        android:enabled="false"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,4 +10,6 @@
     <color name="colorGray">#FF4A4949</color>
     <color name="azure">#FF007FFF</color>
     <color name="blue_grey">#FF6699CC</color>
+    <color name="enabled">#E78111</color>
+    <color name="disabled">#C8C6C3</color>
 </resources>

@@ -42,6 +42,27 @@
 
 
     <!-- TextInputLayout 테마 -->
+    <style name="TextInputLayout.OutlinedBox.Style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!--FilledBox일 경우 밑줄 색상, OutlinedBox일 경우 테두리 색상-->
+        <item name="boxStrokeColor">@color/blue_grey</item>
+        <item name="colorControlNormal">@color/black</item>
+        <!--Counter-->
+        <item name="counterTextAppearance">@style/CounterTextAppearance</item>
+        <!--EditText에 있을때의 Hint-->
+        <item name="android:textColorHint">@color/black</item>
+        <!--상단에 있을때의 Hint-->
+        <item name="hintTextColor">@color/blue_grey</item>
+        <item name="hintTextAppearance">@style/HintTextAppearance</item>
+        <!--Helper-->
+        <item name="helperTextTextAppearance">@style/HelperTextAppearance</item>
+        <!--Error-->
+        <item name="errorEnabled">true</item>
+        <item name="colorError">#EA0808</item>
+        <item name="errorIconDrawable">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
+    </style>
+
+
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <!--FilledBox일 경우 밑줄 색상, OutlinedBox일 경우 테두리 색상-->
         <item name="boxStrokeColor">@color/blue_grey</item>
@@ -61,6 +82,8 @@
         <item name="errorIconDrawable">@android:color/transparent</item>
         <item name="errorTextAppearance">@style/ErrorTextAppearance</item>
     </style>
+
+
 
     <style name="ErrorTextAppearance">
         <item name="android:textStyle">normal</item>

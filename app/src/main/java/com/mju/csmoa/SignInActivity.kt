@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.textfield.TextInputLayout
 import com.mju.csmoa.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
@@ -33,16 +34,17 @@ class SignInActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val emailPattern = Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")
-                // check if email pattern mathed
-                if (binding.textInputEditTextSignInEmailInput.text.toString().trim().matches(emailPattern)) {
-                    binding.textInputLayoutSignInEmailInputLayout.error = null
-                    binding.textInputEditTextSignInEmailInput.setCompoundDrawablesWithIntrinsicBounds(
+                val emailInputLayout = binding.textInputLayoutSignInEmailInputLayout
+                val emailInputEditText = binding.textInputEditTextSignInEmailInput
+
+                // check if email pattern matched
+                if (emailInputEditText.text.toString().trim().matches(emailPattern)) {
+                    emailInputLayout.error = null
+                    emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(
                         null, null, ContextCompat.getDrawable(baseContext, R.drawable.ic_all_checked), null);
                 } else {
-
-
-                    binding.textInputLayoutSignInEmailInputLayout.error = "올바른 이메일 양식이 아닙니다"
-                    binding.textInputEditTextSignInEmailInput.setCompoundDrawablesWithIntrinsicBounds(
+                    emailInputLayout.error = "올바른 이메일 양식이 아닙니다"
+                    emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(
                         null, null, null, null);
                 }
             }

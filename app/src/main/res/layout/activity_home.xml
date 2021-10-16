@@ -6,45 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <!--    <com.google.android.material.appbar.AppBarLayout-->
-    <!--        android:id="@+id/appBarLayout_home_appBarLayout"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:elevation="30dp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--        <com.google.android.material.appbar.MaterialToolbar-->
-    <!--            android:id="@+id/toolbar_home_toolbar"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:background="#ffffff"-->
-    <!--            android:padding="10dp"-->
-    <!--            app:navigationIcon="@drawable/ic_all_back">-->
-
-    <!--            <EditText-->
-    <!--                android:id="@+id/editText_home_searchbar"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="40dp"-->
-    <!--                android:background="@drawable/search_edittext_background"-->
-    <!--                android:drawablePadding="10dp"-->
-    <!--                android:elevation="10dp"-->
-    <!--                android:hint="검색어를 입력하세요."-->
-    <!--                android:imeOptions="actionSearch"-->
-    <!--                android:inputType="text"-->
-    <!--                android:maxLength="70"-->
-    <!--                android:maxLines="1"-->
-    <!--                android:paddingStart="15dp"-->
-    <!--                android:paddingEnd="10dp"-->
-    <!--                android:textCursorDrawable="@drawable/edittext_cursor_color" />-->
-    <!--        </com.google.android.material.appbar.MaterialToolbar>-->
-    <!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-
     <include
         android:id="@+id/include_home_mainToolBar"
-        layout="@layout/layout_main_toolbar"
+        layout="@layout/layout_basic_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -70,6 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
+        app:itemIconTint="#706D6D"
+        app:itemTextColor="#706D6D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

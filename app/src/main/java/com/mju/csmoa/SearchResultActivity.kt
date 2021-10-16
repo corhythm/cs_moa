@@ -1,9 +1,9 @@
 package com.mju.csmoa
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +27,7 @@ class SearchResultActivity : AppCompatActivity() {
     }
 
     private fun init() {
+
         // toolbar init
         setSupportActionBar(binding.toolbarSearchResultToolbar)
         binding.toolbarSearchResultToolbar.setNavigationOnClickListener { super.onBackPressed() }
@@ -62,6 +63,7 @@ class SearchResultActivity : AppCompatActivity() {
                 SearchHistory(searchWord = searchWord, createdAt = currentDate, type = 0)
             )
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

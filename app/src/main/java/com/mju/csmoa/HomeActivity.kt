@@ -29,7 +29,28 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initBottomNavigationView()
         initMainState()
+    }
+
+
+    private fun initBottomNavigationView() {
+        binding.bottomNavViewHomeBottomMenu.setOnItemSelectedListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.bottomNavMenu_home_itemReview -> { }
+                R.id.bottomNavMenu_home_itemEvent -> { }
+                R.id.bottomNavMenu_home_more -> {
+
+                    binding.includeHomeMainToolBar.toolbarMainToolbarToolbar.title = "더보기"
+
+                    nowFragment = MoreFragment()
+                    replaceFragment(nowFragment)
+                }
+
+            }
+
+            return@setOnItemSelectedListener true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -173,6 +194,13 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(binding.frameLayoutHomeContainer.id, fragment)
             .commit()
+    }
+
+    override fun onRestart() {
+        if (isSearchbarState) {
+            binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setText("")
+        }
+        super.onRestart()
     }
 
     override fun onBackPressed() {
