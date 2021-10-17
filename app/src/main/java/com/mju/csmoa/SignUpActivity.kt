@@ -39,7 +39,7 @@ class SignUpActivity : AppCompatActivity() {
         // 비밀번호 확인
         binding.textInputEditTextSignUpConfirmPasswordInput.addTextChangedListener(object :
             TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // 비밀번호랑 비밀번호 확인이랑 일치할 때
                 val password =
@@ -63,7 +63,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
 
-            override fun afterTextChanged(s: Editable) {}
+            override fun afterTextChanged(s: Editable) { }
         })
 
         // click signUp button

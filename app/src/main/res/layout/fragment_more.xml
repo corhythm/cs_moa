@@ -42,11 +42,11 @@
             android:fontFamily="@font/nunitosans_black"
             android:text="김말이"
             android:textSize="20dp"
-            app:layout_constraintTop_toTopOf="@id/relativeLayout_more_imageContainer"
             app:layout_constraintBottom_toBottomOf="@id/relativeLayout_more_imageContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@id/relativeLayout_more_imageContainer"
+            app:layout_constraintTop_toTopOf="@id/relativeLayout_more_imageContainer"
             app:layout_constraintVertical_bias="0.4" />
 
         <TextView
@@ -65,6 +65,7 @@
             android:id="@+id/button_more_editProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:backgroundTint="@color/white"
             android:elevation="20dp"
             android:fontFamily="@font/maple_story_light"
@@ -73,7 +74,6 @@
             android:textColor="@color/blue_grey"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/relativeLayout_more_imageContainer"
@@ -84,6 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

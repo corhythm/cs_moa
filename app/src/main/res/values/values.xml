@@ -28,5 +28,31 @@
 <!--        <item>추가 예정</item>-->
 <!--    </string-array>-->
 
+    <string-array name="more_item_list">
+        <item>divider</item>
+        <item>주변 편의점 찾기</item>
+        <item>내가 작성한 리뷰</item>
+        <item>divider</item>
+        <item>공지사항</item>
+        <item>문의하기</item>
+        <item>약관 및 정책</item>
+        <item>divider</item>
+        <item>로그아웃</item>
+        <item>회원 탈퇴</item>
+    </string-array>
+
+    <array name="more_item_image_list">
+        <item>divider</item>
+        <item>@drawable/ic_all_location</item> <!-- 주변 편의점 찾기-->
+        <item>@drawable/ic_all_pen</item> <!-- 내가 작성한 리뷰 -->
+        <item>divider</item>
+        <item>@drawable/ic_all_notification</item> <!-- 공지사항 -->
+        <item>@drawable/ic_all_question</item> <!-- 문의하기 -->
+        <item>@drawable/ic_all_policy</item> <!-- 약관 및 정책 -->
+        <item>divider</item>
+        <item>@drawable/ic_all_out</item> <!-- 로그아웃 -->
+        <item>@drawable/ic_all_big_x</item> <!-- 회원 탈퇴 -->
+    </array>
+
 
 </resources>

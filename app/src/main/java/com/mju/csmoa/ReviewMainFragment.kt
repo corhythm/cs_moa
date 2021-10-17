@@ -49,7 +49,7 @@ class ReviewMainFragment : Fragment() {
     }
 } // 리사이클러뷰 관련 클래스 프로젝트 관리를 위해 임시로 이렇게 사용
 
-internal class ReviewMainRecyclerViewAdapter(private val reviewItemList: List<ItemReviewMain>) :
+class ReviewMainRecyclerViewAdapter(private val reviewItemList: List<ItemReviewMain>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         Log.i("로그", "viewholder 생성")
@@ -72,7 +72,7 @@ internal class ReviewMainRecyclerViewAdapter(private val reviewItemList: List<It
     }
 }
 
-internal class ReviewMainRecyclerViewHolder(private val itemReviewMainBinding: ItemReviewMainBinding) :
+class ReviewMainRecyclerViewHolder(private val itemReviewMainBinding: ItemReviewMainBinding) :
     RecyclerView.ViewHolder(itemReviewMainBinding.root) {
     // 데이터 바인딩
     fun bind(itemReviewMain: ItemReviewMain) {
