@@ -1,4 +1,4 @@
-package com.mju.csmoa
+package com.mju.csmoa.main.more
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentMoreBinding
 import com.mju.csmoa.databinding.ItemDividerBinding
 import com.mju.csmoa.databinding.ItemMoreBinding
@@ -43,10 +44,12 @@ class MoreFragment : Fragment() {
                 continue
             }
 
-            itemMoreMenuList.add(ItemMoreMenu(
+            itemMoreMenuList.add(
+                ItemMoreMenu(
                 menuImageResourceId = moreItemImageDrawableList.getResourceId(i, 0),
                 menuName = moreItemNameList[i]
-            ))
+            )
+            )
 
         }
 

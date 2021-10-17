@@ -1,4 +1,4 @@
-package com.mju.csmoa;
+package com.mju.csmoa.login;
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.textfield.TextInputLayout
+import com.mju.csmoa.main.HomeActivity
+import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
@@ -41,7 +42,9 @@ class SignInActivity : AppCompatActivity() {
                 if (emailInputEditText.text.toString().trim().matches(emailPattern)) {
                     emailInputLayout.error = null
                     emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(
-                        null, null, ContextCompat.getDrawable(baseContext, R.drawable.ic_all_checked), null);
+                        null, null, ContextCompat.getDrawable(baseContext,
+                            R.drawable.ic_all_checked
+                        ), null);
                 } else {
                     emailInputLayout.error = "올바른 이메일 양식이 아닙니다"
                     emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(

@@ -1,4 +1,4 @@
-package com.mju.csmoa;
+package com.mju.csmoa.main.search;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

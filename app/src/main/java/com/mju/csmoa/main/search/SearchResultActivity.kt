@@ -1,12 +1,12 @@
-package com.mju.csmoa
+package com.mju.csmoa.main.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivitySearchResultBinding
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.entity.SearchHistory

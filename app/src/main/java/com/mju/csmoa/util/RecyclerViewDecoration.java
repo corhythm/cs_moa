@@ -1,4 +1,4 @@
-package com.mju.csmoa;
+package com.mju.csmoa.util;
 
 import android.graphics.Rect;
 import android.view.View;

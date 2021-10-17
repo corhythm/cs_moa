@@ -1,4 +1,4 @@
-package com.mju.csmoa
+package com.mju.csmoa.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,11 +14,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
+import com.mju.csmoa.main.more.MoreFragment
+import com.mju.csmoa.main.search.SearchResultActivity
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
-
+    
     private lateinit var binding: ActivityHomeBinding
     private var isSearchbarState = false
     private lateinit var nowFragment: Fragment

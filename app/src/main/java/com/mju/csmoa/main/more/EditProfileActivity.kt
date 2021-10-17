@@ -1,10 +1,11 @@
-package com.mju.csmoa
+package com.mju.csmoa.main.more
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {

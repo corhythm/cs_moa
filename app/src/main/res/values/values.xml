@@ -39,6 +39,7 @@
         <item>divider</item>
         <item>로그아웃</item>
         <item>회원 탈퇴</item>
+        <item>divider</item>
     </string-array>
 
     <array name="more_item_image_list">
@@ -52,6 +53,7 @@
         <item>divider</item>
         <item>@drawable/ic_all_out</item> <!-- 로그아웃 -->
         <item>@drawable/ic_all_big_x</item> <!-- 회원 탈퇴 -->
+        <item>divider</item>
     </array>
 
 
