@@ -16,12 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
+import com.mju.csmoa.main.event_item.EventItemsFragment
 import com.mju.csmoa.main.more.MoreFragment
 import com.mju.csmoa.main.search.SearchResultActivity
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
-    
+
     private lateinit var binding: ActivityHomeBinding
     private var isSearchbarState = false
     private lateinit var nowFragment: Fragment
@@ -38,14 +39,35 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun initBottomNavigationView() {
+
         binding.bottomNavViewHomeBottomMenu.setOnItemSelectedListener { menuItem ->
-            when(menuItem.itemId) {
-                R.id.bottomNavMenu_home_itemReview -> { }
-                R.id.bottomNavMenu_home_itemEvent -> { }
+            val toolbar = binding.includeHomeMainToolBar.toolbarMainToolbarToolbar
+            val searchMenu =
+                binding.includeHomeMainToolBar.toolbarMainToolbarToolbar.menu.findItem(R.id.searchMenu_searchBar_search)
+
+            when (menuItem.itemId) {
+                R.id.bottomNavMenu_home_itemReview -> {
+                    toolbar.title = "제품 리뷰"
+                    searchMenu.isVisible = true
+                    initMainState()
+                }
+                R.id.bottomNavMenu_home_itemEvent -> {
+                    toolbar.title = "행사 상품"
+                    searchMenu.isVisible = true
+                    nowFragment = EventItemsFragment()
+                    replaceFragment(nowFragment)
+                }
+                R.id.bottomNavMenu_home_map -> {
+                    toolbar.title = "주변 편의점"
+                    searchMenu.isVisible = false
+                }
+                R.id.bottomNavMenu_home_recipe -> {
+                    toolbar.title = "꿀조합 레시피"
+                    searchMenu.isVisible = true
+                }
                 R.id.bottomNavMenu_home_more -> {
-
-                    binding.includeHomeMainToolBar.toolbarMainToolbarToolbar.title = "더보기"
-
+                    toolbar.title = "더보기"
+                    searchMenu.isVisible = false
                     nowFragment = MoreFragment()
                     replaceFragment(nowFragment)
                 }
@@ -60,11 +82,9 @@ class HomeActivity : AppCompatActivity() {
 
         // menu inflate
         // onCreateOptionsMenu(Menu menu) is called, when setSupportActionBar() is called
-        if (isSearchbarState) {
-            // searchToolbar
+        if (isSearchbarState) { // searchToolbar
             binding.includeHomeSearchToolbar.toolbarSearchToolbarToolbar.inflateMenu(R.menu.toolbar_search_menu)
-        } else {
-            // mainToolbar
+        } else { // mainToolbar
             binding.includeHomeMainToolBar.toolbarMainToolbarToolbar.inflateMenu(R.menu.toolbar_search_menu)
         }
         return super.onCreateOptionsMenu(menu)
@@ -79,7 +99,7 @@ class HomeActivity : AppCompatActivity() {
                             .trim()
                     goToSearchResult(searchWord)
                 } else { // 그냥 일반상태 일 때 -> 프래그먼트 교체
-//                Toast.makeText(this, "test toast", Toast.LENGTH_SHORT).show();
+                    //                Toast.makeText(this, "test toast", Toast.LENGTH_SHORT).show();
                     initSearchState()
                 }
             }
@@ -99,10 +119,9 @@ class HomeActivity : AppCompatActivity() {
         replaceFragment(nowFragment)
 
         // MainToolbar visible
-        binding.includeHomeMainToolBar.root.visibility = View.VISIBLE
-        // SearchToolbar invisible
-        binding.includeHomeSearchToolbar.root.visibility = View.INVISIBLE
-        // BottomNavigation menu visible
+        binding.includeHomeMainToolBar.root.visibility = View.VISIBLE // SearchToolbar invisible
+        binding.includeHomeSearchToolbar.root.visibility =
+            View.INVISIBLE // BottomNavigation menu visible
         binding.bottomNavViewHomeBottomMenu.visibility = View.VISIBLE
     }
 
@@ -118,10 +137,9 @@ class HomeActivity : AppCompatActivity() {
         replaceFragment(nowFragment as SearchHistoryFragment)
 
         // MainToolbar invisible
-        binding.includeHomeMainToolBar.root.visibility = View.INVISIBLE
-        // SearchToolbar visible
-        binding.includeHomeSearchToolbar.root.visibility = View.VISIBLE
-        // BottomNavigation menu invisible
+        binding.includeHomeMainToolBar.root.visibility = View.INVISIBLE // SearchToolbar visible
+        binding.includeHomeSearchToolbar.root.visibility =
+            View.VISIBLE // BottomNavigation menu invisible
         binding.bottomNavViewHomeBottomMenu.visibility = View.INVISIBLE
 
         // when navigationIcon clicked in searchState
@@ -131,10 +149,10 @@ class HomeActivity : AppCompatActivity() {
         binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.requestFocus()
 
         // forced to raise keyboard up (exception)
-//        InputMethodManager imm = (InputMethodManager) this.getSystemService(Service.INPUT_METHOD_SERVICE);
-//        imm.showSoftInput((View) binding.editTextHomeSearchbar.getWindowToken(), 0);
-//        val imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.windowToken as View, 0)
+        //        InputMethodManager imm = (InputMethodManager) this.getSystemService(Service.INPUT_METHOD_SERVICE);
+        //        imm.showSoftInput((View) binding.editTextHomeSearchbar.getWindowToken(), 0);
+        //        val imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+        //        imm.showSoftInput(binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.windowToken as View, 0)
 
         // when text is input in searchbar
         val searchBarTextWatcher = object : TextWatcher {
@@ -152,25 +170,24 @@ class HomeActivity : AppCompatActivity() {
                     )
                 } else {
                     binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        null,
-                        null
+                        null, null, null, null
                     )
                 }
             }
 
-            override fun afterTextChanged(s: Editable) { }
+            override fun afterTextChanged(s: Editable) {}
         }
 
-        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar
-            .addTextChangedListener(searchBarTextWatcher)
+        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.addTextChangedListener(
+            searchBarTextWatcher
+        )
 
         // when search icon is clicked in soft keyboard.
         binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val searchWord = binding.includeHomeSearchToolbar
-                    .editTextSearchToolbarSearchbar.text.toString().trim()
+                val searchWord =
+                    binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
+                        .trim()
                 goToSearchResult(searchWord)
 
                 return@setOnEditorActionListener true
@@ -192,11 +209,9 @@ class HomeActivity : AppCompatActivity() {
         startActivity(searchIntent)
     }
 
-
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(binding.frameLayoutHomeContainer.id, fragment)
-            .commit()
+            .replace(binding.frameLayoutHomeContainer.id, fragment).commit()
     }
 
     override fun onRestart() {

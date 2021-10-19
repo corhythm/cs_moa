@@ -3,22 +3,15 @@ package com.mju.csmoa
 import android.content.Context
 import android.content.DialogInterface
 import android.util.Log
-import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mju.csmoa.databinding.DialogYesOrNoBottomSheetBinding
 import java.io.IOException
 
 class YesOrNoBottomSheetDialog : BottomSheetDialog {
-    private var binding: DialogYesOrNoBottomSheetBinding = DialogYesOrNoBottomSheetBinding.inflate(layoutInflater)
+    private val binding: DialogYesOrNoBottomSheetBinding =
+        DialogYesOrNoBottomSheetBinding.inflate(layoutInflater)
 
-    constructor(context: Context) : super(context) {}
     constructor(context: Context, theme: Int) : super(context, theme) {}
-    constructor(
-        context: Context,
-        cancelable: Boolean,
-        cancelListener: DialogInterface.OnCancelListener?
-    ) : super(context, cancelable, cancelListener) {
-    }
 
     constructor(
         context: Context, theme: Int, title: String?,
