@@ -48,6 +48,7 @@ class ItemCsBrandViewHolder(private val itemCsBrandBinding: ItemCsBrandBinding) 
         itemCsBrandBinding.imageViewCsBrandSelectBrand.colorFilter =
             ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
 
+        // when button clicked, black and white -> color, color -> black and white
         itemCsBrandBinding.root.setOnClickListener {
             isClicked = !isClicked
             saturationValue = if (isClicked) 1F else 0F
