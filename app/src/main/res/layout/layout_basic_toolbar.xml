@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:padding="10dp"
-            app:title="행사상품"
+            android:padding="5dp"
+            app:title="제품 리뷰"
             app:menu="@menu/toolbar_search_menu">
 
         </com.google.android.material.appbar.MaterialToolbar>

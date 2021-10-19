@@ -1,33 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 더보기-->
-<!--    <array name="bookmarkImages">-->
-<!--        <item>@drawable/ic_all_filledheart</item>-->
-<!--        <item>@drawable/ic_all_my_review</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--        <item>@drawable/ic_all_alarm</item>-->
-<!--    </array>-->
 
-<!--    <string-array name="bookmarkNames">-->
-<!--        <item>'좋아요'한 리뷰들</item>-->
-<!--        <item>내가 작성한 리뷰</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--        <item>추가 예정</item>-->
-<!--    </string-array>-->
-
+    <!-- 더보기 리스트 -->
     <string-array name="more_item_list">
         <item>divider</item>
         <item>주변 편의점 찾기</item>
@@ -55,6 +29,59 @@
         <item>@drawable/ic_all_big_x</item> <!-- 회원 탈퇴 -->
         <item>divider</item>
     </array>
+
+    <string-array name="cs_brand_list">
+        <item>cu</item>
+        <item>gs25</item>
+        <item>seven-eleven</item>
+        <item>ministop</item>
+        <item>emart24</item>
+    </string-array>
+
+    <array name="cs_brand_logo_list">
+        <item>@drawable/img_cs_cu</item>
+        <item>@drawable/img_cs_gs25</item>
+        <item>@drawable/img_cs_seveneleven</item>
+        <item>@drawable/img_cs_ministop</item>
+        <item>@drawable/img_cs_emart24</item>
+    </array>
+
+    <string-array name="cs_brand_color_list">
+        <item>#CA7BEF</item> <!-- cu -->
+        <item>#2BB9D9</item> <!-- gs25 -->
+        <item>#007957</item> <!-- seven-eleven -->
+        <item>#F3F813</item> <!-- ministop -->
+        <item>#F2B800</item> <!-- emart24 -->
+    </string-array>
+
+    <string-array name="event_type_list">
+        <item>1+1</item>
+        <item>2+1</item>
+        <item>3+1</item>
+        <item>4+1</item>
+    </string-array>
+
+    <string-array name="event_type_color_list">
+        <item>#7EB944</item>
+        <item>#256EDC</item>
+        <item>#A127B5</item>
+        <item>#ED3434</item>
+    </string-array>
+
+    <string-array name="item_category_list">
+        <item>음료</item>
+        <item>과자</item>
+        <item>식품</item>
+        <item>아이스크림</item>
+    </string-array>
+
+    <array name="item_category_image_list">
+        <item>@drawable/ic_item_beverage</item>
+        <item>@drawable/ic_item_snack</item>
+        <item>@drawable/ic_item_food</item>
+        <item>@drawable/ic_item_icecream</item>
+    </array>
+
 
 
 </resources>
