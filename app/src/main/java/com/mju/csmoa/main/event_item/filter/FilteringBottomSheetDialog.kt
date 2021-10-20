@@ -82,7 +82,6 @@ class FilteringBottomSheetDialog(context: Context) : BottomSheetDialog(context),
         }
 
 
-        itemCategoryRecyclerAdapter.notifyDataSetChanged()
         // 초기화 버튼 눌렸을 때
         binding.buttonDialogFilteringReset.setOnClickListener {
 

@@ -11,7 +11,7 @@ class ItemCategoryRecyclerAdapter : RecyclerView.Adapter<ItemCategoryViewHolder>
 
     private lateinit var itemCategoryList: List<ItemCategory>
     private lateinit var filterItemClickListener: FilterItemClickListener
-    val itemCategoryViewHolderList = ArrayList<ItemCategoryViewHolder?>()
+    private val itemCategoryViewHolderList = ArrayList<ItemCategoryViewHolder?>()
 
     fun submitList(itemCategoryList: List<ItemCategory>) {
         this.itemCategoryList = itemCategoryList
@@ -21,6 +21,7 @@ class ItemCategoryRecyclerAdapter : RecyclerView.Adapter<ItemCategoryViewHolder>
         this.filterItemClickListener = filterItemClickListener
     }
 
+    // 아,, 이렇게 하면 안 될 거 같은데
     fun reset() {
         itemCategoryViewHolderList.forEach { itemCategoryViewHolder ->
             itemCategoryViewHolder?.reset()
