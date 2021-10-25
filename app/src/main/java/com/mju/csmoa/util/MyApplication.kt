@@ -1,10 +1,19 @@
 package com.mju.csmoa.util
 
 import android.app.Application
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Base64
+import android.util.Log
+import androidx.annotation.RequiresApi
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.util.Utility
+import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.repository.SearchHistoryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import java.security.MessageDigest
 
 class MyApplication : Application() {
 
@@ -24,5 +33,29 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        // 카카오 로그인 활성화
+        KakaoSdk.init(this, "6ffbe8efa5933d8a98e5965c5d1ac02d")
+//        getAppKeyHash()
+//        val keyHash = Utility.getKeyHash(this)
+//        Log.d(TAG, " -onCreate() called / keyHash = $keyHash")
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun getAppKeyHash() {
+        try {
+            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+            val signatures = info.signingInfo.apkContentsSigners
+            val md = MessageDigest.getInstance("SHA")
+            for (signature in signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                val key = String(Base64.encode(md.digest(), 0))
+                Log.d("Hash key:", "hash key = $key")
+            }
+        } catch(e: Exception) {
+            Log.e("name not found", e.toString())
+        }
     }
 }

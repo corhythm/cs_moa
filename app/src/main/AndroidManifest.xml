@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mju.csmoa">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".util.MyApplication"
         android:allowBackup="true"
@@ -10,19 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="false"
-        android:theme="@style/Theme.Cs_prototype">
+        android:theme="@style/Theme.Cs_prototype"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".review.NewReviewActivity"
+            android:exported="true" >
+
+        </activity>
         <activity
             android:name=".main.more.EditProfileActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".main.search.SearchResultActivity"
             android:exported="false" />
         <activity
             android:name=".main.HomeActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".login.SignUpActivity"
             android:exported="true"
@@ -39,6 +45,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" -->
+                <data android:host="oauth"
+                    android:scheme="kakao{6ffbe8efa5933d8a98e5965c5d1ac02d}" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
