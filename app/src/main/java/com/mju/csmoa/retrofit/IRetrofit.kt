@@ -1,7 +1,8 @@
 package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
-import com.mju.csmoa.login.domain.serializable.PostSignUpReq
+import com.mju.csmoa.login.domain.model.PostOAuthLogin
+import com.mju.csmoa.login.domain.model.PostSignUpReq
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -14,7 +15,9 @@ interface IRetrofit {
     fun signUp(@Body postSignUpReq: PostSignUpReq): Call<JsonElement>
 
     @POST("/login")
-    @Headers("accept: application/json", "content-type: application/json")
     fun login(): Call<JsonElement>
+
+    @POST("/login/oauth")
+    fun kakaoLogin(@Body postOAuthLogin: PostOAuthLogin): Call<JsonElement>
 
 }

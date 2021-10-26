@@ -14,6 +14,7 @@ import com.mju.csmoa.DialogButtonDelegate
 import com.mju.csmoa.R
 import com.mju.csmoa.YesOrNoBottomSheetDialog
 import com.mju.csmoa.databinding.ActivitySignUpBinding
+import com.mju.csmoa.login.domain.model.PostSignUpReq
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import org.w3c.dom.Text
@@ -54,10 +55,11 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RetrofitManager.instance.signUp(
+            RetrofitManager.instance.signUp(PostSignUpReq(
                 email = binding.textInputEditTextSignUpEmailInput.text.toString(),
                 password = binding.textInputEditTextSignUpPasswordInput.text.toString(),
-                nickname = binding.textInputEditTextSignUpNicknameInput.text.toString(),
+                nickname = binding.textInputEditTextSignUpNicknameInput.text.toString()
+            ),
                 completion = { statusCode ->
                     Log.d(TAG, "SignUpActivity -init() called / statusCode = $statusCode")
                     when (statusCode) {
@@ -78,6 +80,7 @@ class SignUpActivity : AppCompatActivity() {
                             binding.textInputEditTextSignUpEmailInput.requestFocus()
                             binding.textInputEditTextSignUpEmailInput.setText("")
                         }
+                        else -> makeToast("회원가입", "알 수 없는 오류로 가입이 불가합니다.", MotionToastStyle.ERROR)
                     }
                 }
             )

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="kakao_app_key">65e36577bc172f14cbcf4d37397acc43</string>
+
     <!-- 더보기 리스트 -->
     <string-array name="more_item_list">
         <item>divider</item>

@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,14 +21,18 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivitySignInBinding
+import com.mju.csmoa.login.domain.model.PostOAuthLogin
 import com.mju.csmoa.main.HomeActivity
+import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,21 +40,14 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
         init()
 
-//        window.statusBarColor = Color.TRANSPARENT
-//        window.navigationBarColor = Color.TRANSPARENT
-//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//        | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-//        | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-        getResultText = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                handleSignInResult(task)
+        // launcher 정의
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == RESULT_OK) {
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    handleSignInResult(task)
+                }
             }
-        }
-
 
     }
 
@@ -71,16 +70,16 @@ class SignInActivity : AppCompatActivity() {
                             baseContext,
                             R.drawable.ic_all_checked
                         ), null
-                    );
+                    )
                 } else {
                     emailInputLayout.error = "올바른 이메일 양식이 아닙니다"
                     emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(
                         null, null, null, null
-                    );
+                    )
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) { }
+            override fun afterTextChanged(s: Editable?) {}
         }
 
         // email input
@@ -100,60 +99,104 @@ class SignInActivity : AppCompatActivity() {
         // 카카오 로그인
         binding.buttonSignInKakaoSignIn.setOnClickListener {
 
-            // 로그인 공통 callback 구성
+            // 로그인 공통 callback 구성 (이건 지금 실행하는 게 아님, loginWithKakaoAccount나 Talk 실행 후 실행 됨)
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
                     Log.e(TAG, "로그인 실패 / error: $error / token: $token")
                 } else if (token != null) {
-                    Log.i(TAG, "로그인 성공 / token: $token / token.accessToken: ${token.accessToken}")
+                    Log.i(TAG, "로그인 성공 / token: $token")
+
+                    UserApiClient.instance.me { user, error ->
+                        if (error != null) {
+                            Log.e(TAG, "사용자 정보 요청 실패", error)
+                            makeToast(
+                                "로그인 실패",
+                                "카카오로부터 회원 정보를 받아오는 데 실패했습니다.",
+                                MotionToastStyle.ERROR
+                            )
+
+                        } else if (user != null) {
+
+                            // 사용자가 이메일 정보 허용을 안 하면
+                            if (user.kakaoAccount?.email == null) {
+                                makeToast(
+                                    "로그인 실패",
+                                    "이메일 정보를 허용해주세요",
+                                    MotionToastStyle.ERROR
+                                )
+                            }
+
+                            Log.i(
+                                TAG, "사용자 정보 요청 성공" +
+                                        "\n회원번호: ${user.id}" +
+                                        "\n이메일: ${user.kakaoAccount?.email}" +
+                                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
+                                        "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
+                            )
+
+                            val postOAuthLogin = PostOAuthLogin(
+                                email = user.kakaoAccount?.email,
+                                nickname = user.kakaoAccount?.profile?.nickname,
+                                profileImageUrl = user.kakaoAccount?.profile?.thumbnailImageUrl,
+                                provider = "kakao"
+                            )
+
+                            // OAuth login
+                            RetrofitManager.instance.oauthLogin(
+                                postOAuthLogin,
+                                completion = { oauthLoginCallback(it) })
+                        }
+                    }
+
                 }
             }
 
-            // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
-            } else {
-                UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-            }
-
-            UserApiClient.instance.me { user, error ->
-                if (error != null) {
-                    Log.e(TAG, "사용자 정보 요청 실패", error)
-                } else if (user != null) {
-                    Log.i(
-                        TAG, "사용자 정보 요청 성공" +
-                                "\n회원번호: ${user.id}" +
-                                "\n이메일: ${user.kakaoAccount?.email}" +
-                                "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                                "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
-                    )
-                }
-            }
-
-            // 로그아웃
-//            UserApiClient.instance.logout { error ->
-//                if (error != null) {
-//                    Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-//                }
-//                else {
-//                    Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
-//                }
-//            }
-
+            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
         }
 
         // 구글 로그인
         binding.buttonSignInGoogleSignIn.setOnClickListener {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken("61701334575")
                 .requestEmail()
                 .requestProfile()
                 .build()
             val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-            val signInIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(signInIntent, 100)
+            // 구글 로그인 액티비티 시작
+            launcher.launch(mGoogleSignInClient.signInIntent)
+        }
+    }
 
+    private fun makeToast(title: String, message: String, motionToastStyle: MotionToastStyle) {
+        MotionToast.createColorToast(
+            this@SignInActivity,
+            title,
+            message,
+            motionToastStyle,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            ResourcesCompat.getFont(this@SignInActivity, R.font.helvetica_regular)
+        )
+    }
+
+    // 로그인 성공하면
+    private fun loginSuccess(xAccessToken: String) {
+
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
+    }
+
+    private fun oauthLoginCallback(statusCode: Int) {
+
+        when (statusCode) {
+
+            100 -> {
+                // DB에 JWT 저장
+
+            }
+            else -> {
+                makeToast("OAuth 로그인", "알 수 없는 이유로 로그인에 실패했습니다", MotionToastStyle.ERROR);
+            }
         }
     }
 
@@ -184,6 +227,19 @@ class SignInActivity : AppCompatActivity() {
             Log.d(TAG, "handleSignInResult:personId $personId")
             Log.d(TAG, "handleSignInResult:personFamilyName $personFamilyName")
             Log.d(TAG, "handleSignInResult:personPhoto $personPhoto")
+
+            val postOAuthLogin = PostOAuthLogin(
+                email = personEmail,
+                nickname = personGivenName,
+                profileImageUrl = personPhoto.toString(),
+                provider = "google"
+            )
+
+            // OAuth login
+            RetrofitManager.instance.oauthLogin(
+                postOAuthLogin,
+                completion = { oauthLoginCallback(it) })
+
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".review.NewReviewActivity"
-            android:exported="true" >
+            android:exported="true">
 
         </activity>
         <activity
@@ -28,7 +28,7 @@
             android:exported="false" />
         <activity
             android:name=".main.HomeActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".login.SignUpActivity"
             android:exported="true"
@@ -46,16 +46,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" -->
-                <data android:host="oauth"
-                    android:scheme="kakao{6ffbe8efa5933d8a98e5965c5d1ac02d}" />
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao65e36577bc172f14cbcf4d37397acc43" />
             </intent-filter>
         </activity>
 
