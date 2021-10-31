@@ -8,8 +8,10 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
+import com.kakao.sdk.user.model.User
 import com.mju.csmoa.R
 import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.datastore.UserInfoProtoManager
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.repository.SearchHistoryRepository
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +27,7 @@ class MyApplication : Application() {
     // rather than when the application starts
     val database by lazy { LocalRoomDatabase.getDatabase(this, applicationScope) }
     val repository by lazy { SearchHistoryRepository(database.searchHistoryDao()) }
+    val userInfoProtoManager by lazy { UserInfoProtoManager(this) }
 
     companion object {
         lateinit var instance: MyApplication
@@ -42,20 +45,20 @@ class MyApplication : Application() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun getAppKeyHash() {
-        try {
-            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            val signatures = info.signingInfo.apkContentsSigners
-            val md = MessageDigest.getInstance("SHA")
-            for (signature in signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val key = String(Base64.encode(md.digest(), 0))
-                Log.d(TAG, "(fun) hash key = $key")
-            }
-        } catch(e: Exception) {
-            Log.e("name not found", e.toString())
-        }
-    }
+//    @RequiresApi(Build.VERSION_CODES.P)
+//    private fun getAppKeyHash() {
+//        try {
+//            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+//            val signatures = info.signingInfo.apkContentsSigners
+//            val md = MessageDigest.getInstance("SHA")
+//            for (signature in signatures) {
+//                val md: MessageDigest = MessageDigest.getInstance("SHA")
+//                md.update(signature.toByteArray())
+//                val key = String(Base64.encode(md.digest(), 0))
+//                Log.d(TAG, "(fun) hash key = $key")
+//            }
+//        } catch(e: Exception) {
+//            Log.e("name not found", e.toString())
+//        }
+//    }
 }

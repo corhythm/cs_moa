@@ -1,7 +1,8 @@
 package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
-import com.mju.csmoa.login.domain.model.PostOAuthLogin
+import com.mju.csmoa.login.domain.model.PostLoginReq
+import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.login.domain.model.PostSignUpReq
 import retrofit2.Call
 import retrofit2.http.Body
@@ -15,9 +16,9 @@ interface IRetrofit {
     fun signUp(@Body postSignUpReq: PostSignUpReq): Call<JsonElement>
 
     @POST("/login")
-    fun login(): Call<JsonElement>
+    fun login(@Body postLoginReq: PostLoginReq): Call<JsonElement>
 
     @POST("/login/oauth")
-    fun kakaoLogin(@Body postOAuthLogin: PostOAuthLogin): Call<JsonElement>
+    fun oAuthLogin(@Body postOAuthLoginReq: PostOAuthLoginReq): Call<JsonElement>
 
 }

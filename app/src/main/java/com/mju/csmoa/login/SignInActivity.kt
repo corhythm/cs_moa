@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -21,10 +22,16 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivitySignInBinding
-import com.mju.csmoa.login.domain.model.PostOAuthLogin
+import com.mju.csmoa.login.domain.model.PostLoginReq
+import com.mju.csmoa.login.domain.model.PostLoginRes
+import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.main.HomeActivity
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
@@ -90,10 +97,21 @@ class SignInActivity : AppCompatActivity() {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        // 로그인 성공 -> 홈
+        // 그냥 로그인 버튼 눌르면
         binding.buttonSignInSignIn.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+
+            val postLoginReq = PostLoginReq(
+                email = binding.textInputEditTextSignInEmailInput.text.toString(),
+                password = binding.textInputEditTextSignInPasswordInput.text.toString()
+            )
+
+            Log.d(TAG, "SignInActivity -init() called / postLoginReq = $postLoginReq" )
+            RetrofitManager.instance.login(
+                postLoginReq,
+                completion = { statusCode: Int, postLoginRes: PostLoginRes? ->
+                    loginCallback(statusCode, postLoginRes!!)
+                }
+            )
         }
 
         // 카카오 로그인
@@ -134,7 +152,7 @@ class SignInActivity : AppCompatActivity() {
                                         "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
                             )
 
-                            val postOAuthLogin = PostOAuthLogin(
+                            val postOAuthLoginReq = PostOAuthLoginReq(
                                 email = user.kakaoAccount?.email,
                                 nickname = user.kakaoAccount?.profile?.nickname,
                                 profileImageUrl = user.kakaoAccount?.profile?.thumbnailImageUrl,
@@ -142,9 +160,13 @@ class SignInActivity : AppCompatActivity() {
                             )
 
                             // OAuth login
-                            RetrofitManager.instance.oauthLogin(
-                                postOAuthLogin,
-                                completion = { oauthLoginCallback(it) })
+                            RetrofitManager.instance.oAuthLogin(
+                                postOAuthLoginReq,
+                                completion = { statusCode: Int, postLoginRes: PostLoginRes? ->
+                                    loginCallback(statusCode, postLoginRes)
+                                    Log.d(TAG, "과연 여기 호출될까?")
+                                }
+                            )
                         }
                     }
 
@@ -180,46 +202,47 @@ class SignInActivity : AppCompatActivity() {
     }
 
     // 로그인 성공하면
-    private fun loginSuccess(xAccessToken: String) {
+    private fun loginSuccess(postLoginRes: PostLoginRes) {
+
+        // DataStore에 accessToken이랑 refreshToken 저장
+        lifecycleScope.launch(Dispatchers.IO) {
+            MyApplication.instance.userInfoProtoManager.updateUserInfo(postLoginRes)
+        }
 
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 
-    private fun oauthLoginCallback(statusCode: Int) {
+    // OAuthLogin 성공했을 때
+    private fun loginCallback(statusCode: Int, postLoginRes: PostLoginRes?) {
 
+        Log.d(TAG, "statusCode = $statusCode")
         when (statusCode) {
-
             100 -> {
-                // DB에 JWT 저장
-
+                loginSuccess(postLoginRes!!)
+                Log.d(TAG, "SignInActivity -loginCallback() called / postLoginRes = $postLoginRes")
+            }
+            211 -> {
+                makeToast("로그인", "이미 등록된 이메일입니다", MotionToastStyle.ERROR)
             }
             else -> {
-                makeToast("OAuth 로그인", "알 수 없는 이유로 로그인에 실패했습니다", MotionToastStyle.ERROR);
+                makeToast("로그인", "알 수 없는 이유로 로그인에 실패했습니다", MotionToastStyle.ERROR)
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 100) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
         }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+
         try {
             val acct: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)
             val personName = acct.displayName
-
             val idToken = acct.idToken
             val personGivenName = acct.givenName
             val personFamilyName = acct.familyName
             val personEmail = acct.email
             val personId = acct.id
             val personPhoto: Uri = acct.photoUrl!!
+
             Log.d(TAG, "handleSignInResult:idToken $idToken")
             Log.d(TAG, "handleSignInResult:personName $personName")
             Log.d(TAG, "handleSignInResult:personGivenName $personGivenName")
@@ -228,7 +251,7 @@ class SignInActivity : AppCompatActivity() {
             Log.d(TAG, "handleSignInResult:personFamilyName $personFamilyName")
             Log.d(TAG, "handleSignInResult:personPhoto $personPhoto")
 
-            val postOAuthLogin = PostOAuthLogin(
+            val postOAuthLogin = PostOAuthLoginReq(
                 email = personEmail,
                 nickname = personGivenName,
                 profileImageUrl = personPhoto.toString(),
@@ -236,9 +259,16 @@ class SignInActivity : AppCompatActivity() {
             )
 
             // OAuth login
-            RetrofitManager.instance.oauthLogin(
+            RetrofitManager.instance.oAuthLogin(
                 postOAuthLogin,
-                completion = { oauthLoginCallback(it) })
+                completion = { statusCode: Int, postLoginRes: PostLoginRes? ->
+                    loginCallback(statusCode, postLoginRes!!)
+                    Log.d(
+                        TAG,
+                        "SignInActivity -handleSignInResult() called / postLoginRes = $postLoginRes"
+                    )
+                }
+            )
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.

@@ -80,7 +80,7 @@ class SignUpActivity : AppCompatActivity() {
                             binding.textInputEditTextSignUpEmailInput.requestFocus()
                             binding.textInputEditTextSignUpEmailInput.setText("")
                         }
-                        else -> makeToast("회원가입", "알 수 없는 오류로 가입이 불가합니다.", MotionToastStyle.ERROR)
+                        else -> makeToast("회원가입", "알 수 없는 오류로 가입이 불가합니다. 다시 시도해보세요", MotionToastStyle.ERROR)
                     }
                 }
             )
@@ -188,37 +188,59 @@ class SignUpActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        // 비밀번호
+        binding.textInputEditTextSignUpPasswordInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkPassword()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+
+        })
+
         // 비밀번호 확인
         binding.textInputEditTextSignUpConfirmPasswordInput.addTextChangedListener(object :
             TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // 비밀번호랑 비밀번호 확인이랑 일치할 때
-                val password =
-                    Objects.requireNonNull(binding.textInputEditTextSignUpPasswordInput.text)
-                        .toString()
-                val confirmPassword =
-                    Objects.requireNonNull(binding.textInputEditTextSignUpConfirmPasswordInput.text)
-                        .toString()
-
-                if (password == confirmPassword && confirmPassword.isNotEmpty()) {
-                    binding.textInputEditTextSignUpConfirmPasswordInput.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        ContextCompat.getDrawable(this@SignUpActivity, R.drawable.ic_all_checked),
-                        null
-                    )
-                    binding.textInputLayoutSignUpConfirmPasswordInputLayout.error = null
-                    isPasswordValidate = true
-                } else {
-                    binding.textInputLayoutSignUpConfirmPasswordInputLayout.error =
-                        "비밀번호가 서로 일치하지 않습니다"
-                    isPasswordValidate = false
-                }
+                checkPassword()
             }
 
             override fun afterTextChanged(s: Editable) {}
         })
+    }
+
+    // 비밀번호와 비밀번호 확인 텍스트 일치하는지 확인
+    private fun checkPassword() {
+        // 비밀번호랑 비밀번호 확인이랑 일치할 때
+        val password =
+            Objects.requireNonNull(binding.textInputEditTextSignUpPasswordInput.text)
+                .toString()
+        val confirmPassword =
+            Objects.requireNonNull(binding.textInputEditTextSignUpConfirmPasswordInput.text)
+                .toString()
+
+        if (password == confirmPassword && confirmPassword.isNotEmpty()) {
+            binding.textInputEditTextSignUpConfirmPasswordInput.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                ContextCompat.getDrawable(this@SignUpActivity, R.drawable.ic_all_checked),
+                null
+            )
+            binding.textInputLayoutSignUpConfirmPasswordInputLayout.error = null
+            isPasswordValidate = true
+        } else {
+            binding.textInputEditTextSignUpConfirmPasswordInput.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                null,
+                null
+            )
+            binding.textInputLayoutSignUpConfirmPasswordInputLayout.error =
+                "비밀번호가 서로 일치하지 않습니다"
+            isPasswordValidate = false
+        }
     }
 
     override fun onBackPressed() {

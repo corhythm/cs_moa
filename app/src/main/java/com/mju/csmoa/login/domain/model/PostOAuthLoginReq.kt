@@ -2,7 +2,7 @@ package com.mju.csmoa.login.domain.model;
 
 import com.google.gson.annotations.SerializedName
 
-data class PostOAuthLogin (
+data class PostOAuthLoginReq (
     @SerializedName("email") val email: String?,
     @SerializedName("nickname") val nickname: String?,
     @SerializedName("profileImageUrl") val profileImageUrl: String?,
