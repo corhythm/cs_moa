@@ -1,4 +1,4 @@
-package com.mju.csmoa.main.more
+package com.mju.csmoa.home.more
 
 import android.os.Bundle
 import android.text.Editable

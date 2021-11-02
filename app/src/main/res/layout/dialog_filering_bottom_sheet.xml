@@ -35,14 +35,14 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:background="#D9DADC"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView_dialogFiltering_cancel"
             app:layout_constraintEnd_toStartOf="@id/cardView_dialogFiltering_container"
             app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@id/textView_dialogFiltering_cancel"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="true"
             app:lottie_fileName="filtering.json"
             app:lottie_loop="true"
-            app:lottie_speed="1"/>
+            app:lottie_speed="1" />
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:id="@+id/cardView_dialogFiltering_container"
@@ -95,8 +95,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_dialogFiltering_csBrandList"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_dialogFiltering_csBrandLabel" />
@@ -125,8 +126,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_dialogFiltering_eventTypeList"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -156,8 +158,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_dialogFiltering_itemCategoryList"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

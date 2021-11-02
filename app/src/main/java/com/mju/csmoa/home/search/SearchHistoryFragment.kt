@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.FragmentSearchHistoryBinding
 import com.mju.csmoa.databinding.ItemSearchHistoryBinding
-import com.mju.csmoa.main.HomeActivity
+import com.mju.csmoa.home.HomeActivity
 import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.entity.SearchHistory

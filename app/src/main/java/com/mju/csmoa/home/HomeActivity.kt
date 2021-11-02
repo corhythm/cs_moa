@@ -1,4 +1,4 @@
-package com.mju.csmoa.main
+package com.mju.csmoa.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,9 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
-import com.mju.csmoa.main.event_item.EventItemsFragment
-import com.mju.csmoa.main.more.MoreFragment
-import com.mju.csmoa.main.search.SearchResultActivity
+import com.mju.csmoa.home.event_item.EventItemsFragment
+import com.mju.csmoa.home.more.MoreFragment
+import com.mju.csmoa.home.search.SearchResultActivity
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {

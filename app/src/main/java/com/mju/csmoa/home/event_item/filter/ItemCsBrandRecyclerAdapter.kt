@@ -1,4 +1,4 @@
-package com.mju.csmoa.main.event_item.filter
+package com.mju.csmoa.home.event_item.filter
 
 import android.graphics.Color
 import android.graphics.ColorMatrix

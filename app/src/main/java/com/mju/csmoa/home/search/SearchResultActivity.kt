@@ -1,4 +1,4 @@
-package com.mju.csmoa.main.search
+package com.mju.csmoa.home.search
 
 import android.os.Bundle
 import android.view.Menu

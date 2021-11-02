@@ -1,4 +1,4 @@
-package com.mju.csmoa.main.recipe;
+package com.mju.csmoa.home.recipe;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

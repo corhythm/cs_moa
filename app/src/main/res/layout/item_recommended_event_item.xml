@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="10dp"
+    app:cardCornerRadius="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView_itemRecommendedEventItem_csBrand"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:src="@drawable/img_cs_gs25"
+            app:layout_constraintBottom_toBottomOf="@id/cardView_itemRecommendedEvent_eventTypeContainer"
+            app:layout_constraintEnd_toStartOf="@id/cardView_itemRecommendedEvent_eventTypeContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cardView_itemRecommendedEvent_eventTypeContainer" />
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/cardView_itemRecommendedEvent_eventTypeContainer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/azure"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:id="@+id/textView_itemRecommendedEvent_eventType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="1+1"
+                android:textColor="@color/azure"
+                android:textSize="20dp" />
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/cardView_itemRecommendedEvent_itemImageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView_itemRecommendedEvent_eventTypeContainer">
+
+            <ImageView
+                android:id="@+id/imageView_itemRecommendedEventItem_eventItemImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/img_all_itemimage" />
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <TextView
+            android:id="@+id/textView_itemRecommendedEvent_itemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="ABC 초코쿠키1000"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView_itemRecommendedEvent_itemImageContainer" />
+
+        <TextView
+            android:id="@+id/textView_itemRecommendedEvent_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1,000원"
+            android:textSize="20dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="@id/textView_itemRecommendedEvent_actualPrice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_itemRecommendedEvent_itemName" />
+
+        <TextView
+            android:id="@+id/textView_itemRecommendedEvent_actualPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="(개당 633원)"
+            android:textColor="@color/azure"
+            android:textSize="17dp"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="@id/textView_itemRecommendedEvent_price"
+            app:layout_constraintEnd_toEndOf="@id/textView_itemRecommendedEvent_itemName"
+            app:layout_constraintStart_toEndOf="@id/textView_itemRecommendedEvent_price"
+            app:layout_constraintTop_toTopOf="@id/textView_itemRecommendedEvent_price" />
+
+        <ImageView
+            android:id="@+id/imageView_itemRecommendedEventItem_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_all_eye"
+            app:layout_constraintTop_toBottomOf="@id/textView_itemRecommendedEvent_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/textView_itemRecommendedEvent_viewCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/imageView_itemRecommendedEventItem_eye"
+            android:text="112"
+            app:layout_constraintTop_toTopOf="@id/imageView_itemRecommendedEventItem_eye"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_itemRecommendedEventItem_eye"
+            android:layout_marginStart="5dp"/>
+
+        <ImageView
+            android:id="@+id/imageView_itemRecommendedEventItem_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_all_empty_stroke_colored_heart"
+            app:layout_constraintTop_toTopOf="@id/imageView_itemRecommendedEventItem_eye"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_itemRecommendedEventItem_eye"
+            app:layout_constraintStart_toEndOf="@id/textView_itemRecommendedEvent_viewCount"
+            android:layout_marginStart="15dp"/>
+
+        <TextView
+            android:id="@+id/textView_itemRecommendedEvent_likeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="101"
+            app:layout_constraintTop_toTopOf="@id/imageView_itemRecommendedEventItem_heart"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_itemRecommendedEventItem_heart"
+            app:layout_constraintStart_toEndOf="@id/imageView_itemRecommendedEventItem_heart"
+            android:layout_marginStart="5dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.circularreveal.cardview.CircularRevealCardView>

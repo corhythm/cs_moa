@@ -1,4 +1,4 @@
-package com.mju.csmoa.main.search;
+package com.mju.csmoa.home.search;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mju.csmoa.databinding.FragmentNoSearchResultBinding;
-import com.mju.csmoa.util.MyApplication;
 
 public class NoSearchResultFragment extends Fragment {
 

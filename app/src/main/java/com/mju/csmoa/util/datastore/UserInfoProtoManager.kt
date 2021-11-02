@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.dataStore
 import com.mju.csmoa.UserInfo
+import com.mju.csmoa.login.domain.model.GetJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginRes
+import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -37,4 +39,27 @@ class UserInfoProtoManager(private val context: Context) {
             }
         }.first()
     }
+
+//    fun refreshJwtToken(refreshToken: String): String {
+//        RetrofitManager.instance.refreshJwtToken(
+//            refreshToken,
+//            completion = { statusCode: Int, getJwtTokenRes: GetJwtTokenRes? ->
+//                when (statusCode) {
+//                    100 -> {
+//
+//                    }
+//                    201 -> {
+//
+//                    }
+//                    202 -> {
+//
+//                    }
+//                    else -> {
+//
+//                    }
+//                }
+//            }
+//        )
+//    }
+
 }

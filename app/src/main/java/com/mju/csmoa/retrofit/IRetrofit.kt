@@ -5,9 +5,7 @@ import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.login.domain.model.PostSignUpReq
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface IRetrofit {
 
@@ -20,5 +18,11 @@ interface IRetrofit {
 
     @POST("/login/oauth")
     fun oAuthLogin(@Body postOAuthLoginReq: PostOAuthLoginReq): Call<JsonElement>
+
+    @GET("/token")
+    fun refreshJwtToken(@Header("refreshToken") refreshToken: String): Call<JsonElement>
+
+    @GET("/event-items")
+    fun getEventItems(): Call<JsonElement>
 
 }

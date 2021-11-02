@@ -25,7 +25,7 @@ import com.mju.csmoa.databinding.ActivitySignInBinding
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostLoginRes
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
-import com.mju.csmoa.main.HomeActivity
+import com.mju.csmoa.home.HomeActivity
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
@@ -40,6 +40,7 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
+    private var isValid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +73,7 @@ class SignInActivity : AppCompatActivity() {
                 // check if email pattern matched
                 if (emailInputEditText.text.toString().matches(emailPattern)) {
                     emailInputLayout.error = null
+                    isValid = true
                     emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(
                         null, null, ContextCompat.getDrawable(
                             baseContext,
@@ -79,6 +81,7 @@ class SignInActivity : AppCompatActivity() {
                         ), null
                     )
                 } else {
+                    isValid = false
                     emailInputLayout.error = "올바른 이메일 양식이 아닙니다"
                     emailInputEditText.setCompoundDrawablesWithIntrinsicBounds(
                         null, null, null, null
@@ -100,12 +103,17 @@ class SignInActivity : AppCompatActivity() {
         // 그냥 로그인 버튼 눌르면
         binding.buttonSignInSignIn.setOnClickListener {
 
-            val postLoginReq = PostLoginReq(
-                email = binding.textInputEditTextSignInEmailInput.text.toString(),
-                password = binding.textInputEditTextSignInPasswordInput.text.toString()
-            )
+            val email = binding.textInputEditTextSignInEmailInput.text.toString()
+            val password = binding.textInputEditTextSignInPasswordInput.text.toString()
 
-            Log.d(TAG, "SignInActivity -init() called / postLoginReq = $postLoginReq" )
+            if (email.isEmpty() || password.isEmpty() || !isValid) {
+                makeToast("로그인", "로그인 양식을 준수해주세요", MotionToastStyle.ERROR)
+                return@setOnClickListener
+            }
+
+            val postLoginReq = PostLoginReq(email = email, password = password)
+
+            Log.d(TAG, "SignInActivity -init() called / postLoginReq = $postLoginReq")
             RetrofitManager.instance.login(
                 postLoginReq,
                 completion = { statusCode: Int, postLoginRes: PostLoginRes? ->
@@ -164,12 +172,10 @@ class SignInActivity : AppCompatActivity() {
                                 postOAuthLoginReq,
                                 completion = { statusCode: Int, postLoginRes: PostLoginRes? ->
                                     loginCallback(statusCode, postLoginRes)
-                                    Log.d(TAG, "과연 여기 호출될까?")
                                 }
                             )
                         }
                     }
-
                 }
             }
 
@@ -178,6 +184,7 @@ class SignInActivity : AppCompatActivity() {
 
         // 구글 로그인
         binding.buttonSignInGoogleSignIn.setOnClickListener {
+            Log.d(TAG, "구글로 로그인 버튼 클릭")
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
@@ -207,6 +214,8 @@ class SignInActivity : AppCompatActivity() {
         // DataStore에 accessToken이랑 refreshToken 저장
         lifecycleScope.launch(Dispatchers.IO) {
             MyApplication.instance.userInfoProtoManager.updateUserInfo(postLoginRes)
+            val userInfo = MyApplication.instance.userInfoProtoManager.getUserInfo()
+            Log.d(TAG, "바뀐 userInfo = $userInfo")
         }
 
         startActivity(Intent(this, HomeActivity::class.java))

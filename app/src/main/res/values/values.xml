@@ -84,6 +84,8 @@
         <item>@drawable/ic_item_icecream</item>
     </array>
 
+    <string name="jwt_secret_key">UwKYibQQgkW7g-*k.ap9kje-wxBHb9wdXoBT4vnt4P3sJWt-Nu</string>
+
 
 
 </resources>

@@ -1,4 +1,4 @@
-package com.mju.csmoa.main.more
+package com.mju.csmoa.home.more
 
 import android.content.Intent
 import android.os.Bundle

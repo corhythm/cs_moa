@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fab_eventItems_filter"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_alignEnd="@id/recyclerView_eventItems_recommendationEventItems"-->
+<!--            android:layout_alignBottom="@id/recyclerView_eventItems_recommendationEventItems"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:layout_marginBottom="80dp"-->
+<!--            android:src="@drawable/ic_all_filter"-->
+<!--            app:backgroundTint="@android:color/transparent"-->
+<!--            app:fabCustomSize="50dp"-->
+<!--            app:maxImageSize="28dp" />-->
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/cardView_itemRecommendedEvent_eventTypeContainer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignEnd="@id/recyclerView_eventItems_recommendationEventItems"
+            android:layout_alignBottom="@id/recyclerView_eventItems_recommendationEventItems"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="80dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="50dp"
+            app:strokeColor="@color/azure"
+            app:strokeWidth="2dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_all_filter" />
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_eventItems_recommendationEventItems"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"/>
+
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
