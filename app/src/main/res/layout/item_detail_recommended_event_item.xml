@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView_itemDetailRecommendedEventItem_itemImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/img_review_item1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_itemDetailRecommendedEventItem_csBrand"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/img_cs_seveneleven"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageView_itemDetailRecommendedEventItem_itemImage"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_itemDetailRecommendedEventItem_eventTypeContainer"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="@id/imageView_itemDetailRecommendedEventItem_csBrand"
+        app:layout_constraintStart_toStartOf="@id/imageView_itemDetailRecommendedEventItem_csBrand"
+        app:layout_constraintTop_toBottomOf="@id/imageView_itemDetailRecommendedEventItem_csBrand"
+        app:strokeColor="@color/azure"
+        app:strokeWidth="3dp">
+
+        <TextView
+            android:id="@+id/textView_itemDetailRecommendedEventItem_eventType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/airbnb_cereal_bold"
+            android:gravity="center"
+            android:text="1+1"
+            android:textColor="@color/azure"
+            android:textSize="16dp" />
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <TextView
+        android:id="@+id/textView_itemDetailRecommendedEventItem_itemName"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:fontFamily="@font/ohneulbam_regular"
+        android:gravity="center"
+        android:text="더리얼)연어그레인프리"
+        android:textSize="20dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView_itemDetailRecommendedEventItem_itemImage" />
+
+    <TextView
+        android:id="@+id/textView_itemDetailRecommendedEventItem_itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ohneulbam_regular"
+        android:text="1,000원"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="7dp"
+        app:layout_constraintEnd_toStartOf="@id/textView_itemDetailRecommendedEventItem_itemActualPrice"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="@id/textView_itemDetailRecommendedEventItem_itemName"
+        app:layout_constraintTop_toBottomOf="@id/textView_itemDetailRecommendedEventItem_itemName" />
+
+    <TextView
+        android:id="@+id/textView_itemDetailRecommendedEventItem_itemActualPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ohneulbam_regular"
+        android:text="(개당 1600원)"
+        android:textColor="@color/azure"
+        android:textSize="17dp"
+        app:layout_constraintEnd_toEndOf="@id/textView_itemDetailRecommendedEventItem_itemName"
+        app:layout_constraintStart_toEndOf="@id/textView_itemDetailRecommendedEventItem_itemPrice"
+        app:layout_constraintTop_toTopOf="@id/textView_itemDetailRecommendedEventItem_itemPrice" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

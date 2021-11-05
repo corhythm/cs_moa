@@ -177,7 +177,7 @@ class FilteringBottomSheetDialog(context: Context) : BottomSheetDialog(context),
     private fun setFilteringButton() {
         if (filteringCount > 0) {
             binding.buttonDialogFilteringReset.backgroundTintList =
-                ColorStateList.valueOf(Color.parseColor("#80B3E6"))
+                ColorStateList.valueOf(Color.parseColor("#008061"))
         } else {
             binding.buttonDialogFilteringReset.backgroundTintList =
                 ColorStateList.valueOf(Color.GRAY)

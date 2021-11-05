@@ -1,11 +1,14 @@
 package com.mju.csmoa.home.more
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.mju.csmoa.DialogButtonDelegate
 import com.mju.csmoa.R
+import com.mju.csmoa.YesOrNoBottomSheetDialog
 import com.mju.csmoa.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
@@ -81,5 +84,29 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextEditProfileNicknameInput.addTextChangedListener(nicknameTextWatcher)
+    }
+
+    override fun onBackPressed() {
+        val bottomSheetDialog = YesOrNoBottomSheetDialog(
+            context = this,
+            theme = R.style.BottomSheetDialogTheme,
+            lottieName = "man_question2.json",
+            title = "Exit?",
+            message = "회원가입을 중단하실 건가요?\n중간에 나가시면 수정한 정보는 저장되지 않아요 :("
+        )
+
+        // dirty code (builder에서 전달해서 처리하고 싶은데, super.onBackPressed()가 안 먹는다)
+        bottomSheetDialog.setOnClickListener(object : DialogButtonDelegate {
+            override fun setOnYesClickedListener(dialogInterface: DialogInterface?) {
+                dialogInterface?.dismiss()
+                super@EditProfileActivity.onBackPressed()
+            }
+
+            override fun setOnNoClickedListener(dialogInterface: DialogInterface?) {
+                dialogInterface?.dismiss()
+            }
+        })
+
+        bottomSheetDialog.show()
     }
 }

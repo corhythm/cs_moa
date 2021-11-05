@@ -16,10 +16,12 @@
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".review.NewReviewActivity"
+            android:name=".home.event_item.DetailEventItemActivity"
             android:exported="true">
-
         </activity>
+        <activity
+            android:name=".review.NewReviewActivity"
+            android:exported="true"/>
         <activity
             android:name=".home.more.EditProfileActivity"
             android:exported="false"
@@ -29,7 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".home.HomeActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +50,6 @@
             android:exported="true">
 
         </activity>
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -64,7 +65,6 @@
                     android:scheme="kakao65e36577bc172f14cbcf4d37397acc43" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

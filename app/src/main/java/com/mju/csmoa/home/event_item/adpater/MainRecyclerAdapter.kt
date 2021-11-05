@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemEventItemListBinding
 import com.mju.csmoa.databinding.ItemRecommendedEventItemListBinding
 import com.mju.csmoa.home.event_item.domain.model.AllEventItem
-import com.mju.csmoa.home.event_item.domain.model.AllEventItem.Companion.EVENT_ITEM_TYPE
-import com.mju.csmoa.home.event_item.domain.model.AllEventItem.Companion.RECOMMENDED_TYPE
 import com.mju.csmoa.home.event_item.viewholder.nested_viewholder.EventItemListViewHolder
 import com.mju.csmoa.home.event_item.viewholder.nested_viewholder.RecommendedEventItemListViewHolder
 import com.mju.csmoa.util.Constants.TAG
@@ -19,6 +17,11 @@ class MainRecyclerAdapter(
     private val allEventItemList: List<AllEventItem>
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    companion object {
+        const val RECOMMENDED_TYPE = 0 // 추천 아이템
+        const val EVENT_ITEM_TYPE = 1 // 행사 상품
+    }
 
     override fun getItemViewType(position: Int): Int {
         return allEventItemList[position].type

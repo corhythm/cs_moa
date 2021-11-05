@@ -1,43 +1,38 @@
 package com.mju.csmoa.home.event_item.viewholder
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mju.csmoa.R
-import com.mju.csmoa.databinding.ItemEventItemBinding
-import com.mju.csmoa.home.event_item.DetailEventItemActivity
+import com.mju.csmoa.databinding.ItemDetailRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
-import com.mju.csmoa.util.Constants.TAG
 
-class EventItemViewHolder(
+class DetailEventItemViewHolder(
     private val context: Context,
-    private val itemEventItemBinding: ItemEventItemBinding
+    private val itemDetailRecommendedEventItemBinding: ItemDetailRecommendedEventItemBinding
 ) :
-    RecyclerView.ViewHolder(itemEventItemBinding.root) {
+    RecyclerView.ViewHolder(itemDetailRecommendedEventItemBinding.root) {
 
     fun bind(itemEventItem: ItemEventItem) {
-        // 제품 이름
-        itemEventItemBinding.textViewItemEventItemItemName.text = itemEventItem.itemName
-        // 제품 가격
-        itemEventItemBinding.textViewItemEventItemPrice.text = "${itemEventItem.itemPrice}원"
-        // 제품 실제 가격
-        itemEventItemBinding.textViewItemEventItemActualPrice.text =
-            "(개당 ${itemEventItem.itemActualPrice}원)"
-        // 제품 조회수
-        itemEventItemBinding.textViewItemEventItemViewCount.text =
-            itemEventItem.viewCount.toString()
-        // 제품 좋아요 개수
-        itemEventItemBinding.textViewItemEventItemLikeCount.text =
-            itemEventItem.likeCount.toString()
 
-
+        // 제품 이미지 불러오기
         Glide.with(context).load(itemEventItem.itemImageSrc)
             .placeholder(R.drawable.img_all_itemimage)
             .error(R.drawable.ic_all_big_x)
-            .into(itemEventItemBinding.imageViewItemEventItemEventItemImage)
+            .into(itemDetailRecommendedEventItemBinding.imageViewItemDetailRecommendedEventItemItemImage)
+
+        // 행사 제품 이름
+        itemDetailRecommendedEventItemBinding.textViewItemDetailRecommendedEventItemItemName.text =
+            itemEventItem.itemName
+        // 행사 제품 가격
+        itemDetailRecommendedEventItemBinding.textViewItemDetailRecommendedEventItemItemPrice.text =
+            "${itemEventItem.itemPrice}원"
+        // 행사 제품 1개당 가격
+        itemDetailRecommendedEventItemBinding.textViewItemDetailRecommendedEventItemItemActualPrice.text =
+            "(개당 ${itemEventItem.itemActualPrice}원)"
+
+        // 조회수랑, 좋아요 개수는 가져오지 않음
 
         // csbrand
         val csBrandColorList = context.resources.getStringArray(R.array.cs_brand_color_list)
@@ -67,8 +62,12 @@ class EventItemViewHolder(
 
         }
         // 편의점 브랜드 설정
-        itemEventItemBinding.cardViewItemEventItemCsBrandContainer.strokeColor = csBrandStrokeColor
-        itemEventItemBinding.imageViewItemEventItemCsBrand.setImageResource(csBrandResourceId)
+        itemDetailRecommendedEventItemBinding.cardViewItemDetailRecommendedEventItemEventTypeContainer.strokeColor =
+            csBrandStrokeColor
+        itemDetailRecommendedEventItemBinding.imageViewItemDetailRecommendedEventItemCsBrand.setImageResource(
+            csBrandResourceId
+        )
+
 
         val eventTypeColorList = context.resources.getStringArray(R.array.event_type_color_list)
         var eventTypeColor = Color.BLACK
@@ -80,18 +79,14 @@ class EventItemViewHolder(
         }
 
         // 이벤트 타입 설정
-        itemEventItemBinding.textViewItemEventItemEventType.text =
+        itemDetailRecommendedEventItemBinding.textViewItemDetailRecommendedEventItemEventType.text =
             itemEventItem.itemEventType
-        itemEventItemBinding.textViewItemEventItemEventType.setTextColor(eventTypeColor)
-        itemEventItemBinding.cardViewItemEventItemEventTypeContainer.strokeColor = eventTypeColor
-
-
-        // 특정 뷰 클릭했을 때 -> 세부 정보로 이동
-        itemEventItemBinding.root.setOnClickListener {
-            val detailEventItemIntent = Intent(context, DetailEventItemActivity::class.java).apply {
-                putExtra("itemEventItem", itemEventItem)
-            }
-            context.startActivity(detailEventItemIntent)
-        }
+        itemDetailRecommendedEventItemBinding.textViewItemDetailRecommendedEventItemEventType.setTextColor(
+            eventTypeColor
+        )
+        itemDetailRecommendedEventItemBinding.cardViewItemDetailRecommendedEventItemEventTypeContainer.strokeColor =
+            eventTypeColor
     }
+
+
 }

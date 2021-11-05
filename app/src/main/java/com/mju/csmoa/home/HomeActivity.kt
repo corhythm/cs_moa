@@ -54,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.bottomNavMenu_home_itemEvent -> {
                     toolbar.title = "행사 상품"
                     searchMenu.isVisible = true
-                    nowFragment = EventItemsFragment()
+                    nowFragment = if (nowFragment !is EventItemsFragment) EventItemsFragment() else nowFragment
                     replaceFragment(nowFragment)
                 }
                 R.id.bottomNavMenu_home_map -> {
@@ -68,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.bottomNavMenu_home_more -> {
                     toolbar.title = "더보기"
                     searchMenu.isVisible = false
-                    nowFragment = MoreFragment()
+                    nowFragment = if (nowFragment !is MoreFragment) MoreFragment() else nowFragment
                     replaceFragment(nowFragment)
                 }
 

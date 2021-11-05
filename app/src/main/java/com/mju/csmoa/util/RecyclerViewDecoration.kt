@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
-internal class RecyclerViewDecoration(
+class RecyclerViewDecoration(
     private val top: Int,
     private val bottom: Int,
     private val start: Int,

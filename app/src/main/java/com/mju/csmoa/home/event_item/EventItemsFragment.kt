@@ -1,20 +1,23 @@
 package com.mju.csmoa.home.event_item
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentEventItemsBinding
 import com.mju.csmoa.home.event_item.adpater.MainRecyclerAdapter
-import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
+import com.mju.csmoa.home.event_item.adpater.MainRecyclerAdapter.Companion.EVENT_ITEM_TYPE
+import com.mju.csmoa.home.event_item.adpater.MainRecyclerAdapter.Companion.RECOMMENDED_TYPE
 import com.mju.csmoa.home.event_item.domain.model.AllEventItem
-import com.mju.csmoa.home.event_item.domain.model.AllEventItem.Companion.EVENT_ITEM_TYPE
-import com.mju.csmoa.home.event_item.domain.model.AllEventItem.Companion.RECOMMENDED_TYPE
 import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
 import com.mju.csmoa.home.event_item.filter.FilteringBottomSheetDialog
 import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.Constants.TAG
 
 class EventItemsFragment : Fragment() {
 
@@ -34,15 +37,31 @@ class EventItemsFragment : Fragment() {
 
     private fun init() {
 
-//        binding.fabEventItemsFilter.setOnClickListener {
-//            FilteringBottomSheetDialog(requireContext()).show()
-//        }
+
+        // 맨 위로 클릭했을 때
+        binding.cardViewItemRecommendedEventGotoTop.setOnClickListener {
+            binding.recyclerViewEventItemsRecommendationEventItems.smoothScrollToPosition(0)
+        }
+
+        // 필터 버튼 클릭했을 때때
+        binding.cardViewItemRecommendedEventEventTypeContainer.setOnClickListener {
+            FilteringBottomSheetDialog(requireContext()).show()
+        }
 
 
         RetrofitManager.instance.getEventItems { statusCode, getEventItemsRes ->
             when (statusCode) {
+                // allItemEvent 서버에서 받아오기
                 100 -> {
-                    // allItemEvent 서버에서 받아오기
+
+                    val colorList = requireContext().resources.getStringArray(R.array.color_top10)
+
+                    // set ColorCodeList
+                    getEventItemsRes?.recommendedEventItemList?.forEachIndexed { index, itemEventItem ->
+                        Log.d(TAG, "EventItemsFragment -init() called / index = $index / colorCodeList = ${colorList[index]}")
+                        itemEventItem.colorCode = colorList[index]
+                    }
+
                     allEventItemList.add(
                         AllEventItem(
                             type = RECOMMENDED_TYPE,
@@ -50,6 +69,7 @@ class EventItemsFragment : Fragment() {
                             null
                         )
                     )
+
                     allEventItemList.add(
                         AllEventItem(
                             type = EVENT_ITEM_TYPE,
@@ -66,9 +86,10 @@ class EventItemsFragment : Fragment() {
 
                     binding.recyclerViewEventItemsRecommendationEventItems.apply {
                         layoutManager =
-                            LinearLayoutManager(
+                            GridLayoutManager(
                                 requireContext(),
-                                LinearLayoutManager.VERTICAL,
+                                2,
+                                GridLayoutManager.VERTICAL,
                                 false
                             )
                         adapter = eventItemRecyclerAdapter

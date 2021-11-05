@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".home.event_item.DetailEventItemActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".home.event_item.DetailEventItemActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout_detailEventItem_appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_detailEventItem_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:padding="5dp"
+                app:navigationIcon="@drawable/ic_all_back"
+                app:title="행사상품 세부정보">
+
+            </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrainLayout_detailEventItem_detailEventItemContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout_detailEventItem_appbarLayout">
+
+            <ImageView
+                android:id="@+id/imageView_detailEventItem_csBrand"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/img_cs_emart24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:id="@+id/cardView_detailEventItem_eventTypeContainer"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="10dp"
+                android:padding="10dp"
+                app:cardCornerRadius="50dp"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_csBrand"
+                app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_csBrand"
+                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_csBrand"
+                app:strokeColor="@color/azure"
+                app:strokeWidth="3dp">
+
+                <TextView
+                    android:id="@+id/textView_detailEventItem_eventType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/airbnb_cereal_bold"
+                    android:gravity="center"
+                    android:text="1+1"
+                    android:textColor="@color/azure"
+                    android:textSize="30dp" />
+
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+            <ImageView
+                android:id="@+id/imageView_detailEventItem_itemImage"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                android:src="@drawable/img_review_item1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_detailEventItem_csBrand" />
+
+            <TextView
+                android:id="@+id/textView_detailEventItem_itemName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/airbnb_cerealextra_bold"
+                android:text="CJ) 육포 질러질러질러질러질러"
+                android:gravity="center"
+                android:textSize="28dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_detailEventItem_itemImage" />
+
+            <TextView
+                android:id="@+id/textView_detailEventItem_itemPrice"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="1,000원"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/textView_detailEventItem_itemActualPrice"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="@id/textView_detailEventItem_itemName"
+                app:layout_constraintTop_toBottomOf="@id/textView_detailEventItem_itemName" />
+
+            <TextView
+                android:id="@+id/textView_detailEventItem_itemActualPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="(개당 633원)"
+                android:textColor="@color/azure"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/textView_detailEventItem_itemName"
+                app:layout_constraintStart_toEndOf="@id/textView_detailEventItem_itemPrice"
+                app:layout_constraintTop_toTopOf="@id/textView_detailEventItem_itemPrice" />
+
+            <ImageView
+                android:id="@+id/imageView_detailEventItem_eye"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_all_eye"
+                app:layout_constraintStart_toStartOf="@id/textView_detailEventItem_itemPrice"
+                app:layout_constraintTop_toBottomOf="@id/textView_detailEventItem_itemPrice"
+                app:layout_goneMarginTop="10dp" />
+
+            <TextView
+                android:id="@+id/textView_detailEventItem_viewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto_black"
+                android:text="112"
+                android:textSize="25dp"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_eye"
+                app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_eye"
+                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_eye" />
+
+            <ImageView
+                android:id="@+id/imageView_detailEventItem_heart"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_all_empty_stroke_colored_heart"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_eye"
+                app:layout_constraintStart_toEndOf="@id/textView_detailEventItem_viewCount"
+                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_eye" />
+
+            <TextView
+                android:id="@+id/textView_detailEventItem_likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="101"
+                android:textSize="25dp"
+                android:fontFamily="@font/roboto_black"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_heart"
+                app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_heart"
+                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_heart" />
+
+            <View
+                android:id="@+id/view_detailEventItem_divider"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="20dp"
+                android:background="#F0F2F3"
+                android:elevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView_detailEventItem_eye" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView_detailEventItem_recommendLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/tvn_bold"
+            android:text="이런 상품은 어떠세요?"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constrainLayout_detailEventItem_detailEventItemContainer" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_detailEventItem_recommendList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_detailEventItem_recommendLabel" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

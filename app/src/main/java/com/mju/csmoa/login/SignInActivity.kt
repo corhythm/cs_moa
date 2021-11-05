@@ -126,15 +126,15 @@ class SignInActivity : AppCompatActivity() {
         binding.buttonSignInKakaoSignIn.setOnClickListener {
 
             // 로그인 공통 callback 구성 (이건 지금 실행하는 게 아님, loginWithKakaoAccount나 Talk 실행 후 실행 됨)
-            val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-                if (error != null) {
-                    Log.e(TAG, "로그인 실패 / error: $error / token: $token")
+            val callback: (OAuthToken?, Throwable?) -> Unit = { token, tokenError ->
+                if (tokenError != null) {
+                    Log.e(TAG, "로그인 실패 / error: $tokenError / token: $token")
                 } else if (token != null) {
                     Log.i(TAG, "로그인 성공 / token: $token")
 
-                    UserApiClient.instance.me { user, error ->
-                        if (error != null) {
-                            Log.e(TAG, "사용자 정보 요청 실패", error)
+                    UserApiClient.instance.me { user, userError ->
+                        if (userError != null) {
+                            Log.e(TAG, "사용자 정보 요청 실패", userError)
                             makeToast(
                                 "로그인 실패",
                                 "카카오로부터 회원 정보를 받아오는 데 실패했습니다.",

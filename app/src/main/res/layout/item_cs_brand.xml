@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="#F3F813"
-        app:strokeWidth="1dp">
+        app:strokeWidth="3dp">
 
         <ImageView
             android:id="@+id/imageView_csBrand_selectBrand"

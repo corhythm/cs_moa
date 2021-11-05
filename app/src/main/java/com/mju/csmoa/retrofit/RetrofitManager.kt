@@ -191,7 +191,6 @@ class RetrofitManager {
                     200 -> {
                         response.body()?.let {
                             try {
-
                                 val body = it.asJsonObject
                                 Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
                                 val result = body.getAsJsonObject("result")
@@ -224,10 +223,46 @@ class RetrofitManager {
             }
 
             override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-
+                Log.d(TAG, "getEventItems -onFailure() called")
             }
         })
 
+    }
+
+    fun getEventItem(eventItemId: Long, completion: (Int, List<ItemEventItem>?) -> Unit) {
+        val getEventItemCallback = iRetrofit?.getEventItem(eventItemId) ?: return
+
+        getEventItemCallback.enqueue(object : retrofit2.Callback<JsonElement> {
+            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+                when (response.code()) {
+                    200 -> {
+                        response.body()?.let {
+                            try {
+                                val body = it.asJsonObject
+                                Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
+                                val statusCode = body.get("code").asInt
+
+                                val detailRecommendedEventItemList = Gson().fromJson(
+                                    body.getAsJsonArray("result"),
+                                    Array<ItemEventItem>::class.java
+                                ).toList()
+
+                                completion(statusCode, detailRecommendedEventItemList)
+                            } catch (ex: java.lang.NullPointerException) {
+                                val statusCode = it.asJsonObject?.get("code")?.asInt
+                                completion(statusCode ?: 500, null)
+                            }
+                        }
+                    }
+                    else -> Log.d(TAG, "Error: getEventItem / ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+                Log.d(TAG, "getEventItem -onFailure() called")
+            }
+
+        })
     }
 
 

@@ -87,5 +87,19 @@
     <string name="jwt_secret_key">UwKYibQQgkW7g-*k.ap9kje-wxBHb9wdXoBT4vnt4P3sJWt-Nu</string>
 
 
+    <string-array name="color_top10">
+        <item>#A8E6CE</item>
+        <item>#DCEDC2</item>
+        <item>#FFD3B5</item>
+        <item>#FFAAA6</item>
+        <item>#E1F5C4</item>
+        <item>#EEE3E7</item>
+        <item>#FF8C94</item>
+        <item>#45ADA8</item>
+        <item>#E5FCC2</item>
+        <item>#F9CDAD</item>
+    </string-array>
+
+
 
 </resources>

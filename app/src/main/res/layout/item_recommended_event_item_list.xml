@@ -11,16 +11,27 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="이번주 추천 행사상품"
-        android:textSize="20dp"
+        android:textSize="30dp"
         android:textColor="@color/colorGray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_itemRecommendedEventItemList_recommendedImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_all_recommended"
+        app:layout_constraintTop_toTopOf="@id/textView_itemRecommendedEventItemList_recommendationLabel"
+        app:layout_constraintBottom_toBottomOf="@id/textView_itemRecommendedEventItemList_recommendationLabel"
+        app:layout_constraintStart_toEndOf="@id/textView_itemRecommendedEventItemList_recommendationLabel"
+        android:layout_marginStart="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_itemRecommendedEventItemList_recommendedItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_itemRecommendedEventItemList_recommendationLabel" />
