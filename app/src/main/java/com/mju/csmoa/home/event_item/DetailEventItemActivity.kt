@@ -48,10 +48,8 @@ class DetailEventItemActivity : AppCompatActivity() {
                             "DetailEventItemActivity -init() called / detailRecommendedEventList = $detailRecommendedEventList"
                         )
                         val detailRecommendedEventItemRecyclerAdapter =
-                            DetailRecommendedEventItemRecyclerAdapter(
-                                this,
-                                detailRecommendedEventList!!
-                            )
+                            DetailRecommendedEventItemRecyclerAdapter(detailRecommendedEventList!!)
+
                         // init recyclerView
                         binding.recyclerViewDetailEventItemRecommendList.apply {
                             adapter = detailRecommendedEventItemRecyclerAdapter

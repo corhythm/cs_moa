@@ -9,7 +9,6 @@ import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
 import com.mju.csmoa.home.event_item.viewholder.RecommendedEventItemViewHolder
 
 class RecommendedEventItemRecyclerAdapter(
-    private val context: Context,
     private val recommendedEventItemList: List<ItemEventItem>
 ) :
     RecyclerView.Adapter<RecommendedEventItemViewHolder>() {
@@ -17,18 +16,8 @@ class RecommendedEventItemRecyclerAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecommendedEventItemViewHolder {
+    ) = RecommendedEventItemViewHolder(parent)
 
-        return RecommendedEventItemViewHolder(
-            context = context,
-            itemRecommendedEventItemBinding = ItemRecommendedEventItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-
-    }
 
     override fun onBindViewHolder(holder: RecommendedEventItemViewHolder, position: Int) {
         holder.bind(recommendedEventItemList[position])
