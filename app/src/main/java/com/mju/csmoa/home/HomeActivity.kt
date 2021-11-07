@@ -19,6 +19,9 @@ import com.mju.csmoa.databinding.ActivityHomeBinding
 import com.mju.csmoa.home.event_item.EventItemsFragment
 import com.mju.csmoa.home.more.MoreFragment
 import com.mju.csmoa.home.search.SearchResultActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
@@ -36,7 +39,6 @@ class HomeActivity : AppCompatActivity() {
         initBottomNavigationView()
         initMainState()
     }
-
 
     private fun initBottomNavigationView() {
 

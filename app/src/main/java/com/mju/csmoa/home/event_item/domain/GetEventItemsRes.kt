@@ -1,16 +1,12 @@
 package com.mju.csmoa.home.event_item.domain;
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 
 data class GetEventItemsRes(
-
-    @SerializedName("recommendedEventItemList")
-    @Expose
-    val recommendedEventItemList: List<ItemEventItem>,
-
-    @SerializedName("eventItemList")
-    @Expose
-    val eventItemList: List<ItemEventItem>
+    val isSuccess: Boolean,
+    val code: Int,
+    val message: String,
+    val result: AllEventItems
 )
+
+data class AllEventItems(val recommendedEventItemList: List<EventItem>, val eventItemList: List<EventItem>)

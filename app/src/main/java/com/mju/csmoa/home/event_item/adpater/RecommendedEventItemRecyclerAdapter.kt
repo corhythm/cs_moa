@@ -1,15 +1,12 @@
 package com.mju.csmoa.home.event_item.adpater
 
-import android.content.Context
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
-import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.RecommendedEventItemViewHolder
 
 class RecommendedEventItemRecyclerAdapter(
-    private val recommendedEventItemList: List<ItemEventItem>
+    private val recommendedEventItemList: List<EventItem>
 ) :
     RecyclerView.Adapter<RecommendedEventItemViewHolder>() {
 

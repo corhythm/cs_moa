@@ -1,13 +1,14 @@
 package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
+import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.login.domain.model.PostSignUpReq
 import retrofit2.Call
 import retrofit2.http.*
 
-interface IRetrofit {
+interface RetrofitService {
 
     // 회원가입
     @POST("/signup")
@@ -29,6 +30,9 @@ interface IRetrofit {
     // 이벤트 아이템 메인
     @GET("/event-items")
     fun getEventItems(): Call<JsonElement>
+
+    @GET("/event-items")
+    suspend fun getEventItemsTemp(@Query("page") pageNum: Int): GetEventItemsRes
 
     // 특정 이벤트 아이템 클릭
     @GET("/event-items/{eventItemId}")

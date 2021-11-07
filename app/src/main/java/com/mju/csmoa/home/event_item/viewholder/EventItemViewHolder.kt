@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemEventItemBinding
 import com.mju.csmoa.home.event_item.DetailEventItemActivity
-import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 
 class EventItemViewHolder(
     parent: ViewGroup
@@ -24,32 +24,27 @@ class EventItemViewHolder(
 
     private val binding = ItemEventItemBinding.bind(itemView)
 
-    fun bind(itemEventItem: ItemEventItem) {
+    fun bind(eventItem: EventItem?) {
 
-        with (binding) {
+        with(binding) {
 
-            // 제품 이름
-            textViewItemEventItemItemName.text = itemEventItem.itemName
-            // 제품 가격
-            textViewItemEventItemPrice.text = "${itemEventItem.itemPrice}원"
-            // 제품 실제 가격
-            textViewItemEventItemActualPrice.text = "(개당 ${itemEventItem.itemActualPrice}원)"
-            // 제품 조회수
-            textViewItemEventItemViewCount.text = itemEventItem.viewCount.toString()
-            // 제품 좋아요 개수
-            textViewItemEventItemLikeCount.text = itemEventItem.likeCount.toString()
-
-
-            Glide.with(root.context).load(itemEventItem.itemImageSrc)
+            textViewItemEventItemItemName.text = eventItem?.itemName // 제품 이름
+            textViewItemEventItemPrice.text = eventItem?.itemPrice // 제품 가격
+            textViewItemEventItemActualPrice.text = eventItem?.itemActualPrice // 한 개당 가격
+            textViewItemEventItemViewCount.text = eventItem?.viewCount.toString() // 제품 조회수
+            textViewItemEventItemLikeCount.text = eventItem?.likeCount.toString() // 제품 좋아요 개수
+            // 행사 제품 이미지 로딩
+            Glide.with(root.context).load(eventItem?.itemImageSrc)
                 .placeholder(R.drawable.img_all_itemimage)
                 .error(R.drawable.ic_all_big_x)
                 .into(imageViewItemEventItemEventItemImage)
 
             // csbrand
-            val csBrandColorList = root.context.resources.getStringArray(R.array.cs_brand_color_list)
+            val csBrandColorList =
+                root.context.resources.getStringArray(R.array.cs_brand_color_list)
             var csBrandStrokeColor = Color.BLACK
             var csBrandResourceId = -1
-            when (itemEventItem.csBrand) {
+            when (eventItem?.csBrand) {
                 "cu" -> {
                     csBrandStrokeColor = Color.parseColor(csBrandColorList[0])
                     csBrandResourceId = R.drawable.img_cs_cu
@@ -76,9 +71,10 @@ class EventItemViewHolder(
             cardViewItemEventItemCsBrandContainer.strokeColor = csBrandStrokeColor
             imageViewItemEventItemCsBrand.setImageResource(csBrandResourceId)
 
-            val eventTypeColorList = root.context.resources.getStringArray(R.array.event_type_color_list)
+            val eventTypeColorList =
+                root.context.resources.getStringArray(R.array.event_type_color_list)
             var eventTypeColor = Color.BLACK
-            when (itemEventItem.itemEventType) {
+            when (eventItem?.itemEventType) {
                 "1+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[0])
                 "2+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[1])
                 "3+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[2])
@@ -86,14 +82,15 @@ class EventItemViewHolder(
             }
 
             // 이벤트 타입 설정
-            textViewItemEventItemEventType.text = itemEventItem.itemEventType
+            textViewItemEventItemEventType.text = eventItem?.itemEventType
             textViewItemEventItemEventType.setTextColor(eventTypeColor)
             cardViewItemEventItemEventTypeContainer.strokeColor = eventTypeColor
 
             root.setOnClickListener {
-                val detailEventItemIntent = Intent(root.context, DetailEventItemActivity::class.java).apply {
-                    putExtra("itemEventItem", itemEventItem)
-                }
+                val detailEventItemIntent =
+                    Intent(root.context, DetailEventItemActivity::class.java).apply {
+                        putExtra("itemEventItem", eventItem)
+                    }
                 root.context.startActivity(detailEventItemIntent)
             }
 

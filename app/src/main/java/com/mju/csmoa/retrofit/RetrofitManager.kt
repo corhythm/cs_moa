@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
-import com.mju.csmoa.home.event_item.domain.model.ItemEventItem
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.login.domain.model.*
 import com.mju.csmoa.util.Constants.API_BASE_URL
 import com.mju.csmoa.util.Constants.TAG
@@ -15,17 +15,18 @@ class RetrofitManager {
 
     companion object {
         val instance = RetrofitManager()
+        val retrofitService: RetrofitService? =
+            RetrofitClient.getClient(API_BASE_URL)?.create(RetrofitService::class.java)
     }
 
-    // http call 만들기
-    // get IRetrofit interface
-    private val iRetrofit: IRetrofit? =
-        RetrofitClient.getClient(API_BASE_URL)?.create(IRetrofit::class.java)
+//    private val retrofitService: RetrofitService? =
+//        RetrofitClient.getClient(API_BASE_URL)?.create(RetrofitService::class.java)
 
     // 회원가입
     fun signUp(postSignUpReq: PostSignUpReq, completion: (Int) -> Unit) {
+
         val signUpCallback =
-            iRetrofit?.signUp(postSignUpReq) ?: return
+            retrofitService?.signUp(postSignUpReq) ?: return
 
         signUpCallback.enqueue(object : retrofit2.Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
@@ -61,7 +62,7 @@ class RetrofitManager {
 
     // 로그인
     fun login(postLoginReq: PostLoginReq, completion: (Int, PostLoginRes?) -> Unit) {
-        val loginCallback = iRetrofit?.login(postLoginReq) ?: return
+        val loginCallback = retrofitService?.login(postLoginReq) ?: return
 
         loginCallback.enqueue(object : retrofit2.Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
@@ -99,7 +100,7 @@ class RetrofitManager {
 
     // OAuth 로그인
     fun oAuthLogin(postOAuthLoginReq: PostOAuthLoginReq, completion: (Int, PostLoginRes?) -> Unit) {
-        val oauthLoginCallback = iRetrofit?.oAuthLogin(postOAuthLoginReq) ?: return
+        val oauthLoginCallback = retrofitService?.oAuthLogin(postOAuthLoginReq) ?: return
 
         oauthLoginCallback.enqueue(object : retrofit2.Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
@@ -140,7 +141,7 @@ class RetrofitManager {
 
     // JWT 토큰 리프레시
     fun refreshJwtToken(refreshToken: String, completion: (Int, GetJwtTokenRes?) -> Unit) {
-        val refreshJwtTokenCallback = iRetrofit?.refreshJwtToken(refreshToken) ?: return
+        val refreshJwtTokenCallback = retrofitService?.refreshJwtToken(refreshToken) ?: return
 
         refreshJwtTokenCallback.enqueue(object : retrofit2.Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
@@ -181,56 +182,56 @@ class RetrofitManager {
         })
     }
 
-    // 이벤트 아이템 가져오기
-    fun getEventItems(completion: (Int, GetEventItemsRes?) -> Unit) {
-        val getEventItemsCallback = iRetrofit?.getEventItems() ?: return
+//    // 이벤트 아이템 메인 화면 데이터 가져오기 (추천 행사 상품 10 + 일반 행사 상품 14)
+//    fun getEventItems(pageNum: Int, completion: (Int, GetEventItemsRes?) -> Unit) {
+//        val getEventItemsCallback = retrofitService?.getEventItems() ?: return
+//
+//        getEventItemsCallback.enqueue(object : retrofit2.Callback<JsonElement> {
+//            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
+//                when (response.code()) {
+//                    200 -> {
+//                        response.body()?.let {
+//                            try {
+//                                val body = it.asJsonObject
+//                                Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
+//                                val result = body.getAsJsonObject("result")
+//                                val statusCode = body.get("code").asInt
+//
+//                                val recommendedEventItemList = Gson().fromJson(
+//                                    result.get("recommendedEventItemList"),
+//                                    Array<EventItem>::class.java
+//                                ).toList()
+//                                val eventItemList = Gson().fromJson(
+//                                    result.get("eventItemList"),
+//                                    Array<EventItem>::class.java
+//                                ).toList()
+//
+//                                completion(
+//                                    statusCode, GetEventItemsRes(
+//                                        recommendedEventItemList = recommendedEventItemList,
+//                                        eventItemList = eventItemList
+//                                    )
+//                                )
+//
+//                            } catch (ex: java.lang.NullPointerException) {
+//                                val statusCode = it.asJsonObject?.get("code")?.asInt
+//                                completion(statusCode ?: 500, null)
+//                            }
+//                        }
+//                    }
+//                    else -> Log.d(TAG, "Error: getEventItems / ${response.code()}")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
+//                Log.d(TAG, "getEventItems -onFailure() called")
+//            }
+//        })
+//
+//    }
 
-        getEventItemsCallback.enqueue(object : retrofit2.Callback<JsonElement> {
-            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-                when (response.code()) {
-                    200 -> {
-                        response.body()?.let {
-                            try {
-                                val body = it.asJsonObject
-                                Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
-                                val result = body.getAsJsonObject("result")
-                                val statusCode = body.get("code").asInt
-
-                                val recommendedEventItemList = Gson().fromJson(
-                                    result.get("recommendedEventItemList"),
-                                    Array<ItemEventItem>::class.java
-                                ).toList()
-                                val eventItemList = Gson().fromJson(
-                                    result.get("eventItemList"),
-                                    Array<ItemEventItem>::class.java
-                                ).toList()
-
-                                completion(
-                                    statusCode, GetEventItemsRes(
-                                        recommendedEventItemList = recommendedEventItemList,
-                                        eventItemList = eventItemList
-                                    )
-                                )
-
-                            } catch (ex: java.lang.NullPointerException) {
-                                val statusCode = it.asJsonObject?.get("code")?.asInt
-                                completion(statusCode ?: 500, null)
-                            }
-                        }
-                    }
-                    else -> Log.d(TAG, "Error: getEventItems / ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.d(TAG, "getEventItems -onFailure() called")
-            }
-        })
-
-    }
-
-    fun getEventItem(eventItemId: Long, completion: (Int, List<ItemEventItem>?) -> Unit) {
-        val getEventItemCallback = iRetrofit?.getEventItem(eventItemId) ?: return
+    fun getEventItem(eventItemId: Long, completion: (Int, List<EventItem>?) -> Unit) {
+        val getEventItemCallback = retrofitService?.getEventItem(eventItemId) ?: return
 
         getEventItemCallback.enqueue(object : retrofit2.Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
@@ -244,7 +245,7 @@ class RetrofitManager {
 
                                 val detailRecommendedEventItemList = Gson().fromJson(
                                     body.getAsJsonArray("result"),
-                                    Array<ItemEventItem>::class.java
+                                    Array<EventItem>::class.java
                                 ).toList()
 
                                 completion(statusCode, detailRecommendedEventItemList)
