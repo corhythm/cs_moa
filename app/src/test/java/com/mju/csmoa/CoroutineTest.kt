@@ -74,4 +74,16 @@ class CoroutineTest {
 //
 //        println(test)
     }
+
+    class Ipad(val name: String, val version: Int)
+
+    @Test
+    fun classBasicMethodTest() {
+        val ipadAir = Ipad("pro", 5)
+        val ipadPro = Ipad("pro", 5)
+
+        println("ipadAir.hashCode = ${ipadAir.hashCode()}, ipadPro.hashCode = ${ipadPro.hashCode()}")
+
+        println(ipadAir == ipadPro)
+    }
 }

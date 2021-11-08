@@ -1,4 +1,4 @@
-package com.mju.csmoa.home.event_item.viewholder.nested_viewholder
+package com.mju.csmoa.home.event_item.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,8 +10,8 @@ import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.util.RecyclerViewDecoration
 
 // 추천 행사 상품 리사이클러뷰 뷰홀더
-class RecommendedEventItemListViewHolder(
-    private val parent: ViewGroup
+class SealedRecommendedEventItemViewHolder(
+    parent: ViewGroup
 ) :
     RecyclerView.ViewHolder(
         ItemRecommendedEventItemListBinding.inflate(

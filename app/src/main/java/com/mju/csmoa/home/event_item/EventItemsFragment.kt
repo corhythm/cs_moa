@@ -10,13 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentEventItemsBinding
 import com.mju.csmoa.home.event_item.adpater.EventItemLoadStateAdapter
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
-import com.mju.csmoa.home.event_item.adpater.RecommendedEventItemRecyclerAdapter
-import com.mju.csmoa.home.event_item.domain.model.EventItem
+import com.mju.csmoa.home.event_item.adpater.SealedRecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.filter.FilteringBottomSheetDialog
 import com.mju.csmoa.home.event_item.paging.EventItemViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
@@ -29,7 +29,7 @@ class EventItemsFragment : Fragment() {
 
     private var _binding: FragmentEventItemsBinding? = null
     private val binding get() = _binding!!
-    val pagingDataAdapter = EventItemPagingDataAdapter()
+    private val pagingDataAdapter = EventItemPagingDataAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,19 +64,22 @@ class EventItemsFragment : Fragment() {
 
     private suspend fun initRecyclerView() {
 
-        val normalEventList = CoroutineScope(Dispatchers.IO).async {
+        val recommendedEventList = CoroutineScope(Dispatchers.IO).async {
             val response = RetrofitManager.retrofitService?.getEventItemsTemp(1)
+
+            val colorList = requireContext().resources.getStringArray(R.array.color_top10)
+            response?.result?.recommendedEventItemList?.forEachIndexed { index, itemEventItem ->
+                Log.d(TAG, "EventItemsFragment -init() called / index = $index / colorCodeList = ${colorList[index]}")
+                itemEventItem.colorCode = colorList[index]
+            }
             response?.result?.recommendedEventItemList
         }
 
-        val recommendEventItemAdapter =
-            RecommendedEventItemRecyclerAdapter(normalEventList.await()!!)
+        val nestedRecommendedEventItemAdapter = SealedRecommendedEventItemAdapter(recommendedEventList.await()!!)
         pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.refresh() })
-        val concatAdapter = ConcatAdapter(pagingDataAdapter, recommendEventItemAdapter)
-
+        val concatAdapter = ConcatAdapter(nestedRecommendedEventItemAdapter, pagingDataAdapter)
 
         // pagingDataAdapter init
-
         binding.recyclerViewEventItemsRecommendationEventItems.apply {
             addItemDecoration(RecyclerViewDecoration(0, 30, 10, 10))
             adapter = concatAdapter
@@ -87,14 +90,16 @@ class EventItemsFragment : Fragment() {
                 GridLayoutManager.VERTICAL,
                 false
             ).apply {
-                spanSizeLookup = (object : GridLayoutManager.SpanSizeLookup() {
-                    override fun getSpanSize(position: Int) =
-                        when (pagingDataAdapter.getItemViewType(position)) {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return when (concatAdapter.getItemViewType(position)) {
                             HEADER -> 2
                             BODY -> 1
                             else -> -1
                         }
-                })
+                    }
+
+                }
             }
         }
 
