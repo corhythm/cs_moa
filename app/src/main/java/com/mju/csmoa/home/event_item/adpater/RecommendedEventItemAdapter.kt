@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.RecommendedEventItemViewHolder
 
-class RecommendedEventItemRecyclerAdapter(
+class RecommendedEventItemAdapter(
     private val recommendedEventItemList: List<EventItem>
 ) :
     RecyclerView.Adapter<RecommendedEventItemViewHolder>() {
@@ -21,6 +21,4 @@ class RecommendedEventItemRecyclerAdapter(
     }
 
     override fun getItemCount() = recommendedEventItemList.size
-
-
 }

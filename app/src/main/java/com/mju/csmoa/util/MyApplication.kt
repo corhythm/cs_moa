@@ -14,6 +14,7 @@ import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.datastore.UserInfoProtoManager
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.repository.SearchHistoryRepository
+import com.mju.csmoa.util.secret.JwtService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import java.security.MessageDigest
@@ -28,6 +29,7 @@ class MyApplication : Application() {
     val database by lazy { LocalRoomDatabase.getDatabase(this, applicationScope) }
     val repository by lazy { SearchHistoryRepository(database.searchHistoryDao()) }
     val userInfoProtoManager by lazy { UserInfoProtoManager(this) }
+    val jwtService by lazy { JwtService() }
 
     companion object {
         lateinit var instance: MyApplication
@@ -42,6 +44,10 @@ class MyApplication : Application() {
         KakaoSdk.init(this, getString(R.string.kakao_app_key))
 //        getAppKeyHash()
 //        Log.d(TAG, " -onCreate() called / (kakao) keyHash = ${Utility.getKeyHash(this)}")
+    }
+
+    fun checkAccessTokenValid(accessToken: String) {
+
     }
 
 

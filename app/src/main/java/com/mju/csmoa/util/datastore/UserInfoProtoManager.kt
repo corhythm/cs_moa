@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.datastore.dataStore
 import com.mju.csmoa.UserInfo
 import com.mju.csmoa.login.domain.model.GetJwtTokenRes
+import com.mju.csmoa.login.domain.model.JwtToken
 import com.mju.csmoa.login.domain.model.PostLoginRes
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants
@@ -19,12 +20,12 @@ class UserInfoProtoManager(private val context: Context) {
         serializer = UserInfoSerializer
     )
 
-    suspend fun updateUserInfo(postLoginRes: PostLoginRes) {
+    suspend fun updateUserInfo(jwtToken: JwtToken) {
         context.myDataStore.updateData { userInfo ->
             userInfo.toBuilder()
-                .setUserId(postLoginRes.userId)
-                .setAccessToken(postLoginRes.accessToken)
-                .setRefreshToken(postLoginRes.refreshToken)
+                .setUserId(jwtToken.userId)
+                .setAccessToken(jwtToken.accessToken)
+                .setRefreshToken(jwtToken.refreshToken)
                 .build()
         }
     }

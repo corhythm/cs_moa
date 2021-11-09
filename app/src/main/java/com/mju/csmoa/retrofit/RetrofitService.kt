@@ -2,6 +2,7 @@ package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
+import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.login.domain.model.PostSignUpReq
@@ -25,7 +26,7 @@ interface RetrofitService {
 
     // JWT 토큰 갱신
     @GET("/token")
-    fun refreshJwtToken(@Header("refreshToken") refreshToken: String): Call<JsonElement>
+    fun refreshJwtToken(@Header("Refresh-Token") refreshToken: String): GetRefreshJwtTokenRes
 
     // 이벤트 아이템 메인
     @GET("/event-items")

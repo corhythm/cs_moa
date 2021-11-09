@@ -1,25 +1,17 @@
 package com.mju.csmoa.home.event_item.adpater
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.LoadStateViewBinding
-import com.mju.csmoa.util.Constants.TAG
 
 class EventItemLoadStateAdapter(
     private val retry: () -> Unit
 ) :
     LoadStateAdapter<EventItemLoadStateAdapter.LoadStateViewHolder>() {
-
-
-    init {
-       retry()
-    }
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         with(holder.loadStateViewBinding) {
@@ -33,8 +25,6 @@ class EventItemLoadStateAdapter(
 
             loadStateRetry.setOnClickListener { retry() }
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.DetailEventItemViewHolder
 
-class DetailRecommendedEventItemRecyclerAdapter(
+class DetailRecommendedEventItemAdapter(
     private val detailRecommendedEventItemList: List<EventItem>
 ) : RecyclerView.Adapter<DetailEventItemViewHolder>() {
 

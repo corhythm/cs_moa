@@ -98,7 +98,6 @@ class EventItemsFragment : Fragment() {
                             else -> -1
                         }
                     }
-
                 }
             }
         }

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemRecommendedEventItemListBinding
-import com.mju.csmoa.home.event_item.adpater.RecommendedEventItemRecyclerAdapter
+import com.mju.csmoa.home.event_item.adpater.RecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.util.RecyclerViewDecoration
 
@@ -32,7 +32,7 @@ class SealedRecommendedEventItemViewHolder(
     fun setRecommendedEventItemList(recommendedEventItemList: List<EventItem>) {
 
         val recommendedEventItemRecyclerAdapter =
-            RecommendedEventItemRecyclerAdapter(recommendedEventItemList)
+            RecommendedEventItemAdapter(recommendedEventItemList)
 
         with(binding) {
             recyclerViewItemRecommendedEventItemListRecommendedItems.apply {

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
-import com.mju.csmoa.home.event_item.adpater.DetailRecommendedEventItemRecyclerAdapter
+import com.mju.csmoa.home.event_item.adpater.DetailRecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
@@ -49,7 +49,7 @@ class DetailEventItemActivity : AppCompatActivity() {
                             "DetailEventItemActivity -init() called / detailRecommendedEventList = $detailRecommendedEventList"
                         )
                         val detailRecommendedEventItemRecyclerAdapter =
-                            DetailRecommendedEventItemRecyclerAdapter(detailRecommendedEventList!!)
+                            DetailRecommendedEventItemAdapter(detailRecommendedEventList!!)
 
                         // init recyclerView
                         binding.recyclerViewDetailEventItemRecommendList.apply {
