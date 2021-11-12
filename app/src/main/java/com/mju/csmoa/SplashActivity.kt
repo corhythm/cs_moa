@@ -22,15 +22,20 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // accessToken Expiration 확인
         binding.root.findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
             lifecycleOwner.lifecycle.coroutineScope.launch(Dispatchers.IO) {
 
-                val userInfo = MyApplication.instance.userInfoProtoManager.getUserInfo()
-                val isAccessTokenExpired =
-                    MyApplication.instance.jwtService.isJwtTokenExpired(userInfo.accessToken)
+                val jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
+                Log.d(TAG, "SplashActivity -onCreate() called / jwtTokenInfo = $jwtTokenInfo")
 
+                val isAccessTokenExpired = if (jwtTokenInfo == null)
+                    true
+                else
+                    MyApplication.instance.jwtService.isJwtTokenExpired(jwtTokenInfo.accessToken)
+
+
+                // JWT 토큰 만료되면
                 withContext(Dispatchers.Main) {
                     delay(300L)
                     if (isAccessTokenExpired)
@@ -42,15 +47,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         }
-
-//        binding.root.findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
-//            lifecycleOwner.lifecycle.coroutineScope.launch(Dispatchers.IO) {
-//                delay(300L)
-//                startActivity(Intent(this@SplashActivity, SignInActivity::class.java))
-//                finish()
-//
-//            }
-//        }
 
     }
 

@@ -18,6 +18,7 @@ import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
 import com.mju.csmoa.home.event_item.EventItemsFragment
 import com.mju.csmoa.home.more.MoreFragment
+import com.mju.csmoa.home.review.ReviewMainFragment
 import com.mju.csmoa.home.search.SearchResultActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardView_itemRecommendedEventItem_rootContainer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView_itemRecommendedEventItem_rootContainer"
     android:layout_width="320dp"
     android:layout_height="180dp"
     android:backgroundTint="#E1F5C4"
@@ -19,21 +19,21 @@
             android:layout_height="40dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="10dp"
-            app:strokeWidth="3dp"
-            app:strokeColor="@color/azure"
             app:layout_constraintBottom_toBottomOf="@id/cardView_itemRecommendedEventItem_eventTypeContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/azure"
+            app:strokeWidth="3dp">
 
             <ImageView
                 android:id="@+id/imageView_itemRecommendedEventItem_csBrand"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-                android:scaleType="fitCenter"
                 android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
                 android:src="@drawable/img_cs_cu" />
 
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
@@ -64,9 +64,10 @@
 
         <TextView
             android:id="@+id/textView_itemRecommendedEventItem_itemName"
-            android:layout_width="150dp"
+            android:layout_width="135dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
+            android:paddingStart="5dp"
             android:fontFamily="@font/tvn_bold"
             android:gravity="center"
             android:text="2080)바이오유산균요거민트125G"
@@ -78,8 +79,8 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_marginStart="10dp"
-            app:cardElevation="5dp"
             app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/textView_itemRecommendedEventItem_itemName"

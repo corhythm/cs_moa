@@ -24,7 +24,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/img_all_myface" />
+                tools:src="@drawable/img_all_basic_profile" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunitosans_black"
-            android:text="김말이"
+            tools:text="김말이"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@id/relativeLayout_more_imageContainer"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="dnr2144@gmail.com"
+            tools:text="dnr2144@gmail.com"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="@id/relativeLayout_more_imageContainer"
             app:layout_constraintStart_toStartOf="@id/textView_more_nickname"

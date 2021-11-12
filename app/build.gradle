@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.mju.csmoa"
-        minSdk 24
+        minSdk 26
         targetSdk 30
         versionCode 1
         versionName "1.0"
@@ -97,7 +97,6 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
-
     // retrofit2
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -116,17 +115,11 @@ dependencies {
     implementation "com.google.protobuf:protobuf-javalite:3.14.0"
 
     // JWT
-//    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-//    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-//    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-
     api 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
         exclude group: 'org.json', module: 'json' //provided by Android natively
     }
-    // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
-    //runtimeOnly 'org.bouncycastle:bcprov-jdk15on:1.60'
 
     testImplementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     testRuntimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2',

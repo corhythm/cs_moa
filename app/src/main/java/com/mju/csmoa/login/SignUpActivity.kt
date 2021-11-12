@@ -25,7 +25,6 @@ import java.util.*
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
-    private var isSignUpPossible = false
     private var isEmailValidate = false
     private var isPasswordValidate = false
     private var isNicknameValidate = false

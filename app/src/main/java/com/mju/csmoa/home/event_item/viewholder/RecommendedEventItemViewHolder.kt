@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.DetailEventItemActivity
@@ -41,6 +42,9 @@ class RecommendedEventItemViewHolder(
 
             Glide.with(root.context).load(eventItem.itemImageSrc)
                 .placeholder(R.drawable.img_all_itemimage)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .fallback(R.drawable.img_all_itemimage)
                 .error(R.drawable.ic_all_big_x)
                 .into(imageViewItemRecommendedEventItemRecommendedImage)
 

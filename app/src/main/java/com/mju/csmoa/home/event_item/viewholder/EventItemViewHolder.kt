@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemEventItemBinding
 import com.mju.csmoa.home.event_item.DetailEventItemActivity
@@ -33,10 +34,14 @@ class EventItemViewHolder(
             textViewItemEventItemActualPrice.text = eventItem?.itemActualPrice // 한 개당 가격
             textViewItemEventItemViewCount.text = eventItem?.viewCount.toString() // 제품 조회수
             textViewItemEventItemLikeCount.text = eventItem?.likeCount.toString() // 제품 좋아요 개수
+
             // 행사 제품 이미지 로딩
             Glide.with(root.context).load(eventItem?.itemImageSrc)
                 .placeholder(R.drawable.img_all_itemimage)
                 .error(R.drawable.ic_all_big_x)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .fallback(R.drawable.img_all_itemimage)
                 .into(imageViewItemEventItemEventItemImage)
 
             // csbrand

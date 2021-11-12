@@ -2,22 +2,34 @@ package com.mju.csmoa.home.more
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentMoreBinding
 import com.mju.csmoa.databinding.ItemDividerBinding
 import com.mju.csmoa.databinding.ItemMoreBinding
+import com.mju.csmoa.home.more.model.UserInfo
+import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.*
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
+import java.net.SocketTimeoutException
 
 class MoreFragment : Fragment() {
 
     private var _binding: FragmentMoreBinding? = null
     private val binding get() = _binding!!
     private val moreMenuRecyclerAdapter = MoreMenuRecyclerAdapter()
+    private var userInfo: UserInfo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -27,10 +39,7 @@ class MoreFragment : Fragment() {
         return binding.root
     }
 
-
     private fun init() {
-
-        // TODO: 서버로부터 자기 프로필 정보 받아와서 화면에 뿌려줘야 함
 
         val moreItemNameList = requireContext().resources.getStringArray(R.array.more_item_list)
         val moreItemImageDrawableList =
@@ -46,30 +55,91 @@ class MoreFragment : Fragment() {
 
             itemMoreMenuList.add(
                 ItemMoreMenu(
-                menuImageResourceId = moreItemImageDrawableList.getResourceId(i, 0),
-                menuName = moreItemNameList[i]
+                    menuImageResourceId = moreItemImageDrawableList.getResourceId(i, 0),
+                    menuName = moreItemNameList[i]
+                )
             )
-            )
-
         }
 
-        // init recyclerView
-        binding.recyclerViewMoreMenuList.apply {
-            adapter = moreMenuRecyclerAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            moreMenuRecyclerAdapter.submitList(itemMoreMenuList)
+        with(binding) {
+            // init recyclerView
+            recyclerViewMoreMenuList.apply {
+                adapter = moreMenuRecyclerAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                moreMenuRecyclerAdapter.submitList(itemMoreMenuList)
+            }
+
+            // change profile
+            buttonMoreEditProfile.setOnClickListener { goToEditProfile() }
+            relativeLayoutMoreImageContainer.setOnClickListener { goToEditProfile() }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val jwtTokenInfo =
+                        MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
+                    Log.d(TAG, "MoreFragment -init() called / jwtTokenInfo = $jwtTokenInfo")
+
+                    // 사용자 정보 받아오기
+                    val getUserInfoRes =
+                        RetrofitManager.retrofitService?.getUserInfo(jwtTokenInfo!!.accessToken)
+                    Log.d(TAG, "MoreFragment -init() called / getUserInfoRes = $getUserInfoRes")
+
+                    // 회원 정보 받아오는 데 실패하면
+                    if (getUserInfoRes == null) {
+                        withContext(Dispatchers.Main) {
+                            makeToast("회원 정보", "회원 정보를 받아오는데 실패했어요 :(", MotionToastStyle.ERROR)
+                        }
+                        return@launch
+                    }
+
+                    userInfo = getUserInfoRes.result
+
+                    withContext(Dispatchers.Main) {
+                        textViewMoreEmail.text = userInfo?.email
+                        textViewMoreNickname.text = userInfo?.nickname
+
+                        // if userProfileImageUrl == null -> init basic image
+                        Glide.with(requireContext()).load(userInfo?.userProfileImageUrl)
+                            .placeholder(R.drawable.img_all_basic_profile)
+                            .error(R.drawable.img_all_basic_profile)
+                            .into(imageViewMoreProfileImg)
+                    }
+                } catch (exception: SocketTimeoutException) {
+                    withContext(Dispatchers.Main) {
+                        makeToast("회원 정보", "회원 정보를 받아오는데 실패했어요 :(", MotionToastStyle.ERROR)
+                    }
+                }
+
+
+            }
         }
 
-        // change profile
-        binding.buttonMoreEditProfile.setOnClickListener { editProfile() }
-        binding.relativeLayoutMoreImageContainer.setOnClickListener { editProfile() }
     }
 
 
-    private fun editProfile() {
-        val editProfileIntent = Intent(requireActivity(), EditProfileActivity::class.java)
+    private fun goToEditProfile() {
+
+        if (userInfo == null) {
+            makeToast("회원정보 가져오기 실패", "회원 정보를 수정할 수 없습니다.", MotionToastStyle.ERROR)
+            return
+        }
+        val editProfileIntent = Intent(requireActivity(), EditProfileActivity::class.java).apply {
+            putExtra("userInfo", userInfo)
+        }
         startActivity(editProfileIntent)
+    }
+
+    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+        MotionToast.createColorToast(
+            requireActivity(),
+            title,
+            content,
+            motionToastStyle,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            ResourcesCompat.getFont(requireContext(), R.font.helvetica_regular)
+        )
     }
 }
 

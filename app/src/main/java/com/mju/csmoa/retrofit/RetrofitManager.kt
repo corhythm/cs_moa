@@ -8,8 +8,10 @@ import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.login.domain.model.*
 import com.mju.csmoa.util.Constants.API_BASE_URL
 import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
 import retrofit2.Call
 import retrofit2.Response
+import java.lang.Exception
 
 class RetrofitManager {
 
@@ -139,48 +141,28 @@ class RetrofitManager {
         })
     }
 
-    // JWT 토큰 리프레시
-//    fun refreshJwtToken(refreshToken: String, completion: (Int, GetJwtTokenRes?) -> Unit) {
-//        val refreshJwtTokenCallback = retrofitService?.refreshJwtToken(refreshToken) ?: return
-//
-//        refreshJwtTokenCallback.enqueue(object : retrofit2.Callback<JsonElement> {
-//            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-//                when (response.code()) {
-//                    200 -> { // 데이터 수신에 성공했을 때, 이건 따로 정의한 statusCode가 아닌 httpCode임
-//                        response.body()?.let {
-//
-//                            try {
-//                                val body = it.asJsonObject
-//                                Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
-//                                val result = body.getAsJsonObject("result")
-//                                val statusCode = body.get("code").asInt
-//
-//                                // 콜백 함수 전달
-//                                completion(
-//                                    statusCode, GetJwtTokenRes(
-//                                        userId = result.getAsJsonPrimitive("userId").asLong,
-//                                        accessToken = result.getAsJsonPrimitive("accessToken").asString,
-//                                        refreshToken = result.getAsJsonPrimitive("refreshToken").asString
-//                                    )
-//                                )
-//
-//                            } catch (ex: NullPointerException) { // serialize 실패하면
-//                                val statusCode = it.asJsonObject?.get("code")?.asInt
-//                                completion(statusCode ?: 500, null)
-//                            }
-//
-//                        }
-//                    }
-//                    else -> Log.d(TAG, "Error: oAuthLogin / ${response.code()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-//                Log.d(TAG, "refreshJwtToken -onFailure() called")
-//            }
-//
-//        })
-//    }
+
+    // JWT Token(Access-Token, Refresh-Token) Refresh
+    suspend fun getRefreshJwtToken(refreshToken: String): JwtToken? {
+        try {
+            val getRefreshJwtTokenRes = retrofitService?.refreshJwtToken(refreshToken)
+            val refreshedJwtToken = getRefreshJwtTokenRes?.jwtToken ?: return null
+
+            MyApplication.instance.jwtTokenInfoProtoManager.updateJwtTokenInfo(
+                JwtToken(
+                    userId = refreshedJwtToken.userId,
+                    accessToken = refreshedJwtToken.accessToken,
+                    refreshToken = refreshedJwtToken.refreshToken
+                )
+            )
+
+            return refreshedJwtToken
+
+        } catch (ex: Exception) {
+            Log.d(TAG, "getRefreshJwtToken: ${ex.message.toString()}")
+            return null
+        }
+    }
 
 //    // 이벤트 아이템 메인 화면 데이터 가져오기 (추천 행사 상품 10 + 일반 행사 상품 14)
 //    fun getEventItems(pageNum: Int, completion: (Int, GetEventItemsRes?) -> Unit) {

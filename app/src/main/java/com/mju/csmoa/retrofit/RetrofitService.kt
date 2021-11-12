@@ -2,6 +2,8 @@ package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
+import com.mju.csmoa.home.more.model.GetUserInfoRes
+import com.mju.csmoa.home.more.model.PatchUserInfoReq
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
@@ -38,5 +40,17 @@ interface RetrofitService {
     // 특정 이벤트 아이템 클릭
     @GET("/event-items/{eventItemId}")
     fun getEventItem(@Path("eventItemId") eventItemId: Long): Call<JsonElement>
+
+    // 사용자 정보 받아오기
+    @GET("/user-info")
+    suspend fun getUserInfo(@Header("Access-Token") accessToken: String): GetUserInfoRes
+
+    // 사용자 정보 수정 (수정된 정보 return)
+    @Multipart
+    @PATCH("/user-info")
+    suspend fun patchUserInfo(
+        @Header("Access-Token") accessToken: String,
+        @Body patchUserInfoReq: PatchUserInfoReq
+    ): GetUserInfoRes
 
 }

@@ -1,23 +1,14 @@
 package com.mju.csmoa.util
 
 import android.app.Application
-import android.content.pm.PackageManager
-import android.os.Build
-import android.util.Base64
-import android.util.Log
-import androidx.annotation.RequiresApi
 import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.util.Utility
-import com.kakao.sdk.user.model.User
 import com.mju.csmoa.R
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.datastore.UserInfoProtoManager
+import com.mju.csmoa.util.datastore.JwtTokenInfoProtoManager
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.repository.SearchHistoryRepository
 import com.mju.csmoa.util.secret.JwtService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import java.security.MessageDigest
 
 class MyApplication : Application() {
 
@@ -28,7 +19,7 @@ class MyApplication : Application() {
     // rather than when the application starts
     val database by lazy { LocalRoomDatabase.getDatabase(this, applicationScope) }
     val repository by lazy { SearchHistoryRepository(database.searchHistoryDao()) }
-    val userInfoProtoManager by lazy { UserInfoProtoManager(this) }
+    val jwtTokenInfoProtoManager by lazy { JwtTokenInfoProtoManager(this) }
     val jwtService by lazy { JwtService() }
 
     companion object {

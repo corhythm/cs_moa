@@ -21,18 +21,15 @@ import com.google.android.gms.tasks.Task
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.mju.csmoa.R
-import com.mju.csmoa.UserInfo
 import com.mju.csmoa.databinding.ActivitySignInBinding
+import com.mju.csmoa.home.HomeActivity
+import com.mju.csmoa.login.domain.model.JwtToken
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostLoginRes
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
-import com.mju.csmoa.home.HomeActivity
-import com.mju.csmoa.login.domain.model.JwtToken
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.datastore.UserInfoProtoManager
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -217,14 +214,14 @@ class SignInActivity : AppCompatActivity() {
 
         // DataStore에 accessToken이랑 refreshToken 저장
         lifecycleScope.launch(Dispatchers.IO) {
-            MyApplication.instance.userInfoProtoManager.updateUserInfo(
+            MyApplication.instance.jwtTokenInfoProtoManager.updateJwtTokenInfo(
                 JwtToken(
                     userId = postLoginRes.userId,
                     accessToken = postLoginRes.accessToken,
                     refreshToken = postLoginRes.refreshToken
                 )
             )
-            val userInfo = MyApplication.instance.userInfoProtoManager.getUserInfo()
+            val userInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
             Log.d(TAG, "바뀐 userInfo = $userInfo")
         }
 

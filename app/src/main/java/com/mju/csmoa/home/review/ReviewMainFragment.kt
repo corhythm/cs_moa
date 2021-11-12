@@ -1,4 +1,4 @@
-package com.mju.csmoa
+package com.mju.csmoa.home.review
 
 import android.os.Bundle
 import android.util.Log
@@ -52,7 +52,6 @@ class ReviewMainFragment : Fragment() {
 class ReviewMainRecyclerViewAdapter(private val reviewItemList: List<ItemReviewMain>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.i("로그", "viewholder 생성")
         return ReviewMainRecyclerViewHolder(
             ItemReviewMainBinding.inflate(
                 LayoutInflater.from(parent.context),
