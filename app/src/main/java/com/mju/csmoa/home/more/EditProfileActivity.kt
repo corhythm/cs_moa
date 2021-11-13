@@ -120,6 +120,7 @@ class EditProfileActivity : AppCompatActivity() {
             // userInfo가 있으면
             if (intent.hasExtra("userInfo")) {
                 val userInfo: UserInfo? = intent.getParcelableExtra("userInfo")
+                Log.d(TAG, "EditProfileActivity userInfo is not null, userInfo = $userInfo")
 
                 if (userInfo != null) {
                     textInputEditTextEditProfileNicknameInput.setText(userInfo.nickname)
@@ -139,7 +140,7 @@ class EditProfileActivity : AppCompatActivity() {
             buttonEditProfileSave.setOnClickListener {
 
                 var multipartImageFile: MultipartBody.Part? = null
-                var nicknameRequestBody: RequestBody?
+                var nicknameRequestBody: RequestBody? = null
 
                 // 프로필 이미지 변경했으면
                 if (profileInfoViewModel.isProfileImageChangedLiveData.value == true) {
@@ -152,10 +153,13 @@ class EditProfileActivity : AppCompatActivity() {
                     )
                 }
 
-                // 닉네임은 변경했든 안 했든 프로필 이미지 변경하면 닉네임도 DB에 덮어씌움.
-                nicknameRequestBody =
-                    binding.textInputEditTextEditProfileNicknameInput.text.toString()
-                        .toRequestBody(MultipartBody.FORM)
+//                var nicknameRequestBody:
+                // 닉네임 변경을 하면
+                if (originNickname != binding.textInputEditTextEditProfileNicknameInput.text.toString()) {
+                    nicknameRequestBody =
+                        binding.textInputEditTextEditProfileNicknameInput.text.toString()
+                            .toRequestBody(MultipartBody.FORM)
+                }
 
 
                 // 서버로 전송

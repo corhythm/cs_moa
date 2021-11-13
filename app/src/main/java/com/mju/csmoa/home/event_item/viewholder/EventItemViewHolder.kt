@@ -38,9 +38,10 @@ class EventItemViewHolder(
             // 행사 제품 이미지 로딩
             Glide.with(root.context).load(eventItem?.itemImageSrc)
                 .placeholder(R.drawable.img_all_itemimage)
-                .error(R.drawable.ic_all_big_x)
+                .error(R.drawable.ic_all_404)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .dontAnimate()
                 .fallback(R.drawable.img_all_itemimage)
                 .into(imageViewItemEventItemEventItemImage)
 
