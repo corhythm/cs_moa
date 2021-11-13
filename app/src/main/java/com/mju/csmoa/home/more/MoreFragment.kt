@@ -1,11 +1,14 @@
 package com.mju.csmoa.home.more
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +18,7 @@ import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentMoreBinding
 import com.mju.csmoa.databinding.ItemDividerBinding
 import com.mju.csmoa.databinding.ItemMoreBinding
+import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.more.model.UserInfo
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
@@ -29,6 +33,7 @@ class MoreFragment : Fragment() {
     private var _binding: FragmentMoreBinding? = null
     private val binding get() = _binding!!
     private val moreMenuRecyclerAdapter = MoreMenuRecyclerAdapter()
+    private lateinit var updateProfileInfoLauncher: ActivityResultLauncher<Intent>
     private var userInfo: UserInfo? = null
 
     override fun onCreateView(
@@ -40,6 +45,26 @@ class MoreFragment : Fragment() {
     }
 
     private fun init() {
+
+        updateProfileInfoLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val patchUserInfoRes = result.data?.getParcelableExtra<PatchUserInfoRes>("patchUserInfoRes")
+                    Log.d(TAG, "update complete / patchUserInfoRes = $patchUserInfoRes")
+                    if (patchUserInfoRes != null) {
+                        with(binding) {
+                            textViewMoreNickname.text = patchUserInfoRes.result.nickname
+                            Glide.with(requireContext()).load(patchUserInfoRes.result.userProfileImageUrl)
+                                .placeholder(R.drawable.img_all_basic_profile)
+                                .error(R.drawable.img_all_basic_profile)
+                                .into(imageViewMoreProfileImg)
+
+                            userInfo?.userProfileImageUrl = patchUserInfoRes.result.userProfileImageUrl
+                            userInfo?.nickname = patchUserInfoRes.result.nickname
+                        }
+                    }
+                }
+            }
 
         val moreItemNameList = requireContext().resources.getStringArray(R.array.more_item_list)
         val moreItemImageDrawableList =
@@ -127,7 +152,7 @@ class MoreFragment : Fragment() {
         val editProfileIntent = Intent(requireActivity(), EditProfileActivity::class.java).apply {
             putExtra("userInfo", userInfo)
         }
-        startActivity(editProfileIntent)
+        updateProfileInfoLauncher.launch(editProfileIntent)
     }
 
     private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {

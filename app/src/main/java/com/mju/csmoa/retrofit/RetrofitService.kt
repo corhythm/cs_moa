@@ -3,11 +3,13 @@ package com.mju.csmoa.retrofit
 import com.google.gson.JsonElement
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
-import com.mju.csmoa.home.more.model.PatchUserInfoReq
+import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.login.domain.model.PostSignUpReq
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -45,12 +47,13 @@ interface RetrofitService {
     @GET("/user-info")
     suspend fun getUserInfo(@Header("Access-Token") accessToken: String): GetUserInfoRes
 
-    // 사용자 정보 수정 (수정된 정보 return)
+
     @Multipart
     @PATCH("/user-info")
     suspend fun patchUserInfo(
-        @Header("Access-Token") accessToken: String,
-        @Body patchUserInfoReq: PatchUserInfoReq
-    ): GetUserInfoRes
+        @Header("Access-Token") accessToken: String, @Part profileImageFile: MultipartBody.Part?,
+        @Part("nickname") nickname: RequestBody?
+    ): PatchUserInfoRes?
+
 
 }

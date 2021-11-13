@@ -13,7 +13,7 @@ data class GetUserInfoRes(
 @Parcelize
 data class UserInfo(
     val userId: Long?,
-    val nickname: String?,
+    var nickname: String?,
     val email: String?,
-    val userProfileImageUrl: String?
+    var userProfileImageUrl: String?
 ) : Parcelable

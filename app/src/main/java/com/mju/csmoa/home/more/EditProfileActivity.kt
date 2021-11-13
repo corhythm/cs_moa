@@ -1,6 +1,7 @@
 package com.mju.csmoa.home.more
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,9 +14,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -26,12 +24,22 @@ import com.mju.csmoa.R
 import com.mju.csmoa.YesOrNoBottomSheetDialog
 import com.mju.csmoa.databinding.ActivityEditProfileBinding
 import com.mju.csmoa.home.more.model.UserInfo
+import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.io.*
 import java.util.*
-
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -39,7 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
     private var originNickname: String? = null
     private lateinit var loadImageLauncher: ActivityResultLauncher<String>
     private val profileInfoViewModel: ProfileInfoViewModel by viewModels()
-    private var file: File? = null
+    private var profileImageFile: File? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +66,17 @@ class EditProfileActivity : AppCompatActivity() {
                     val absoluteFilePath = getFilePathFromUri(uri)
 
                     if (absoluteFilePath != null) {
-                        binding.imageViewEditProfileProfileImg.setImageURI(uri)
-                        file = File(absoluteFilePath) // 파일 절대 경로로 파일 만들기
+                        Log.d(TAG, "absoluteFilePath = $absoluteFilePath")
+
+                        Glide.with(this@EditProfileActivity).load(uri)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .fallback(R.drawable.img_all_basic_profile) // load할 url이 null인 경우 등 비어있을 때 보여줄 이미지
+                            .placeholder(R.drawable.img_all_basic_profile) // 이미지 로딩 전 보여줄 이미지
+                            .error(R.drawable.img_all_basic_profile) // 리소스를 불러오다가 에러가 발생했을 때 보여주는 이미지
+                            .into(binding.imageViewEditProfileProfileImg)
+
+                        profileImageFile = File(absoluteFilePath) // 파일 절대 경로로 파일 만들기
                         profileInfoViewModel.isProfileImageChangedLiveData.value = true
 
                         return@registerForActivityResult
@@ -111,15 +128,93 @@ class EditProfileActivity : AppCompatActivity() {
                     Glide.with(this@EditProfileActivity).load(userInfo.userProfileImageUrl)
                         .skipMemoryCache(true)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .fallback(R.drawable.img_all_basic_profile)
-                        .placeholder(R.drawable.img_all_basic_profile)
-                        .error(R.drawable.img_all_basic_profile)
+                        .fallback(R.drawable.img_all_basic_profile) // load할 url이 null인 경우 등 비어있을 때 보여줄 이미지
+                        .placeholder(R.drawable.img_all_basic_profile) // 이미지 로딩 전 보여줄 이미지
+                        .error(R.drawable.img_all_basic_profile) // 리소스를 불러오다가 에러가 발생했을 때 보여주는 이미지
                         .into(imageViewEditProfileProfileImg)
                 }
             }
 
             // 닉네임 저장
-            buttonEditProfileSave.setOnClickListener { }
+            buttonEditProfileSave.setOnClickListener {
+
+                var multipartImageFile: MultipartBody.Part? = null
+                var nicknameRequestBody: RequestBody?
+
+                // 프로필 이미지 변경했으면
+                if (profileInfoViewModel.isProfileImageChangedLiveData.value == true) {
+                    val requestImageFile: RequestBody =
+                        profileImageFile!!.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                    multipartImageFile = MultipartBody.Part.createFormData(
+                        "profileImageFile",
+                        profileImageFile!!.name,
+                        requestImageFile
+                    )
+                }
+
+                // 닉네임은 변경했든 안 했든 프로필 이미지 변경하면 닉네임도 DB에 덮어씌움.
+                nicknameRequestBody =
+                    binding.textInputEditTextEditProfileNicknameInput.text.toString()
+                        .toRequestBody(MultipartBody.FORM)
+
+
+                // 서버로 전송
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val jwtTokenInfo =
+                            MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
+
+                        val patchUserInfoRes = RetrofitManager.retrofitService?.patchUserInfo(
+                            accessToken = jwtTokenInfo!!.accessToken,
+                            profileImageFile = multipartImageFile, nickname = nicknameRequestBody
+                        )
+
+                        if (patchUserInfoRes != null) {
+                            Log.d(TAG, "code = ${patchUserInfoRes.code}")
+                            when (patchUserInfoRes.code) {
+                                100 -> { // 변경 성공
+                                    withContext(Dispatchers.Main) {
+                                        makeToast(
+                                            "프로필 정보 변경 성공",
+                                            "프로필 정보 변경을 완료했습니다.",
+                                            MotionToastStyle.SUCCESS
+                                        )
+
+                                        val updateUserProfileInfoIntent = Intent().apply {
+                                            putExtra("patchUserInfoRes", patchUserInfoRes)
+                                        }
+                                        setResult(RESULT_OK, updateUserProfileInfoIntent)
+                                        finish()
+                                    }
+                                }
+                                210 -> withContext(Dispatchers.Main) {
+                                    makeToast(
+                                        "존재하는 닉네임",
+                                        "이미 존재하는 닉네임입니다. :(",
+                                        MotionToastStyle.ERROR
+                                    )
+                                }
+                                215 -> withContext(Dispatchers.Main) {
+                                    makeToast(
+                                        "프로필 이미지 변경 실패",
+                                        "프로필 이미지를 변경하는 데 실패했습니다. :(",
+                                        MotionToastStyle.ERROR
+                                    )
+                                }
+                                else -> withContext(Dispatchers.Main) {
+                                    makeToast(
+                                        "프로필 정보 변경 실패",
+                                        "프로필 정보 변경을 할 수 없어요 :(",
+                                        MotionToastStyle.ERROR
+                                    )
+                                }
+                            }
+                        }
+                    } catch (ex: Exception) {
+                        Log.d(TAG, ex.message.toString())
+                    }
+                }
+            }
 
             // 이미지 변경하고 싶을 때
             imageViewEditProfileProfileImg.setOnClickListener {
@@ -250,11 +345,25 @@ class EditProfileActivity : AppCompatActivity() {
 
         bottomSheetDialog.show()
     }
+
+    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+        MotionToast.createColorToast(
+            this,
+            title,
+            content,
+            motionToastStyle,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            ResourcesCompat.getFont(this, R.font.helvetica_regular)
+        )
+    }
 }
 
 class ProfileInfoViewModel : ViewModel() {
     val isNicknameChangedLiveData = MutableLiveData<Boolean>().apply { value = false }
     val isProfileImageChangedLiveData = MutableLiveData<Boolean>().apply { value = false }
 }
+
+
 
 
