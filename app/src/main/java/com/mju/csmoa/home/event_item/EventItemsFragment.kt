@@ -46,73 +46,78 @@ class EventItemsFragment : Fragment() {
     }
 
     private fun init() {
-        CoroutineScope(Dispatchers.Main).launch {
-            initRecyclerView()
-            initViewModel()
+        initRecyclerView()
 
-            // 맨 위로 클릭했을 때
-            binding.cardViewItemRecommendedEventGotoTop.setOnClickListener {
-                binding.recyclerViewEventItemsRecommendationEventItems.scrollToPosition(0)
-            }
+        // 맨 위로 클릭했을 때
+        binding.cardViewItemRecommendedEventGotoTop.setOnClickListener {
+            binding.recyclerViewEventItemsRecommendationEventItems.scrollToPosition(0)
+        }
 
-            // 필터 버튼 클릭했을 때때
-            binding.cardViewItemRecommendedEventEventTypeContainer.setOnClickListener {
-                FilteringBottomSheetDialog(requireContext()).show()
-            }
-
+        // 필터 버튼 클릭했을 때
+        binding.cardViewItemRecommendedEventEventTypeContainer.setOnClickListener {
+            FilteringBottomSheetDialog(requireContext()).show()
         }
 
     }
 
-    private suspend fun initRecyclerView() {
+    private suspend fun initViewModel() {
+        val viewModel = ViewModelProvider(this).get(EventItemViewModel::class.java)
+        viewModel.getEventItems().collectLatest {
+            pagingDataAdapter.submitData(it)
+        }
+    }
 
+    private fun initRecyclerView() {
         try {
-            val recommendedEventList = CoroutineScope(Dispatchers.IO).async {
-                // jwtToken은 발근 받을 때부터 만료되면 refresh 돼서 오기 때문에 null일 걱정은 없음
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                // JwtToken은 발급 받을 때부터 만료되면 refresh 돼서 오기 때문에 null일 걱정은 없음
                 val jwtToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
-                val response = RetrofitManager.retrofitService?.getRecommendedEventItems(jwtToken!!.accessToken!!)
-
+                val response =
+                    RetrofitManager.retrofitService?.getRecommendedEventItems(jwtToken!!.accessToken!!)
                 val colorList = requireContext().resources.getStringArray(R.array.color_top10)
+
                 response?.result?.forEachIndexed { index, itemEventItem ->
                     itemEventItem.colorCode = colorList[index]
                 }
-                response?.result
-            }
 
-            val nestedRecommendedEventItemAdapter =
-                SealedRecommendedEventItemAdapter(recommendedEventList.await()!!)
-            pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.refresh() })
-            val concatAdapter = ConcatAdapter(nestedRecommendedEventItemAdapter, pagingDataAdapter)
+                val nestedRecommendedEventItemAdapter =
+                    SealedRecommendedEventItemAdapter(response?.result!!)
+                pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.refresh() })
+                val concatAdapter =
+                    ConcatAdapter(nestedRecommendedEventItemAdapter, pagingDataAdapter)
 
-            // pagingDataAdapter init
-            binding.recyclerViewEventItemsRecommendationEventItems.apply {
-                addItemDecoration(RecyclerViewDecoration(0, 30, 10, 10))
-                adapter = concatAdapter
-                setHasFixedSize(true)
-                layoutManager = GridLayoutManager(
-                    requireContext(),
-                    2,
-                    GridLayoutManager.VERTICAL,
-                    false
-                ).apply {
-                    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
-                            return when (concatAdapter.getItemViewType(position)) {
-                                HEADER -> 2
-                                BODY -> 1
-                                else -> -1
+                launch(Dispatchers.Main) {
+                    binding.recyclerViewEventItemsRecommendationEventItems.apply {
+                        addItemDecoration(RecyclerViewDecoration(0, 30, 10, 10))
+                        adapter = concatAdapter
+                        setHasFixedSize(true)
+                        layoutManager = GridLayoutManager(
+                            requireContext(),
+                            2,
+                            GridLayoutManager.VERTICAL,
+                            false
+                        ).apply {
+                            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                                override fun getSpanSize(position: Int): Int {
+                                    return when (concatAdapter.getItemViewType(position)) {
+                                        HEADER -> 2
+                                        BODY -> 1
+                                        else -> -1
+                                    }
+                                }
                             }
                         }
                     }
                 }
+
+                // 아래 뷰모델 코드는 다른 위치에 두면 안 됨 (스레드 문제인 듯. 나중에 공부하자)
+                initViewModel()
+
             }
         } catch (ex: Exception) {
             Log.d(TAG, "EventItemsFragment - exception / ${ex.printStackTrace()}")
-            withContext(Dispatchers.Main) {
-                makeToast("데이터 가져오기 실패", "행사 상품 데이터를 가져오는 데 실패했습니다", MotionToastStyle.ERROR)
-            }
+            makeToast("데이터 가져오기 실패", "행사 상품 데이터를 가져오는 데 실패했습니다", MotionToastStyle.ERROR)
         }
-
     }
 
     private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
@@ -125,15 +130,6 @@ class EventItemsFragment : Fragment() {
             MotionToast.SHORT_DURATION,
             ResourcesCompat.getFont(requireContext(), R.font.helvetica_regular)
         )
-    }
-
-    private fun initViewModel() {
-        val viewModel = ViewModelProvider(this).get(EventItemViewModel::class.java)
-        lifecycleScope.launchWhenCreated {
-            viewModel.getEventItems().collectLatest {
-                pagingDataAdapter.submitData(it)
-            }
-        }
     }
 
     override fun onDestroyView() {

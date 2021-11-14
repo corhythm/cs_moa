@@ -1,5 +1,6 @@
 package com.mju.csmoa.home.event_item.adpater
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.EventItemViewHolder
 import com.mju.csmoa.home.event_item.viewholder.SealedRecommendedEventItemViewHolder
+import com.mju.csmoa.util.Constants.TAG
 
 class EventItemPagingDataAdapter :
     PagingDataAdapter<EventItem, RecyclerView.ViewHolder>(DiffUtilCallback()) {

@@ -1,10 +1,12 @@
 package com.mju.csmoa.home.event_item.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +21,6 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
     }
 
     init {
-
         CoroutineScope(Dispatchers.IO).launch {
             jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
         }
@@ -35,7 +36,6 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EventItem> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
-
             // accessToken 만료되면 다시 받아오기
             if (MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken )) {
                 jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
