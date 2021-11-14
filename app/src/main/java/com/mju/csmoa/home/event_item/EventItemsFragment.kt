@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mju.csmoa.R
@@ -18,6 +20,7 @@ import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
 import com.mju.csmoa.home.event_item.adpater.SealedRecommendedEventItemAdapter
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.filter.FilteringBottomSheetDialog
 import com.mju.csmoa.home.event_item.paging.EventItemViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
@@ -28,12 +31,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
+import kotlin.math.log
 
 class EventItemsFragment : Fragment() {
 
     private var _binding: FragmentEventItemsBinding? = null
     private val binding get() = _binding!!
     private val pagingDataAdapter = EventItemPagingDataAdapter()
+    private val eventItemViewModel: EventItemViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,24 +62,15 @@ class EventItemsFragment : Fragment() {
         binding.cardViewItemRecommendedEventEventTypeContainer.setOnClickListener {
             FilteringBottomSheetDialog(requireContext()).show()
         }
-
-    }
-
-    private suspend fun initViewModel() {
-        val viewModel = ViewModelProvider(this).get(EventItemViewModel::class.java)
-        viewModel.getEventItems().collectLatest {
-            pagingDataAdapter.submitData(it)
-        }
     }
 
     private fun initRecyclerView() {
         try {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                // JwtToken은 발급 받을 때부터 만료되면 refresh 돼서 오기 때문에 null일 걱정은 없음
+                val colorList = requireContext().resources.getStringArray(R.array.color_top10)
                 val jwtToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
                 val response =
                     RetrofitManager.retrofitService?.getRecommendedEventItems(jwtToken!!.accessToken!!)
-                val colorList = requireContext().resources.getStringArray(R.array.color_top10)
 
                 response?.result?.forEachIndexed { index, itemEventItem ->
                     itemEventItem.colorCode = colorList[index]
@@ -86,7 +82,7 @@ class EventItemsFragment : Fragment() {
                 val concatAdapter =
                     ConcatAdapter(nestedRecommendedEventItemAdapter, pagingDataAdapter)
 
-                launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
                     binding.recyclerViewEventItemsRecommendationEventItems.apply {
                         addItemDecoration(RecyclerViewDecoration(0, 30, 10, 10))
                         adapter = concatAdapter
@@ -110,8 +106,10 @@ class EventItemsFragment : Fragment() {
                     }
                 }
 
-                // 아래 뷰모델 코드는 다른 위치에 두면 안 됨 (스레드 문제인 듯. 나중에 공부하자)
-                initViewModel()
+                // viewModel에서 데이터 감지
+                eventItemViewModel.getEventItems().collectLatest { pagingData ->
+                    pagingDataAdapter.submitData(pagingData)
+                }
 
             }
         } catch (ex: Exception) {

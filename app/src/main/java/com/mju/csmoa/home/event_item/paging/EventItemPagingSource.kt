@@ -20,11 +20,6 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
         private const val FIRST_PAGE_INDEX = 1
     }
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
-        }
-    }
 
     override fun getRefreshKey(state: PagingState<Int, EventItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -36,6 +31,8 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EventItem> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
+            jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
+
             // accessToken 만료되면 다시 받아오기
             if (MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken )) {
                 jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
@@ -56,6 +53,8 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
             )
 
         } catch (ex: Exception) {
+            Log.d(TAG, "EventItemPagingSource -load() called (error!!!!!) / ${ex.printStackTrace()}")
+            Log.d(TAG, "EventItemPagingSource -load() called (error) / ${ex.message}")
             LoadResult.Error(ex)
         }
     }

@@ -1,5 +1,6 @@
 package com.mju.csmoa.home.event_item.paging
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager

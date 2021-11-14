@@ -86,4 +86,73 @@ class CoroutineTest {
 
         println(ipadAir == ipadPro)
     }
+
+    @Test
+    fun testJob() = runBlocking {
+        val job = Job()
+        CoroutineScope(Dispatchers.Default + job).launch {
+            CoroutineScope(Dispatchers.Default).launch {
+                println("Job one scope start")
+                for (index in 0..20) {
+                    if (isActive) {
+                        println("Job one scope index $index")
+                        delay(1)
+                    } else {
+                        break
+                    }
+                }
+                println("Job one scope for end")
+            }
+            val jobTwo = launch {
+                println("Job two scope for start")
+                for (index in 0..10) {
+                    if (isActive) {
+                        println("Job two scope index $index")
+                        delay(1)
+                    } else {
+                        break
+                    }
+                }
+                println("Job two scope for end")
+            }
+            jobTwo.join()
+        }
+        job.cancel()
+        delay(30) // 30ms test only.
+    }
+
+    @Test
+    fun testJob2() = runBlocking {
+        val job = Job()
+        CoroutineScope(Dispatchers.Default + job).launch {
+            CoroutineScope(Dispatchers.Default + job).launch { // 여기에 job을 함께 초기화 한다.
+                println("Job one scope start")
+                for (index in 0..20) {
+                    if (isActive) {
+                        println("Job one scope index $index")
+                        delay(1)
+                    } else {
+                        break
+                    }
+                }
+                println("Job one scope for end")
+            }
+            val jobTwo = launch {
+                println("Job two scope for start")
+                for (index in 0..10) {
+                    if (isActive) {
+                        println("Job two scope index $index")
+                        delay(1)
+                    } else {
+                        break
+                    }
+                }
+                println("Job two scope for end")
+            }
+            jobTwo.join()
+        }
+        delay(1)
+        job.cancel()
+    }
+
 }
