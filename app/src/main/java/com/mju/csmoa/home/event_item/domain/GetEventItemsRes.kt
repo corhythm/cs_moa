@@ -6,7 +6,5 @@ data class GetEventItemsRes(
     val isSuccess: Boolean,
     val code: Int,
     val message: String,
-    val result: AllEventItems
+    val result: List<EventItem>
 )
-
-data class AllEventItems(val recommendedEventItemList: List<EventItem>, val eventItemList: List<EventItem>)

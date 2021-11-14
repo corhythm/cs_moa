@@ -21,9 +21,6 @@ class RetrofitManager {
             RetrofitClient.getClient(API_BASE_URL)?.create(RetrofitService::class.java)
     }
 
-//    private val retrofitService: RetrofitService? =
-//        RetrofitClient.getClient(API_BASE_URL)?.create(RetrofitService::class.java)
-
     // 회원가입
     fun signUp(postSignUpReq: PostSignUpReq, completion: (Int) -> Unit) {
 
@@ -164,89 +161,6 @@ class RetrofitManager {
         }
     }
 
-//    // 이벤트 아이템 메인 화면 데이터 가져오기 (추천 행사 상품 10 + 일반 행사 상품 14)
-//    fun getEventItems(pageNum: Int, completion: (Int, GetEventItemsRes?) -> Unit) {
-//        val getEventItemsCallback = retrofitService?.getEventItems() ?: return
-//
-//        getEventItemsCallback.enqueue(object : retrofit2.Callback<JsonElement> {
-//            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-//                when (response.code()) {
-//                    200 -> {
-//                        response.body()?.let {
-//                            try {
-//                                val body = it.asJsonObject
-//                                Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
-//                                val result = body.getAsJsonObject("result")
-//                                val statusCode = body.get("code").asInt
-//
-//                                val recommendedEventItemList = Gson().fromJson(
-//                                    result.get("recommendedEventItemList"),
-//                                    Array<EventItem>::class.java
-//                                ).toList()
-//                                val eventItemList = Gson().fromJson(
-//                                    result.get("eventItemList"),
-//                                    Array<EventItem>::class.java
-//                                ).toList()
-//
-//                                completion(
-//                                    statusCode, GetEventItemsRes(
-//                                        recommendedEventItemList = recommendedEventItemList,
-//                                        eventItemList = eventItemList
-//                                    )
-//                                )
-//
-//                            } catch (ex: java.lang.NullPointerException) {
-//                                val statusCode = it.asJsonObject?.get("code")?.asInt
-//                                completion(statusCode ?: 500, null)
-//                            }
-//                        }
-//                    }
-//                    else -> Log.d(TAG, "Error: getEventItems / ${response.code()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-//                Log.d(TAG, "getEventItems -onFailure() called")
-//            }
-//        })
-//
-//    }
-
-    fun getEventItem(eventItemId: Long, completion: (Int, List<EventItem>?) -> Unit) {
-        val getEventItemCallback = retrofitService?.getEventItem(eventItemId) ?: return
-
-        getEventItemCallback.enqueue(object : retrofit2.Callback<JsonElement> {
-            override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
-                when (response.code()) {
-                    200 -> {
-                        response.body()?.let {
-                            try {
-                                val body = it.asJsonObject
-                                Log.d(TAG, "RetrofitManager -onResponse() called / body = $body")
-                                val statusCode = body.get("code").asInt
-
-                                val detailRecommendedEventItemList = Gson().fromJson(
-                                    body.getAsJsonArray("result"),
-                                    Array<EventItem>::class.java
-                                ).toList()
-
-                                completion(statusCode, detailRecommendedEventItemList)
-                            } catch (ex: java.lang.NullPointerException) {
-                                val statusCode = it.asJsonObject?.get("code")?.asInt
-                                completion(statusCode ?: 500, null)
-                            }
-                        }
-                    }
-                    else -> Log.d(TAG, "Error: getEventItem / ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<JsonElement>, t: Throwable) {
-                Log.d(TAG, "getEventItem -onFailure() called")
-            }
-
-        })
-    }
 
 
 }

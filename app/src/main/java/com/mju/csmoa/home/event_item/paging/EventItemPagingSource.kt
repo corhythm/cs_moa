@@ -2,13 +2,27 @@ package com.mju.csmoa.home.event_item.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class EventItemPagingSource : PagingSource<Int, EventItem>() {
 
+    private lateinit var jwtTokenInfo: JwtTokenInfo
+
     companion object {
         private const val FIRST_PAGE_INDEX = 1
+    }
+
+    init {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
+        }
     }
 
     override fun getRefreshKey(state: PagingState<Int, EventItem>): Int? {
@@ -21,8 +35,14 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EventItem> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
+
+            // accessToken 만료되면 다시 받아오기
+            if (MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken )) {
+                jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
+            }
+
             val position = params.key ?: FIRST_PAGE_INDEX
-            val response = RetrofitManager.retrofitService?.getEventItemsTemp(position)
+            val response = RetrofitManager.retrofitService?.getEventItems(jwtTokenInfo.accessToken, position)
 
             /* 로드에 성공 시 LoadResult.Page 반환
             data : 전송되는 데이터
@@ -30,7 +50,7 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
             nextKey : 다음 값 (아래 스크롤 방향)
             */
             LoadResult.Page(
-                data = response?.result?.eventItemList!!,
+                data = response?.result!!,
                 prevKey = if (position == FIRST_PAGE_INDEX) null else position - 1,
                 nextKey = position.plus(1)
             )

@@ -4,20 +4,28 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
 import com.mju.csmoa.home.event_item.adpater.DetailRecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.RecyclerViewDecoration
+import kotlinx.coroutines.*
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
+import kotlin.math.log
 
 class DetailEventItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventItemBinding
     private lateinit var eventItem: EventItem
+    private lateinit var jwtTokenInfo: JwtTokenInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,37 +46,62 @@ class DetailEventItemActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
+                val getEventItemsRes =
+                    RetrofitManager.retrofitService?.getDetailRecommendedEventItems(
+                        jwtTokenInfo.accessToken,
+                        eventItemId = eventItem.eventItemId!!
+                    )
+                // 데이터 정상적으로 받아오면
+                if (getEventItemsRes != null) {
+                    Log.d(TAG, "DetailEventItemActivity -init() called / result = ${getEventItemsRes.result}")
+                    when (getEventItemsRes.code) {
+                        100 -> {
+                            val detailRecommendedEventItemRecyclerAdapter =
+                                DetailRecommendedEventItemAdapter(getEventItemsRes.result)
 
-        RetrofitManager.instance.getEventItem(
-            eventItemId = eventItem.eventItemId!!,
-            completion = { statusCode, detailRecommendedEventList ->
-                when (statusCode) {
-                    100 -> {
-                        Log.d(
-                            TAG,
-                            "DetailEventItemActivity -init() called / detailRecommendedEventList = $detailRecommendedEventList"
-                        )
-                        val detailRecommendedEventItemRecyclerAdapter =
-                            DetailRecommendedEventItemAdapter(detailRecommendedEventList!!)
-
-                        // init recyclerView
-                        binding.recyclerViewDetailEventItemRecommendList.apply {
-                            adapter = detailRecommendedEventItemRecyclerAdapter
-                            layoutManager = GridLayoutManager(
-                                this@DetailEventItemActivity,
-                                2, GridLayoutManager.HORIZONTAL, false
-                            )
-                            addItemDecoration(RecyclerViewDecoration(0, 50, 0, 0))
+                            withContext(Dispatchers.Main) {
+                                // init recyclerView
+                                binding.recyclerViewDetailEventItemRecommendList.apply {
+                                    adapter = detailRecommendedEventItemRecyclerAdapter
+                                    layoutManager = GridLayoutManager(
+                                        this@DetailEventItemActivity,
+                                        2, GridLayoutManager.HORIZONTAL, false
+                                    )
+                                    addItemDecoration(RecyclerViewDecoration(0, 50, 0, 0))
+                                }
+                            }
+                        }
+                        else -> {
+                            withContext(Dispatchers.Main) {
+                                makeToast("세부 행사 상품", "데이터를 받아오는 데 실패했습니다", MotionToastStyle.ERROR)
+                            }
                         }
                     }
-                    else -> {
-                        Log.d(TAG, "no respond")
-                    }
                 }
+            } catch (ex: Exception) {
+                Log.d(TAG, "DetailEventItemActivity -init() called / ${ex.printStackTrace()}")
+                withContext(Dispatchers.Main) {
+                    makeToast("세부 행사 상품", "데이터를 받아오는 데 실패했습니다", MotionToastStyle.ERROR)
+                }
+            }
+        }
 
-            })
 
+    }
 
+    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+        MotionToast.createColorToast(
+            this,
+            title,
+            content,
+            motionToastStyle,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            ResourcesCompat.getFont(this, R.font.helvetica_regular)
+        )
     }
 
     private fun initEventItemInfo() {

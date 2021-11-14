@@ -16,15 +16,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView_itemRecommendedEventItemList_recommendedImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView_itemRecommendedEventItemList_lottie1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
         android:layout_marginStart="10dp"
-        android:src="@drawable/ic_all_recommended"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/textView_itemRecommendedEventItemList_recommendationLabel"
         app:layout_constraintStart_toEndOf="@id/textView_itemRecommendedEventItemList_recommendationLabel"
-        app:layout_constraintTop_toTopOf="@id/textView_itemRecommendedEventItemList_recommendationLabel" />
+        app:layout_constraintTop_toTopOf="@id/textView_itemRecommendedEventItemList_recommendationLabel"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="recommend.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_itemRecommendedEventItemList_recommendedItems"
@@ -62,14 +67,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_itemRecommendedEventItemList_divider" />
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView_itemRecommendedEventItemList_lottie"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_centerInParent="true"
         android:layout_marginStart="15dp"
-        android:src="@drawable/ic_all_mart"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/textView_itemRecommendedEventItemList_title"
         app:layout_constraintStart_toEndOf="@id/textView_itemRecommendedEventItemList_title"
-        app:layout_constraintTop_toTopOf="@id/textView_itemRecommendedEventItemList_title" />
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="snack.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

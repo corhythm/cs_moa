@@ -11,7 +11,6 @@ import com.mju.csmoa.home.HomeActivity
 import com.mju.csmoa.login.SignInActivity
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
-import io.jsonwebtoken.SignatureAlgorithm
 import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
@@ -32,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
                 val isAccessTokenExpired = if (jwtTokenInfo == null)
                     true
                 else
-                    MyApplication.instance.jwtService.isJwtTokenExpired(jwtTokenInfo.accessToken)
+                    MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken)
 
 
                 // JWT 토큰 만료되면

@@ -37,9 +37,6 @@ class MyApplication : Application() {
 //        Log.d(TAG, " -onCreate() called / (kakao) keyHash = ${Utility.getKeyHash(this)}")
     }
 
-    fun checkAccessTokenValid(accessToken: String) {
-
-    }
 
 
 //    @RequiresApi(Build.VERSION_CODES.P)
