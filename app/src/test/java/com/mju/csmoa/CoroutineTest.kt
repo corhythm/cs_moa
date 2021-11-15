@@ -155,4 +155,19 @@ class CoroutineTest {
         job.cancel()
     }
 
+    @Test
+    fun jobTest() = runBlocking {
+        val job = CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY) {
+            repeat(5) {
+                println("Job Test")
+                delay(3000)
+            }
+
+        }
+
+        job.join()
+
+        println("normal context test")
+    }
+
 }

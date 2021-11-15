@@ -1,6 +1,7 @@
 package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
+import com.mju.csmoa.home.event_item.domain.GetDetailEventItemRes
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
@@ -55,12 +56,15 @@ interface RetrofitService {
         @Query("page") pageNum: Int
     ): GetEventItemsRes
 
-    // NOTE: 특정 행사 상품에 대한 추천 행사 상품 가져오기
+    // NOTE: 특정 행사 상품 정보 + 추천 행사 상품 가져오기
     @GET("/event-items/{eventItemId}")
-    suspend fun getDetailRecommendedEventItems(
+    suspend fun getDetailEventItem(
         @Header("Access-Token") accessToken: String,
         @Path("eventItemId") eventItemId: Long
-    ): GetEventItemsRes
+    ): GetDetailEventItemRes
 
+    // NOTE: 행사 상품 조회수 POST
+
+    // NOTE: 행사 상품 좋아요 POST
 
 }

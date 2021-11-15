@@ -31,6 +31,7 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EventItem> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
+            // 네트워크 자원 조금 손해보더라도 여기서 받아와야 lateinit null exception 안 걸림
             jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
 
             // accessToken 만료되면 다시 받아오기

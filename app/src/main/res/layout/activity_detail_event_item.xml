@@ -46,7 +46,7 @@
                 android:layout_width="200dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/img_cs_emart24"
+                tools:src="@drawable/img_cs_emart24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.15"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/airbnb_cereal_bold"
                     android:gravity="center"
-                    android:text="1+1"
+                    tools:text="1+1"
                     android:textColor="@color/azure"
                     android:textSize="30dp" />
 
@@ -84,7 +84,7 @@
                 android:layout_marginTop="10dp"
                 android:adjustViewBounds="true"
                 android:scaleType="center"
-                android:src="@drawable/img_review_item1"
+                tools:src="@drawable/img_review_item1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imageView_detailEventItem_csBrand" />
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/airbnb_cerealextra_bold"
-                android:text="CJ) 육포 질러질러질러질러질러"
+                tools:text="CJ) 육포 질러질러질러질러질러"
                 android:gravity="center"
                 android:textSize="28dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="1,000원"
+                tools:text="1,000원"
                 android:textSize="25dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/textView_detailEventItem_itemActualPrice"
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:text="(개당 633원)"
+                tools:text="(개당 633원)"
                 android:textColor="@color/azure"
                 android:textSize="25dp"
                 android:textStyle="bold"
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/roboto_black"
-                android:text="112"
+                tools:text="112"
                 android:textSize="25dp"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_eye"
                 app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_eye"
@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="101"
+                tools:text="101"
                 android:textSize="25dp"
                 android:fontFamily="@font/roboto_black"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_heart"
@@ -199,6 +199,21 @@
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constrainLayout_detailEventItem_detailEventItemContainer" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView_detailEventItem_lottie"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toEndOf="@id/textView_detailEventItem_recommendLabel"
+            app:layout_constraintTop_toTopOf="@id/textView_detailEventItem_recommendLabel"
+            app:layout_constraintBottom_toBottomOf="@id/textView_detailEventItem_recommendLabel"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="recommend2.json"
+            app:lottie_loop="true"
+            app:lottie_speed="1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_detailEventItem_recommendList"

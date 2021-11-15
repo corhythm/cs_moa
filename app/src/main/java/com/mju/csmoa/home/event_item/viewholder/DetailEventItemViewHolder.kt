@@ -39,7 +39,6 @@ class DetailEventItemViewHolder(
             textViewItemDetailRecommendedEventItemItemActualPrice.text =
                 eventItem.itemActualPrice
 
-            // 조회수랑, 좋아요 개수는 가져오지 않음
 
             // csbrand
             val csBrandColorList =

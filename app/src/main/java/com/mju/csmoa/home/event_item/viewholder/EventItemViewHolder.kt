@@ -95,7 +95,7 @@ class EventItemViewHolder(
             root.setOnClickListener {
                 val detailEventItemIntent =
                     Intent(root.context, DetailEventItemActivity::class.java).apply {
-                        putExtra("itemEventItem", eventItem)
+                        putExtra("eventItemId", eventItem?.eventItemId)
                     }
                 root.context.startActivity(detailEventItemIntent)
             }

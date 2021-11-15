@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
@@ -24,43 +26,48 @@ import kotlin.math.log
 class DetailEventItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventItemBinding
-    private lateinit var eventItem: EventItem
     private lateinit var jwtTokenInfo: JwtTokenInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailEventItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         init()
-
     }
 
     private fun init() {
-
-        // 행사 제품 정보 설정
-        initEventItemInfo()
 
         // 네비 아이콘 눌르면 -> 뒤로 가기
         binding.toolbarDetailEventItemToolbar.setNavigationOnClickListener {
             onBackPressed()
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        // 행사 상품 PK 가져오기
+        var eventItemId: Long = -1
+        if (intent.hasExtra("eventItemId")) {
+            eventItemId = intent.getLongExtra("eventItemId", -1)
+        }
+        if (eventItemId == (-1).toLong()) {
+            makeToast("세부 행사 상품", "데이터를 받아오는 데 실패했습니다", MotionToastStyle.ERROR)
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
             try {
                 jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
-                val getEventItemsRes =
-                    RetrofitManager.retrofitService?.getDetailRecommendedEventItems(
+                val getDetailEventItemsRes =
+                    RetrofitManager.retrofitService?.getDetailEventItem(
                         jwtTokenInfo.accessToken,
-                        eventItemId = eventItem.eventItemId!!
+                        eventItemId = eventItemId
                     )
+                Log.d(TAG, "DetailEventItemActivity -init() called / getDetailEventItemsRes = $getDetailEventItemsRes")
+
                 // 데이터 정상적으로 받아오면
-                if (getEventItemsRes != null) {
-                    Log.d(TAG, "DetailEventItemActivity -init() called / result = ${getEventItemsRes.result}")
-                    when (getEventItemsRes.code) {
+                if (getDetailEventItemsRes != null) {
+                    when (getDetailEventItemsRes.code) {
                         100 -> {
                             val detailRecommendedEventItemRecyclerAdapter =
-                                DetailRecommendedEventItemAdapter(getEventItemsRes.result)
+                                DetailRecommendedEventItemAdapter(getDetailEventItemsRes.result.detailRecommendedEventItems)
 
                             withContext(Dispatchers.Main) {
                                 // init recyclerView
@@ -73,6 +80,7 @@ class DetailEventItemActivity : AppCompatActivity() {
                                     addItemDecoration(RecyclerViewDecoration(0, 50, 0, 0))
                                 }
                             }
+                            withContext(Dispatchers.Main) { initEventItemInfo(getDetailEventItemsRes.result.detailEventItem) }
                         }
                         else -> {
                             withContext(Dispatchers.Main) {
@@ -104,51 +112,51 @@ class DetailEventItemActivity : AppCompatActivity() {
         )
     }
 
-    private fun initEventItemInfo() {
-        // 만약 Parcelable 객체가 있으면
-        if (intent.hasExtra("itemEventItem")) {
-            eventItem = intent.getParcelableExtra("itemEventItem")!!
+    private fun initEventItemInfo(detailEventItem: EventItem) {
 
-            with(binding) {
-                // 이미지 가져오기
-                Glide.with(this@DetailEventItemActivity).load(eventItem.itemImageSrc)
-                    .placeholder(R.drawable.img_all_itemimage)
-                    .error(R.drawable.ic_all_big_x)
-                    .into(imageViewDetailEventItemItemImage)
+        with(binding) {
+            // 이미지 가져오기
+            Glide.with(this@DetailEventItemActivity).load(detailEventItem.itemImageSrc)
+                .placeholder(R.drawable.img_all_itemimage)
+                .error(R.drawable.ic_all_big_x)
+                .fitCenter()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .dontAnimate()
+                .into(imageViewDetailEventItemItemImage)
 
-                textViewDetailEventItemItemName.text = eventItem.itemName
-                textViewDetailEventItemItemPrice.text = eventItem.itemPrice
-                textViewDetailEventItemItemActualPrice.text = eventItem.itemActualPrice
+            textViewDetailEventItemItemName.text = detailEventItem.itemName // 아이템 이름
+            textViewDetailEventItemItemPrice.text = detailEventItem.itemPrice // 아이템 가격
+            textViewDetailEventItemItemActualPrice.text = detailEventItem.itemActualPrice // 아이템 개당 가격
+            textViewDetailEventItemViewCount.text = detailEventItem.viewCount.toString()
+            textViewDetailEventItemLikeCount.text = detailEventItem.likeCount.toString()
 
-                // csbrand
-                var csBrandResourceId = -1
-                when (eventItem.csBrand) {
-                    "cu" -> csBrandResourceId = R.drawable.img_cs_cu
-                    "gs25" -> csBrandResourceId = R.drawable.img_cs_gs25
-                    "seven" -> csBrandResourceId = R.drawable.img_cs_seveneleven
-                    "ministop" -> csBrandResourceId = R.drawable.img_cs_ministop
-                    "emart24" -> csBrandResourceId = R.drawable.img_cs_emart24
-                }
-                // 편의점 브랜드 설정
-                binding.imageViewDetailEventItemCsBrand.setImageResource(csBrandResourceId)
+            // csbrand
+            var csBrandResourceId = -1
+            when (detailEventItem.csBrand) {
+                "cu" -> csBrandResourceId = R.drawable.img_cs_cu
+                "gs25" -> csBrandResourceId = R.drawable.img_cs_gs25
+                "seven" -> csBrandResourceId = R.drawable.img_cs_seveneleven
+                "ministop" -> csBrandResourceId = R.drawable.img_cs_ministop
+                "emart24" -> csBrandResourceId = R.drawable.img_cs_emart24
+            }
+            // 편의점 브랜드 설정
+            binding.imageViewDetailEventItemCsBrand.setImageResource(csBrandResourceId)
 
-                val eventTypeColorList = resources.getStringArray(R.array.event_type_color_list)
-                var eventTypeColor = Color.BLACK
-                when (eventItem.itemEventType) {
-                    "1+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[0])
-                    "2+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[1])
-                    "3+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[2])
-                    "4+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[3])
-                }
-
-                // 이벤트 타입 설정
-                textViewDetailEventItemEventType.text = eventItem.itemEventType
-                textViewDetailEventItemEventType.setTextColor(eventTypeColor)
-                cardViewDetailEventItemEventTypeContainer.strokeColor = eventTypeColor
+            val eventTypeColorList = resources.getStringArray(R.array.event_type_color_list)
+            var eventTypeColor = Color.BLACK
+            when (detailEventItem.itemEventType) {
+                "1+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[0])
+                "2+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[1])
+                "3+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[2])
+                "4+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[3])
             }
 
-
+            // 이벤트 타입 설정
+            textViewDetailEventItemEventType.text = detailEventItem.itemEventType
+            textViewDetailEventItemEventType.setTextColor(eventTypeColor)
+            cardViewDetailEventItemEventTypeContainer.strokeColor = eventTypeColor
         }
-
     }
+
 }

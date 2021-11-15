@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mju.csmoa.R
@@ -20,7 +18,6 @@ import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
 import com.mju.csmoa.home.event_item.adpater.SealedRecommendedEventItemAdapter
-import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.filter.FilteringBottomSheetDialog
 import com.mju.csmoa.home.event_item.paging.EventItemViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
@@ -31,7 +28,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
-import kotlin.math.log
 
 class EventItemsFragment : Fragment() {
 
@@ -105,7 +101,6 @@ class EventItemsFragment : Fragment() {
                         }
                     }
                 }
-
                 // viewModel에서 데이터 감지
                 eventItemViewModel.getEventItems().collectLatest { pagingData ->
                     pagingDataAdapter.submitData(pagingData)
