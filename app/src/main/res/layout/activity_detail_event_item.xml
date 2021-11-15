@@ -201,20 +201,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constrainLayout_detailEventItem_detailEventItemContainer" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView_detailEventItem_lottie2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:background="@android:color/transparent"
-            app:layout_constraintStart_toEndOf="@id/textView_detailEventItem_recommendLabel"
-            app:layout_constraintTop_toTopOf="@id/textView_detailEventItem_recommendLabel"
-            app:layout_constraintBottom_toBottomOf="@id/textView_detailEventItem_recommendLabel"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="recommend2.json"
-            app:lottie_loop="true"
-            app:lottie_speed="1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_detailEventItem_recommendList"

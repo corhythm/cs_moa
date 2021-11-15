@@ -4,12 +4,14 @@ import com.google.gson.JsonElement
 import com.mju.csmoa.home.event_item.domain.GetDetailEventItemRes
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
 import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
+import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
 import com.mju.csmoa.login.domain.model.PostSignUpReq
+import com.mju.csmoa.retrofit.common_domain.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -69,13 +71,13 @@ interface RetrofitService {
     suspend fun postEventItemHistory(
         @Header("Access-Token") accessToken: String,
         @Body postEventItemHistoryAndLikeReq: PostEventItemHistoryAndLikeReq
-    )
+    ): BaseResponse<Boolean>
 
     // NOTE: 행사 상품 좋아요 POST
     @POST("/event-items/like")
     suspend fun postEventItemLike(
         @Header("Access-Token") accessToken: String,
         @Body postEventItemHistoryAndLikeReq: PostEventItemHistoryAndLikeReq
-    )
+    ): BaseResponse<PostEventItemLikeRes>
 
 }

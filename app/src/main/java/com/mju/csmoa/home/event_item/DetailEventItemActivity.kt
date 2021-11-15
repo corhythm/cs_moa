@@ -16,8 +16,11 @@ import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
 import com.mju.csmoa.home.event_item.adpater.DetailRecommendedEventItemAdapter
+import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
+import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.retrofit.common_domain.BaseResponse
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.RecyclerViewDecoration
@@ -106,18 +109,6 @@ class DetailEventItemActivity : AppCompatActivity() {
 
     }
 
-    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
-        MotionToast.createColorToast(
-            this,
-            title,
-            content,
-            motionToastStyle,
-            MotionToast.GRAVITY_BOTTOM,
-            MotionToast.SHORT_DURATION,
-            ResourcesCompat.getFont(this, R.font.helvetica_regular)
-        )
-    }
-
     private fun initEventItemInfo(detailEventItem: EventItem) {
 
         with(binding) {
@@ -131,10 +122,6 @@ class DetailEventItemActivity : AppCompatActivity() {
                 .dontAnimate()
                 .into(imageViewDetailEventItemItemImage)
 
-//            Log.d(TAG, "imageViewDetailEventItemItemImage.drawable.constantState = ${imageViewDetailEventItemItemImage.drawable.constantState}")
-//            Log.d(TAG, "ContextCompat.getDrawable(this@DetailEventItemActivity, R.drawable.ic_all_big_x) = ${ContextCompat.getDrawable(this@DetailEventItemActivity, R.drawable.ic_all_big_x)}")
-
-
 
             textViewDetailEventItemItemName.text = detailEventItem.itemName // 아이템 이름
             textViewDetailEventItemItemPrice.text = detailEventItem.itemPrice // 아이템 가격
@@ -147,6 +134,51 @@ class DetailEventItemActivity : AppCompatActivity() {
                 imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
             }
 
+            // 좋아요 클릭하면 => 좋아요 <-> 싫어요
+            imageViewDetailEventItemHeart.setOnClickListener {
+                try {
+                    if (detailEventItem.isLike!!) {
+                        detailEventItem.isLike = false
+                        imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
+                        detailEventItem.likeCount!!.minus(1)
+                    } else {
+                        detailEventItem.isLike = true
+                        imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+                        detailEventItem.likeCount!!.plus(1)
+                    }
+                    textViewDetailEventItemLikeCount.text = detailEventItem.likeCount.toString() // 좋아요 개수
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val accessToken =
+                            MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken
+                        val response: BaseResponse<PostEventItemLikeRes>? =
+                            RetrofitManager.retrofitService?.postEventItemLike(
+                                accessToken!!,
+                                PostEventItemHistoryAndLikeReq(detailEventItem.eventItemId!!)
+                            )
+                        Log.d(TAG, "response = $response")
+
+                        // lottie heart
+//                        launch(Dispatchers.Main) {
+//                            if (response != null && response.isSuccess && response.result != null) {
+//                                when (response.result!!.isLike) {
+//                                    true -> {
+//                                        imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+//                                        detailEventItem.likeCount!!.plus(1)
+//                                    }
+//                                    false -> {
+//                                        imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
+//                                        detailEventItem.likeCount!!.minus(1)
+//                                    }
+//                                }
+//                            }
+//                        }
+                    }
+                } catch (exception: Exception) {
+                    Log.d(TAG, "${exception.printStackTrace()}")
+                    makeToast("좋아요", "좋아요를 할 수 없습니다", MotionToastStyle.ERROR)
+                }
+            }
 
             // csbrand
             var csBrandResourceId = -1
@@ -174,6 +206,18 @@ class DetailEventItemActivity : AppCompatActivity() {
             textViewDetailEventItemEventType.setTextColor(eventTypeColor)
             cardViewDetailEventItemEventTypeContainer.strokeColor = eventTypeColor
         }
+    }
+
+    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+        MotionToast.createColorToast(
+            this,
+            title,
+            content,
+            motionToastStyle,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            ResourcesCompat.getFont(this, R.font.helvetica_regular)
+        )
     }
 
 }

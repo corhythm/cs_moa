@@ -170,4 +170,7 @@ class CoroutineTest {
         println("normal context test")
     }
 
+
 }
+
+data class Temp (var test: Int)
