@@ -27,8 +27,9 @@ class DetailEventItemViewHolder(
         with(binding) {
             // 제품 이미지 불러오기
             Glide.with(root.context).load(eventItem.itemImageSrc)
-                .placeholder(R.drawable.img_all_itemimage)
-                .error(R.drawable.ic_all_big_x)
+                .placeholder(R.drawable.ic_all_loading)
+                .fallback(R.drawable.ic_all_404)
+                .error(R.drawable.ic_all_404)
                 .into(imageViewItemDetailRecommendedEventItemItemImage)
 
             // 행사 제품 이름

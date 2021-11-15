@@ -3,6 +3,7 @@ package com.mju.csmoa.retrofit
 import com.google.gson.JsonElement
 import com.mju.csmoa.home.event_item.domain.GetDetailEventItemRes
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
+import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
@@ -64,7 +65,17 @@ interface RetrofitService {
     ): GetDetailEventItemRes
 
     // NOTE: 행사 상품 조회수 POST
+    @POST("/event-items/history")
+    suspend fun postEventItemHistory(
+        @Header("Access-Token") accessToken: String,
+        @Body postEventItemHistoryAndLikeReq: PostEventItemHistoryAndLikeReq
+    )
 
     // NOTE: 행사 상품 좋아요 POST
+    @POST("/event-items/like")
+    suspend fun postEventItemLike(
+        @Header("Access-Token") accessToken: String,
+        @Body postEventItemHistoryAndLikeReq: PostEventItemHistoryAndLikeReq
+    )
 
 }

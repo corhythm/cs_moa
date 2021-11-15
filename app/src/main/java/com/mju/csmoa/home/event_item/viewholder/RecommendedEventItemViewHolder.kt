@@ -3,6 +3,7 @@ package com.mju.csmoa.home.event_item.viewholder
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.DiscretePathEffect
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.DetailEventItemActivity
+import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.model.EventItem
+import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RecommendedEventItemViewHolder(
     parent: ViewGroup
@@ -31,9 +38,17 @@ class RecommendedEventItemViewHolder(
         with(binding) {
             textViewItemRecommendedEventItemItemName.text = eventItem.itemName // 상품 이름
             textViewItemRecommendedEventItemItemPrice.text = eventItem.itemPrice // 상품 가격
-            textViewItemRecommendedEventItemItemActualPrice.text = eventItem.itemActualPrice // 상품 실질 가격
-            textViewItemRecommendedEventItemViewCount.text = eventItem.viewCount.toString() // 상품 조회수
-            textViewItemRecommendedEventItemLikeCount.text = eventItem.likeCount.toString() // 상품 좋아요 개수
+            textViewItemRecommendedEventItemItemActualPrice.text =
+                eventItem.itemActualPrice // 상품 실질 가격
+            textViewItemRecommendedEventItemViewCount.text =
+                eventItem.viewCount.toString() // 상품 조회수
+            textViewItemRecommendedEventItemLikeCount.text =
+                eventItem.likeCount.toString() // 상품 좋아요 개수
+
+            if (eventItem.isLike!!) { // 좋아요 했으면
+                imageViewItemRecommendedEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+            }
+
             // root view backgroundTintColor
             eventItem.colorCode?.let {
                 cardViewItemRecommendedEventItemRootContainer.backgroundTintList =
@@ -41,11 +56,11 @@ class RecommendedEventItemViewHolder(
             }
 
             Glide.with(root.context).load(eventItem.itemImageSrc)
-                .placeholder(R.drawable.img_all_itemimage)
+                .placeholder(R.drawable.ic_all_loading)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .fallback(R.drawable.img_all_itemimage)
-                .error(R.drawable.ic_all_big_x)
+                .fallback(R.drawable.ic_all_404)
+                .error(R.drawable.ic_all_404)
                 .into(imageViewItemRecommendedEventItemRecommendedImage)
 
             // 이벤트 타입별 컬러 설정
@@ -97,13 +112,23 @@ class RecommendedEventItemViewHolder(
 
             // root 아이템 클릭했을 때
             root.setOnClickListener {
-                val detailEventItemIntent =
-                    Intent(root.context, DetailEventItemActivity::class.java).apply {
-                        putExtra("itemEventItem", eventItem)
-                    }
-                root.context.startActivity(detailEventItemIntent)
-            }
-        }
+                // 히스토리 삽입
+                CoroutineScope(Dispatchers.IO).launch {
+                    val accessToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken
+                    RetrofitManager.retrofitService?.postEventItemHistory(accessToken!!, PostEventItemHistoryAndLikeReq(eventItem.eventItemId!!))
 
+                    launch(Dispatchers.Main) {
+                        val detailEventItemIntent =
+                            Intent(root.context, DetailEventItemActivity::class.java).apply {
+                                putExtra("eventItemId", eventItem.eventItemId)
+                            }
+                        root.context.startActivity(detailEventItemIntent)
+                    }
+                }
+            }
+
+
+        }
     }
+
 }

@@ -62,7 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_csBrand"
                 app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_csBrand"
                 app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_csBrand"
-                app:strokeColor="@color/azure"
+                tools:strokeColor="@color/azure"
                 app:strokeWidth="3dp">
 
                 <TextView
@@ -80,10 +80,11 @@
             <ImageView
                 android:id="@+id/imageView_detailEventItem_itemImage"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:layout_marginTop="10dp"
                 android:adjustViewBounds="true"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
+                android:tag="event_item_image"
                 tools:src="@drawable/img_review_item1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +202,7 @@
             app:layout_constraintTop_toBottomOf="@id/constrainLayout_detailEventItem_detailEventItemContainer" />
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView_detailEventItem_lottie"
+            android:id="@+id/lottieAnimationView_detailEventItem_lottie2"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerInParent="true"

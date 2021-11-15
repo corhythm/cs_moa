@@ -16,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageView
         android:id="@+id/imageView_itemDetailRecommendedEventItem_csBrand"
         android:layout_width="50dp"
@@ -52,7 +53,7 @@
 
     <TextView
         android:id="@+id/textView_itemDetailRecommendedEventItem_itemName"
-        android:layout_width="180dp"
+        android:layout_width="150dp"
         android:layout_height="40dp"
         android:fontFamily="@font/maple_story_bold"
         android:gravity="center"
@@ -71,9 +72,9 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_marginTop="7dp"
-        app:layout_constraintEnd_toStartOf="@id/textView_itemDetailRecommendedEventItem_itemActualPrice"
         app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="@id/textView_itemDetailRecommendedEventItem_itemName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
         app:layout_constraintTop_toBottomOf="@id/textView_itemDetailRecommendedEventItem_itemName" />
 
     <TextView
@@ -82,9 +83,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/ohneulbam_regular"
         android:text="(개당 1600원)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
         android:textColor="@color/azure"
         android:textSize="17dp"
-        app:layout_constraintEnd_toEndOf="@id/textView_itemDetailRecommendedEventItem_itemName"
         app:layout_constraintStart_toEndOf="@id/textView_itemDetailRecommendedEventItem_itemPrice"
         app:layout_constraintTop_toTopOf="@id/textView_itemDetailRecommendedEventItem_itemPrice" />
 

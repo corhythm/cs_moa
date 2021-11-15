@@ -16,7 +16,8 @@ data class EventItem(
     val itemEventType: String?,
     val viewCount: Int?,
     val likeCount: Int?,
-    var colorCode: String?
+    var colorCode: String?,
+    var isLike: Boolean?
 ) : Parcelable
 
 

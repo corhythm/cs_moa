@@ -101,6 +101,7 @@ class EventItemsFragment : Fragment() {
                         }
                     }
                 }
+
                 // viewModel에서 데이터 감지
                 eventItemViewModel.getEventItems().collectLatest { pagingData ->
                     pagingDataAdapter.submitData(pagingData)

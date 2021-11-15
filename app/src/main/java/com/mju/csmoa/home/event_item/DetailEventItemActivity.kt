@@ -3,7 +3,10 @@ package com.mju.csmoa.home.event_item
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -60,7 +63,6 @@ class DetailEventItemActivity : AppCompatActivity() {
                         jwtTokenInfo.accessToken,
                         eventItemId = eventItemId
                     )
-                Log.d(TAG, "DetailEventItemActivity -init() called / getDetailEventItemsRes = $getDetailEventItemsRes")
 
                 // 데이터 정상적으로 받아오면
                 if (getDetailEventItemsRes != null) {
@@ -90,7 +92,11 @@ class DetailEventItemActivity : AppCompatActivity() {
                     }
                 }
             } catch (ex: Exception) {
-                Log.d(TAG, "DetailEventItemActivity -init() called / ${ex.printStackTrace()}")
+                Log.d(TAG, "DetailEventItemActivity -init() called (exception) $ex")
+                Log.d(
+                    TAG,
+                    "DetailEventItemActivity -init() called / (exception) ${ex.printStackTrace()}"
+                )
                 withContext(Dispatchers.Main) {
                     makeToast("세부 행사 상품", "데이터를 받아오는 데 실패했습니다", MotionToastStyle.ERROR)
                 }
@@ -117,19 +123,30 @@ class DetailEventItemActivity : AppCompatActivity() {
         with(binding) {
             // 이미지 가져오기
             Glide.with(this@DetailEventItemActivity).load(detailEventItem.itemImageSrc)
-                .placeholder(R.drawable.img_all_itemimage)
-                .error(R.drawable.ic_all_big_x)
-                .fitCenter()
+                .placeholder(R.drawable.ic_all_loading)
+                .error(R.drawable.ic_all_404)
+                .fallback(R.drawable.ic_all_404)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .dontAnimate()
                 .into(imageViewDetailEventItemItemImage)
 
+//            Log.d(TAG, "imageViewDetailEventItemItemImage.drawable.constantState = ${imageViewDetailEventItemItemImage.drawable.constantState}")
+//            Log.d(TAG, "ContextCompat.getDrawable(this@DetailEventItemActivity, R.drawable.ic_all_big_x) = ${ContextCompat.getDrawable(this@DetailEventItemActivity, R.drawable.ic_all_big_x)}")
+
+
+
             textViewDetailEventItemItemName.text = detailEventItem.itemName // 아이템 이름
             textViewDetailEventItemItemPrice.text = detailEventItem.itemPrice // 아이템 가격
-            textViewDetailEventItemItemActualPrice.text = detailEventItem.itemActualPrice // 아이템 개당 가격
-            textViewDetailEventItemViewCount.text = detailEventItem.viewCount.toString()
-            textViewDetailEventItemLikeCount.text = detailEventItem.likeCount.toString()
+            textViewDetailEventItemItemActualPrice.text =
+                detailEventItem.itemActualPrice // 아이템 개당 가격
+            textViewDetailEventItemViewCount.text = detailEventItem.viewCount.toString() // 조회수
+            textViewDetailEventItemLikeCount.text = detailEventItem.likeCount.toString() // 좋아요 개수
+
+            if (detailEventItem.isLike!!) { // 좋아요 했으면
+                imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+            }
+
 
             // csbrand
             var csBrandResourceId = -1

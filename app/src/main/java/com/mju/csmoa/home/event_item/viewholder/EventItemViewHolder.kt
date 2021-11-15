@@ -10,7 +10,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemEventItemBinding
 import com.mju.csmoa.home.event_item.DetailEventItemActivity
+import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.model.EventItem
+import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class EventItemViewHolder(
     parent: ViewGroup
@@ -35,14 +41,19 @@ class EventItemViewHolder(
             textViewItemEventItemViewCount.text = eventItem?.viewCount.toString() // 제품 조회수
             textViewItemEventItemLikeCount.text = eventItem?.likeCount.toString() // 제품 좋아요 개수
 
+            if (eventItem?.isLike!!) { // 좋아요 했으면
+                imageViewItemEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+            }
+
             // 행사 제품 이미지 로딩
             Glide.with(root.context).load(eventItem?.itemImageSrc)
-                .placeholder(R.drawable.img_all_itemimage)
-                .error(R.drawable.ic_all_404)
+                .placeholder(R.drawable.ic_all_loading)
+                .error(R.drawable.ic_all_404) // 리소스를 불러오다가 에러가 발생했을 때 보여줄 이미지를 설정한다.
+                .fallback(R.drawable.ic_all_404) // load할 url이 null인 경우 등 비어있을 때 보여줄 이미지를 설정한다.
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .dontAnimate()
-                .fallback(R.drawable.img_all_itemimage)
+                .fitCenter()
                 .into(imageViewItemEventItemEventItemImage)
 
             // csbrand
@@ -93,11 +104,18 @@ class EventItemViewHolder(
             cardViewItemEventItemEventTypeContainer.strokeColor = eventTypeColor
 
             root.setOnClickListener {
-                val detailEventItemIntent =
-                    Intent(root.context, DetailEventItemActivity::class.java).apply {
-                        putExtra("eventItemId", eventItem?.eventItemId)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val accessToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken
+                    RetrofitManager.retrofitService?.postEventItemHistory(accessToken!!, PostEventItemHistoryAndLikeReq(eventItem.eventItemId!!))
+
+                    launch(Dispatchers.Main) {
+                        val detailEventItemIntent =
+                            Intent(root.context, DetailEventItemActivity::class.java).apply {
+                                putExtra("eventItemId", eventItem?.eventItemId)
+                            }
+                        root.context.startActivity(detailEventItemIntent)
                     }
-                root.context.startActivity(detailEventItemIntent)
+                }
             }
 
         }
