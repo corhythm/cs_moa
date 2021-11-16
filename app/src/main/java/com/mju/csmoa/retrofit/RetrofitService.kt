@@ -64,7 +64,7 @@ interface RetrofitService {
     suspend fun getDetailEventItem(
         @Header("Access-Token") accessToken: String,
         @Path("eventItemId") eventItemId: Long
-    ): GetDetailEventItemRes
+    ): BaseResponse<GetDetailEventItemRes>
 
     // NOTE: 행사 상품 조회수 POST
     @POST("/event-items/history")

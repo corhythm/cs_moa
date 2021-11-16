@@ -14,7 +14,7 @@ data class EventItem(
     val itemCategory: String?,
     val csBrand: String?,
     val itemEventType: String?,
-    val viewCount: Int?,
+    var viewCount: Int?,
     var likeCount: Int?,
     var colorCode: String?,
     var isLike: Boolean?

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.DiscretePathEffect
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,16 +13,20 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.DetailEventItemActivity
+import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
 
 class RecommendedEventItemViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val eventItemChangedListener: EventItemChangedListener
 ) :
     RecyclerView.ViewHolder(
         ItemRecommendedEventItemBinding.inflate(
@@ -34,7 +39,6 @@ class RecommendedEventItemViewHolder(
     private var binding = ItemRecommendedEventItemBinding.bind(itemView)
 
     fun bind(eventItem: EventItem) {
-
         with(binding) {
             textViewItemRecommendedEventItemItemName.text = eventItem.itemName // 상품 이름
             textViewItemRecommendedEventItemItemPrice.text = eventItem.itemPrice // 상품 가격
@@ -111,21 +115,7 @@ class RecommendedEventItemViewHolder(
             cardViewItemRecommendedEventItemEventTypeContainer.strokeColor = eventTypeColor
 
             // root 아이템 클릭했을 때
-            root.setOnClickListener {
-                // 히스토리 삽입
-                CoroutineScope(Dispatchers.IO).launch {
-                    val accessToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken
-                    RetrofitManager.retrofitService?.postEventItemHistory(accessToken!!, PostEventItemHistoryAndLikeReq(eventItem.eventItemId!!))
-
-                    launch(Dispatchers.Main) {
-                        val detailEventItemIntent =
-                            Intent(root.context, DetailEventItemActivity::class.java).apply {
-                                putExtra("eventItemId", eventItem.eventItemId)
-                            }
-                        root.context.startActivity(detailEventItemIntent)
-                    }
-                }
-            }
+            root.setOnClickListener { eventItemChangedListener.onClickedEventItem(HEADER, absoluteAdapterPosition) }
 
 
         }

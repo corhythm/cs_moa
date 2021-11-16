@@ -217,9 +217,7 @@ class MoreMenuViewHolder(private val itemMoreBinding: ItemMoreBinding) :
         itemMoreBinding.textViewItemMoreMenuName.text = itemMoreMenu.menuName
 
         // 메뉴 중 하나 눌렸을 때
-        itemMoreBinding.root.setOnClickListener {
-
-        }
+        itemMoreBinding.root.setOnClickListener { }
     }
 }
 

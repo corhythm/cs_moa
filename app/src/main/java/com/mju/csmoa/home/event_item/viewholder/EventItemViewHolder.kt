@@ -1,7 +1,7 @@
 package com.mju.csmoa.home.event_item.viewholder
 
-import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,17 +9,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemEventItemBinding
-import com.mju.csmoa.home.event_item.DetailEventItemActivity
-import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
+import com.mju.csmoa.home.event_item.EventItemChangedListener
+import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.MyApplication
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.mju.csmoa.util.Constants.TAG
 
 class EventItemViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val eventItemChangedListner: EventItemChangedListener
 ) :
     RecyclerView.ViewHolder(
         ItemEventItemBinding.inflate(
@@ -31,10 +28,9 @@ class EventItemViewHolder(
 
     private val binding = ItemEventItemBinding.bind(itemView)
 
+
     fun bind(eventItem: EventItem?) {
-
         with(binding) {
-
             textViewItemEventItemItemName.text = eventItem?.itemName // 제품 이름
             textViewItemEventItemPrice.text = eventItem?.itemPrice // 제품 가격
             textViewItemEventItemActualPrice.text = eventItem?.itemActualPrice // 한 개당 가격
@@ -103,19 +99,14 @@ class EventItemViewHolder(
             textViewItemEventItemEventType.setTextColor(eventTypeColor)
             cardViewItemEventItemEventTypeContainer.strokeColor = eventTypeColor
 
-            root.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val accessToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken
-                    RetrofitManager.retrofitService?.postEventItemHistory(accessToken!!, PostEventItemHistoryAndLikeReq(eventItem.eventItemId!!))
+            // 특정 아이템 클릭 시
 
-                    launch(Dispatchers.Main) {
-                        val detailEventItemIntent =
-                            Intent(root.context, DetailEventItemActivity::class.java).apply {
-                                putExtra("eventItemId", eventItem.eventItemId)
-                            }
-                        root.context.startActivity(detailEventItemIntent)
-                    }
-                }
+            root.setOnClickListener {
+                Log.d(TAG, "viewHolder position = $absoluteAdapterPosition")
+                eventItemChangedListner.onClickedEventItem(
+                    type = BODY,
+                    position = absoluteAdapterPosition
+                )
             }
 
         }

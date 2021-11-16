@@ -1,10 +1,14 @@
 package com.mju.csmoa.home.event_item
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,9 +21,12 @@ import com.mju.csmoa.home.event_item.adpater.EventItemLoadStateAdapter
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
+import com.mju.csmoa.home.event_item.adpater.RecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.adpater.SealedRecommendedEventItemAdapter
+import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.filter.FilteringBottomSheetDialog
-import com.mju.csmoa.home.event_item.paging.EventItemViewModel
+import com.mju.csmoa.home.event_item.paging.PagingEventItemViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
@@ -29,12 +36,16 @@ import kotlinx.coroutines.flow.collectLatest
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
-class EventItemsFragment : Fragment() {
+class EventItemsFragment : Fragment(), EventItemChangedListener {
 
     private var _binding: FragmentEventItemsBinding? = null
     private val binding get() = _binding!!
-    private val pagingDataAdapter = EventItemPagingDataAdapter()
-    private val eventItemViewModel: EventItemViewModel by activityViewModels()
+    private val pagingEventItemViewModel: PagingEventItemViewModel by activityViewModels()
+    private lateinit var concatAdapter: ConcatAdapter
+    private lateinit var pagingDataAdapter: EventItemPagingDataAdapter
+    private lateinit var detailEventItemLauncher: ActivityResultLauncher<Intent>
+    private lateinit var recommendEventItems: List<EventItem>
+    private var recommendedEventItemAdapter: RecommendedEventItemAdapter? = null // 이건 header 아이템 변경 시, notify용
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +59,34 @@ class EventItemsFragment : Fragment() {
 
     private fun init() {
         initRecyclerView()
+
+        // init launcher
+        detailEventItemLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result != null && result.resultCode == Activity.RESULT_OK && result.data != null) {
+                    val detailEventItem =
+                        result.data!!.getParcelableExtra<EventItem>("detailEventItem")
+                    val type = result.data!!.getIntExtra("type", -1)
+                    val position = result.data!!.getIntExtra("position", -1)
+
+                    Log.d(TAG, "in contracts / position = $position")
+                    Log.d(TAG, "in contracts / type = $type")
+
+                    val tempEventItem = if (type == HEADER) recommendEventItems[position]
+                    else pagingDataAdapter.peek(position - 1)
+
+
+                    tempEventItem!!.viewCount = detailEventItem!!.viewCount
+                    tempEventItem.isLike = detailEventItem.isLike
+                    tempEventItem.likeCount = detailEventItem.likeCount
+
+                    if (type == HEADER) { // 이렇게 하는 게 맞는지 모르겠다. 너무 스파게티인 듯 ㅋㅋ
+                        recommendedEventItemAdapter?.notifyItemChanged(position)
+                    } else { // BODY
+                        pagingDataAdapter.notifyItemChanged(position - 1)
+                    }
+                }
+            }
 
         // 맨 위로 클릭했을 때
         binding.cardViewItemRecommendedEventGotoTop.setOnClickListener {
@@ -72,11 +111,14 @@ class EventItemsFragment : Fragment() {
                     itemEventItem.colorCode = colorList[index]
                 }
 
-                val nestedRecommendedEventItemAdapter =
-                    SealedRecommendedEventItemAdapter(response?.result!!)
-                pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.refresh() })
-                val concatAdapter =
-                    ConcatAdapter(nestedRecommendedEventItemAdapter, pagingDataAdapter)
+                recommendEventItems = response?.result!! // 추천 행사 상품 리스트
+                val sealedRecommendedEventItemAdapter =
+                    SealedRecommendedEventItemAdapter(recommendEventItems, this@EventItemsFragment)
+                pagingDataAdapter = EventItemPagingDataAdapter(this@EventItemsFragment)
+                pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.retry() })
+                concatAdapter =
+                    ConcatAdapter(sealedRecommendedEventItemAdapter, pagingDataAdapter)
+
 
                 withContext(Dispatchers.Main) {
                     binding.recyclerViewEventItemsRecommendationEventItems.apply {
@@ -103,9 +145,8 @@ class EventItemsFragment : Fragment() {
                 }
 
                 // viewModel에서 데이터 감지
-                eventItemViewModel.getEventItems().collectLatest { pagingData ->
-                    pagingDataAdapter.submitData(pagingData)
-                }
+                pagingEventItemViewModel.getEventItems()
+                    .collectLatest { pagingData -> pagingDataAdapter.submitData(pagingData) }
 
             }
         } catch (ex: Exception) {
@@ -130,4 +171,54 @@ class EventItemsFragment : Fragment() {
         _binding = null
         super.onDestroyView()
     }
+
+    // 아이템 클릭 시
+    override fun onClickedEventItem(type: Int, position: Int) {
+
+        try {
+            Log.d(TAG, "in onClickedEventItem / position = $position")
+            Log.d(TAG, "in onClickedEventItem / type = $type")
+            val eventItem = if (type == HEADER) recommendEventItems[position] // 추천 행사 상품
+            else pagingDataAdapter.peek(position - 1) // 일반 행사 상품
+
+            if (eventItem == null) {
+                makeToast("상품 상세보기", "해당 행사 상품을 불러올 수 없습니다", MotionToastStyle.ERROR)
+                return
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val accessToken =
+                    MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken
+                val response = RetrofitManager.retrofitService?.postEventItemHistory(
+                    accessToken!!,
+                    PostEventItemHistoryAndLikeReq(eventItem.eventItemId!!)
+                )
+
+                Log.d(TAG, "EventItemsFragment -onClickedEventItem() called / response = $response")
+
+                launch(Dispatchers.Main) {
+                    val detailEventItemIntent =
+                        Intent(requireContext(), DetailEventItemActivity::class.java).apply {
+                            putExtra("eventItemId", eventItem.eventItemId)
+                            putExtra("type", type)
+                            putExtra("position", position)
+                        }
+                    detailEventItemLauncher.launch(detailEventItemIntent)
+                }
+            }
+        } catch (ex: Exception){
+            Log.d(TAG, "EventItemsFragment -onClickedEventItem() called / exception = ${ex.printStackTrace()}")
+            makeToast("행사 상품 상세 화면", "행사 상품 상세화면을 불러올 수 없습니다", MotionToastStyle.ERROR)
+        }
+    }
+
+
+    override fun setRecommendedEventItemAdapter(recommendedEventItemAdapter: RecommendedEventItemAdapter) {
+        this.recommendedEventItemAdapter = recommendedEventItemAdapter
+    }
+}
+
+interface EventItemChangedListener {
+    fun onClickedEventItem(type: Int, position: Int)
+    fun setRecommendedEventItemAdapter(recommendedEventItemAdapter: RecommendedEventItemAdapter)
 }

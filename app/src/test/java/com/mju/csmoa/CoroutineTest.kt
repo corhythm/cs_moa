@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import okhttp3.internal.wait
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -156,21 +157,22 @@ class CoroutineTest {
     }
 
     @Test
-    fun jobTest() = runBlocking {
-        val job = CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY) {
-            repeat(5) {
-                println("Job Test")
-                delay(3000)
+    fun jobTest(): Unit = runBlocking(Dispatchers.Main) {
+
+        repeat(3) { i -> // launch a few children jobs
+            launch {
+                delay((i + 1) * 200L) // variable delay 200ms, 400ms, 600ms
+                println("Coroutine $i is done")
             }
-
         }
+        println("wow")
 
-        job.join()
+    }
 
-        println("normal context test")
+    @Test
+    fun plusAndMinusTest() {
+        val
     }
 
 
 }
-
-data class Temp (var test: Int)
