@@ -39,6 +39,8 @@ class EventItemViewHolder(
 
             if (eventItem?.isLike!!) { // 좋아요 했으면
                 imageViewItemEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+            } else {
+                imageViewItemEventItemHeart.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
             }
 
             // 행사 제품 이미지 로딩

@@ -1,5 +1,6 @@
 package com.mju.csmoa.home.event_item
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -60,10 +61,6 @@ class DetailEventItemActivity : AppCompatActivity() {
             type = intent.getIntExtra("type", -1) // recommendEventItem인지 normalEventItem인지
             position = intent.getIntExtra("position", -1) // item absolute position
         }
-
-        Log.d(TAG, "DetailEventItemActivity -init() called / eventItemId = $eventItemId")
-        Log.d(TAG, "DetailEventItemActivity -init() called / type = $type")
-        Log.d(TAG, "DetailEventItemActivity -init() called / position = $position")
 
         if (eventItemId == (-1).toLong() || type == -1 || position == -1) {
             makeToast("세부 행사 상품", "데이터를 받아오는 데 실패했습니다", MotionToastStyle.ERROR)
@@ -144,20 +141,31 @@ class DetailEventItemActivity : AppCompatActivity() {
             textViewDetailEventItemLikeCount.text = detailEventItem.likeCount.toString() // 좋아요 개수
 
             if (detailEventItem.isLike!!) { // 좋아요 했으면
-                imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+                lottieAnimationViewDetailEventItemHeart.progress = 0.5f
             }
+
+
 
             val likeSetOnClickListener = View.OnClickListener {
                 try {
+
+                    var animator: ValueAnimator? = null
+
                     if (detailEventItem.isLike!!) {
                         detailEventItem.isLike = false
-                        imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
                         detailEventItem.likeCount = detailEventItem.likeCount!! - 1
+                        animator = ValueAnimator.ofFloat(0.5f, 1f).setDuration(1500L)
                     } else {
                         detailEventItem.isLike = true
-                        imageViewDetailEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
                         detailEventItem.likeCount = detailEventItem.likeCount!! + 1
+                        animator = ValueAnimator.ofFloat(0f, 0.5f).setDuration(1500L)
                     }
+
+                    animator?.addUpdateListener { animation: ValueAnimator ->
+                        lottieAnimationViewDetailEventItemHeart.progress = animation.animatedValue as Float
+                    }
+                    animator?.start()
+
                     textViewDetailEventItemLikeCount.text =
                         detailEventItem.likeCount.toString() //좋아요 개수 업데이트
                     Log.d(TAG, "DetailEventItemActivity -initEventItemInfo() called / detailEventItem = $detailEventItem")
@@ -184,7 +192,7 @@ class DetailEventItemActivity : AppCompatActivity() {
             }
 
             // 좋아요 클릭하면 => 좋아요 <-> 싫어요
-            imageViewDetailEventItemHeart.setOnClickListener(likeSetOnClickListener)
+            lottieAnimationViewDetailEventItemHeart.setOnClickListener(likeSetOnClickListener)
             textViewDetailEventItemLikeCount.setOnClickListener(likeSetOnClickListener)
 
             // csbrand

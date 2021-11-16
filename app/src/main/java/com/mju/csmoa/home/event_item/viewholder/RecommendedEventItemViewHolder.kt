@@ -51,6 +51,8 @@ class RecommendedEventItemViewHolder(
 
             if (eventItem.isLike!!) { // 좋아요 했으면
                 imageViewItemRecommendedEventItemHeart.setImageResource(R.drawable.ic_all_filledheart)
+            } else {
+                imageViewItemRecommendedEventItemHeart.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
             }
 
             // root view backgroundTintColor

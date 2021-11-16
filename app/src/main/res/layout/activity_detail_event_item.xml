@@ -153,27 +153,46 @@
                 app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_eye"
                 app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_eye" />
 
-            <ImageView
-                android:id="@+id/imageView_detailEventItem_heart"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/ic_all_empty_stroke_colored_heart"
+            <RelativeLayout
+                android:id="@+id/relativeLayout_like_container"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_eye"
                 app:layout_constraintStart_toEndOf="@id/textView_detailEventItem_viewCount"
-                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_eye" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="2dp"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_eye">
 
-            <TextView
-                android:id="@+id/textView_detailEventItem_likeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                tools:text="101"
-                android:textSize="25dp"
-                android:fontFamily="@font/roboto_black"
-                app:layout_constraintBottom_toBottomOf="@id/imageView_detailEventItem_heart"
-                app:layout_constraintStart_toEndOf="@id/imageView_detailEventItem_heart"
-                app:layout_constraintTop_toTopOf="@id/imageView_detailEventItem_heart" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimationView_detailEventItem_heart"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="#D9DADC"
+                    android:backgroundTint="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    app:lottie_autoPlay="false"
+                    app:lottie_fileName="heart.json"
+                    app:lottie_loop="false"
+                    app:lottie_speed="1" />
+
+                <TextView
+                    android:id="@+id/textView_detailEventItem_likeCount"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_alignTop="@id/lottieAnimationView_detailEventItem_heart"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/roboto_black"
+                    android:gravity="center"
+                    android:textSize="25dp"
+                    tools:text="101" />
+
+            </RelativeLayout>
 
             <View
                 android:id="@+id/view_detailEventItem_divider"
