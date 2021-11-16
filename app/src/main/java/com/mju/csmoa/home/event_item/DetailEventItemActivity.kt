@@ -154,7 +154,7 @@ class DetailEventItemActivity : AppCompatActivity() {
                     if (detailEventItem.isLike!!) {
                         detailEventItem.isLike = false
                         detailEventItem.likeCount = detailEventItem.likeCount!! - 1
-                        animator = ValueAnimator.ofFloat(0.5f, 1f).setDuration(1500L)
+                        animator = ValueAnimator.ofFloat(0.5f, 1f).setDuration(0L)
                     } else {
                         detailEventItem.isLike = true
                         detailEventItem.likeCount = detailEventItem.likeCount!! + 1
