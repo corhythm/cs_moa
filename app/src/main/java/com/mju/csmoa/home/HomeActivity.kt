@@ -29,8 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private var isSearchbarState = false
-    private lateinit var nowFragment: Fragment
-    private val TAG = "로그"
+    private var nowFragment: Fragment = ReviewMainFragment()
     private var backKeyPressedTime: Long = 0 // 마지막으로 back key를 눌렀던 시간
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +117,6 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(binding.includeHomeMainToolBar.toolbarMainToolbarToolbar)
 
         // change fragment
-        nowFragment = ReviewMainFragment()
         replaceFragment(nowFragment)
 
         // MainToolbar visible

@@ -2,43 +2,21 @@ package com.mju.csmoa.home.event_item.filter
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemCategoryBinding
+import com.mju.csmoa.util.Constants.TAG
 
-class ItemCategoryRecyclerAdapter : RecyclerView.Adapter<ItemCategoryViewHolder>() {
+class ItemCategoryRecyclerAdapter(
+    private val itemCategoryList: List<ItemCategory>,
+    private val filterItemClickListener: FilterItemClickListener
+) : RecyclerView.Adapter<ItemCategoryViewHolder>() {
 
-    private lateinit var itemCategoryList: List<ItemCategory>
-    private lateinit var filterItemClickListener: FilterItemClickListener
-    private val itemCategoryViewHolderList = ArrayList<ItemCategoryViewHolder?>()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ItemCategoryViewHolder(parent)
 
-    fun submitList(itemCategoryList: List<ItemCategory>) {
-        this.itemCategoryList = itemCategoryList
-    }
-
-    fun setFilterListener(filterItemClickListener: FilterItemClickListener) {
-        this.filterItemClickListener = filterItemClickListener
-    }
-
-    // 아,, 이렇게 하면 안 될 거 같은데
-    fun reset() {
-        itemCategoryViewHolderList.forEach { itemCategoryViewHolder ->
-            itemCategoryViewHolder?.reset()
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemCategoryViewHolder {
-        val itemCategoryViewHolder = ItemCategoryViewHolder(
-            ItemCategoryBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-        itemCategoryViewHolderList.add(itemCategoryViewHolder)
-        return itemCategoryViewHolder
-    }
 
     override fun onBindViewHolder(holder: ItemCategoryViewHolder, position: Int) {
         holder.bind(itemCategoryList[position], filterItemClickListener)
@@ -48,35 +26,44 @@ class ItemCategoryRecyclerAdapter : RecyclerView.Adapter<ItemCategoryViewHolder>
 
 }
 
-class ItemCategoryViewHolder(private val itemCategoryBinding: ItemCategoryBinding) :
-    RecyclerView.ViewHolder(itemCategoryBinding.root) {
+class ItemCategoryViewHolder(parent: ViewGroup) :
+    RecyclerView.ViewHolder(
+        ItemCategoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        ).root
+    ) {
 
-    private var isClicked = false
-    private var saturationValue = 0F
+    private val binding = ItemCategoryBinding.bind(itemView)
 
     fun bind(itemCategory: ItemCategory, filterItemClickListener: FilterItemClickListener) {
 
-        itemCategoryBinding.imageViewItemCategoryItemImg.setImageResource(itemCategory.backgroundResourceId)
-        itemCategoryBinding.imageViewItemCategoryItemImg.colorFilter =
-            ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
-        itemCategoryBinding.textViewItemCategoryItemName.text = itemCategory.categoryType
+        Log.d(TAG, "ItemCategoryViewHolder -bind() called / itemCategory = $itemCategory")
+        val saturationValue = if (itemCategory.isClicked) 1F else 0F
 
-        itemCategoryBinding.root.setOnClickListener {
-            isClicked = !isClicked
-            saturationValue = if (isClicked) 1F else 0F
-            itemCategoryBinding.imageViewItemCategoryItemImg.colorFilter =
+        with(binding) {
+            imageViewItemCategoryItemImg.setImageResource(itemCategory.backgroundResourceId)
+            imageViewItemCategoryItemImg.colorFilter =
                 ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(saturationValue) })
+            textViewItemCategoryItemName.text = itemCategory.categoryType
 
-            filterItemClickListener.setOnFilterClicked(itemCategory.categoryType, isClicked)
+            root.setOnClickListener {
+                itemCategory.isClicked = !itemCategory.isClicked
+
+                filterItemClickListener.setOnFilterClicked(
+                    selectedFilterName = itemCategory.categoryType,
+                    position = absoluteAdapterPosition,
+                    isClicked = itemCategory.isClicked
+                )
+            }
         }
     }
 
-    fun reset() {
-        isClicked = false
-        saturationValue = 0F
-        itemCategoryBinding.imageViewItemCategoryItemImg.colorFilter =
-            ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(saturationValue) })
-    }
 }
 
-data class ItemCategory(val backgroundResourceId: Int, val categoryType: String)
+data class ItemCategory(
+    val backgroundResourceId: Int,
+    val categoryType: String,
+    var isClicked: Boolean
+)

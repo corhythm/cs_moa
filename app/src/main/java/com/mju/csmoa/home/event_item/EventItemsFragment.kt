@@ -41,11 +41,16 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
     private var _binding: FragmentEventItemsBinding? = null
     private val binding get() = _binding!!
     private val pagingEventItemViewModel: PagingEventItemViewModel by activityViewModels()
+    private lateinit var detailEventItemLauncher: ActivityResultLauncher<Intent>
+
     private lateinit var concatAdapter: ConcatAdapter
     private lateinit var pagingDataAdapter: EventItemPagingDataAdapter
-    private lateinit var detailEventItemLauncher: ActivityResultLauncher<Intent>
-    private lateinit var recommendEventItems: List<EventItem>
-    private var recommendedEventItemAdapter: RecommendedEventItemAdapter? = null // 이건 header 아이템 변경 시, notify용
+    private lateinit var recommendEventItems: List<EventItem> // 추천 행사 상품 (10개)
+    private var recommendedEventItemAdapter: RecommendedEventItemAdapter? = null // notify 용도
+
+    private var csBrandMap = LinkedHashMap<String, Boolean>() // (cu, gs25, seven-eleven, ministop, emart24)
+    private var eventTypeMap = LinkedHashMap<String, Boolean>() // 행사 종류 (1+1, 2+1, 3+1, 4+1)
+    private var itemCategoryMap = LinkedHashMap<String, Boolean>() // (음료, 과자, 식품, 아이스크림)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +65,58 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
     private fun init() {
         initRecyclerView()
 
-        // init launcher
+        // refresh할 때마다 추가가 되기 대문에 여기서 한 번만 설정
+        binding.recyclerViewEventItemsRecommendationEventItems.addItemDecoration(
+            RecyclerViewDecoration(0, 30, 10, 10)
+        )
+
+        // 맨 위로 클릭했을 때
+        binding.cardViewEventItemsGotoTop.setOnClickListener {
+            binding.recyclerViewEventItemsRecommendationEventItems.scrollToPosition(0)
+        }
+
+        val itemCsBrandNameList =
+            requireContext().resources.getStringArray(R.array.cs_brand_list) // 편의점 브랜드 이름
+        val itemEventTypeNameList =
+            requireContext().resources.getStringArray(R.array.event_type_list) // 행사 종류
+        val itemCategoryNameList =
+            requireContext().resources.getStringArray(R.array.item_category_list) // 상품 카테고리
+
+        // filtering data init
+        itemCsBrandNameList.forEach { csBrandName -> csBrandMap[csBrandName] = false }
+        itemEventTypeNameList.forEach { eventTypeName -> eventTypeMap[eventTypeName] = false }
+        itemCategoryNameList.forEach { categoryName -> itemCategoryMap[categoryName] = false }
+
+
+        // 필터 버튼 클릭했을 때
+        binding.cardViewEventItemsEventTypeContainer.setOnClickListener {
+            FilteringBottomSheetDialog(
+                requireContext(),
+                csBrandMap = this.csBrandMap,
+                eventTypeMap = this.eventTypeMap,
+                itemCategoryMap = this.itemCategoryMap,
+                whenDialogDestroyed = { csBrandMap: LinkedHashMap<String, Boolean>,
+                              eventTypeMap: LinkedHashMap<String, Boolean>,
+                              itemCategoryMap: LinkedHashMap<String, Boolean> ->
+                    // init
+                    this.csBrandMap = csBrandMap
+                    this.eventTypeMap = eventTypeMap
+                    this.itemCategoryMap = itemCategoryMap
+                    Log.d(TAG, "in fragment, ${this.csBrandMap}, ${this.eventTypeMap}, ${this.itemCategoryMap}")
+                    // 여기서 재검색 해야 함.
+                }
+            ).show()
+        }
+
+        // refresh
+        binding.swipeLayoutEventItemsRoot.setOnRefreshListener {
+            initRecyclerView()
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(700)
+                binding.swipeLayoutEventItemsRoot.isRefreshing = false
+            }
+        }
+
         detailEventItemLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result != null && result.resultCode == Activity.RESULT_OK && result.data != null) {
@@ -69,16 +125,13 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                     val type = result.data!!.getIntExtra("type", -1)
                     val position = result.data!!.getIntExtra("position", -1)
 
-                    Log.d(TAG, "in contracts / position = $position")
-                    Log.d(TAG, "in contracts / type = $type")
-
-                    val tempEventItem = if (type == HEADER) recommendEventItems[position]
+                    // 원래 행사 상품 객체 내 값 변경
+                    val originEventItem = if (type == HEADER) recommendEventItems[position]
                     else pagingDataAdapter.peek(position - 1)
 
-
-                    tempEventItem!!.viewCount = detailEventItem!!.viewCount
-                    tempEventItem.isLike = detailEventItem.isLike
-                    tempEventItem.likeCount = detailEventItem.likeCount
+                    originEventItem!!.viewCount = detailEventItem!!.viewCount
+                    originEventItem.isLike = detailEventItem.isLike
+                    originEventItem.likeCount = detailEventItem.likeCount
 
                     if (type == HEADER) { // 이렇게 하는 게 맞는지 모르겠다. 너무 스파게티인 듯 ㅋㅋ
                         recommendedEventItemAdapter?.notifyItemChanged(position)
@@ -87,16 +140,6 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                     }
                 }
             }
-
-        // 맨 위로 클릭했을 때
-        binding.cardViewItemRecommendedEventGotoTop.setOnClickListener {
-            binding.recyclerViewEventItemsRecommendationEventItems.scrollToPosition(0)
-        }
-
-        // 필터 버튼 클릭했을 때
-        binding.cardViewItemRecommendedEventEventTypeContainer.setOnClickListener {
-            FilteringBottomSheetDialog(requireContext()).show()
-        }
     }
 
     private fun initRecyclerView() {
@@ -122,7 +165,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
 
                 withContext(Dispatchers.Main) {
                     binding.recyclerViewEventItemsRecommendationEventItems.apply {
-                        addItemDecoration(RecyclerViewDecoration(0, 30, 10, 10))
+
                         adapter = concatAdapter
                         setHasFixedSize(true)
                         layoutManager = GridLayoutManager(
@@ -206,8 +249,11 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                     detailEventItemLauncher.launch(detailEventItemIntent)
                 }
             }
-        } catch (ex: Exception){
-            Log.d(TAG, "EventItemsFragment -onClickedEventItem() called / exception = ${ex.printStackTrace()}")
+        } catch (ex: Exception) {
+            Log.d(
+                TAG,
+                "EventItemsFragment -onClickedEventItem() called / exception = ${ex.printStackTrace()}"
+            )
             makeToast("행사 상품 상세 화면", "행사 상품 상세화면을 불러올 수 없습니다", MotionToastStyle.ERROR)
         }
     }

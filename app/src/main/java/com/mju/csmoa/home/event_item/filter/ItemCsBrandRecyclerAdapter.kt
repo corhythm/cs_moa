@@ -8,84 +8,73 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemCsBrandBinding
+import com.mju.csmoa.util.Constants.TAG
 
+class ItemCsBrandRecyclerAdapter(
+    private val itemCsBrandList: List<ItemCsBrand>,
+    private val filterItemClickListener: FilterItemClickListener
+) : RecyclerView.Adapter<ItemCsBrandViewHolder>() {
 
-class ItemCsBrandRecyclerAdapter : RecyclerView.Adapter<ItemCsBrandViewHolder>() {
-
-    private lateinit var itemCsBrandList: List<ItemCsBrand>
-    private lateinit var filterItemClickListener: FilterItemClickListener
-    private val itemCsBrandViewHolderList = ArrayList<ItemCsBrandViewHolder?>()
-
-    fun submitList(itemCsBrandList: List<ItemCsBrand>) {
-        this.itemCsBrandList = itemCsBrandList
-    }
-
-    fun setFilterListener(filterItemClickListener: FilterItemClickListener) {
-        this.filterItemClickListener = filterItemClickListener
-    }
-
-    fun reset() {
-        itemCsBrandViewHolderList.forEach { itemCsBrandViewHolder ->
-            itemCsBrandViewHolder?.reset()
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemCsBrandViewHolder {
-        Log.d("로그", "ItemCsBrandRecyclerAdapter -onCreateViewHolder() called")
-        val itemCsBrandViewHolder = ItemCsBrandViewHolder(
-            ItemCsBrandBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-        itemCsBrandViewHolderList.add(itemCsBrandViewHolder)
-        return itemCsBrandViewHolder
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ItemCsBrandViewHolder(parent)
 
     override fun onBindViewHolder(holder: ItemCsBrandViewHolder, position: Int) {
         holder.bind(itemCsBrandList[position], filterItemClickListener)
     }
 
     override fun getItemCount() = itemCsBrandList.size
-
 }
 
-class ItemCsBrandViewHolder(private val itemCsBrandBinding: ItemCsBrandBinding) :
-    RecyclerView.ViewHolder(itemCsBrandBinding.root) {
+class ItemCsBrandViewHolder(parent: ViewGroup) :
+    RecyclerView.ViewHolder(
+        ItemCsBrandBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        ).root
+    ) {
 
-    private var isClicked = false
-    private var saturationValue = 0F
-    private var strokeColor = Color.GRAY
+    private val binding = ItemCsBrandBinding.bind(itemView)
 
     fun bind(itemCsBrand: ItemCsBrand, filterItemClickListener: FilterItemClickListener) {
-        itemCsBrandBinding.imageViewCsBrandSelectBrand.setImageResource(itemCsBrand.csImageResourceId)
-        itemCsBrandBinding.cardViewCsBrandContainer.strokeColor = strokeColor
-        itemCsBrandBinding.imageViewCsBrandSelectBrand.colorFilter =
-            ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
 
-        // when button clicked, black and white -> color, color -> black and white
-        itemCsBrandBinding.root.setOnClickListener {
-            isClicked = !isClicked
-            saturationValue = if (isClicked) 1F else 0F
-            strokeColor = if (isClicked) Color.parseColor(itemCsBrand.csColor) else Color.GRAY
-            itemCsBrandBinding.imageViewCsBrandSelectBrand.colorFilter =
-                ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(saturationValue) })
-            itemCsBrandBinding.cardViewCsBrandContainer.strokeColor = strokeColor
+        Log.d(TAG, "ItemCsBrandViewHolder -bind() called / itemCsBrand = $itemCsBrand")
+        val saturationValue: Float
+        val strokeColor: Int
 
-            // 필터 클릭됐다고 BottomSheetDialog에 전달
-            filterItemClickListener.setOnFilterClicked(itemCsBrand.brand, isClicked)
+        if (itemCsBrand.isClicked) { // 클릭이 이미 된 상태면
+            saturationValue = 1F
+            strokeColor = Color.parseColor(itemCsBrand.csColor)
+        } else {
+            saturationValue = 0F
+            strokeColor = Color.GRAY
         }
-    }
 
-    fun reset() {
-        isClicked = false
-        saturationValue = 0F
-        strokeColor = Color.GRAY
-        itemCsBrandBinding.imageViewCsBrandSelectBrand.colorFilter =
-            ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(saturationValue) })
-        itemCsBrandBinding.cardViewCsBrandContainer.strokeColor = strokeColor
+        with(binding) {
+
+            imageViewCsBrandSelectBrand.setImageResource(itemCsBrand.csImageResourceId)
+            cardViewCsBrandContainer.strokeColor = strokeColor
+            imageViewCsBrandSelectBrand.colorFilter =
+                ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(saturationValue) })
+
+            // when button clicked, black and white -> color, color -> black and white
+            root.setOnClickListener {
+                itemCsBrand.isClicked = !itemCsBrand.isClicked
+
+                // 필터 클릭됐다고 BottomSheetDialog에 전달
+                filterItemClickListener.setOnFilterClicked(
+                    selectedFilterName = itemCsBrand.brand,
+                    position = absoluteAdapterPosition,
+                    isClicked = itemCsBrand.isClicked
+                )
+            }
+        }
     }
 }
 
-data class ItemCsBrand(val brand: String, val csImageResourceId: Int, val csColor: String)
+data class ItemCsBrand(
+    val brand: String,
+    val csImageResourceId: Int,
+    val csColor: String,
+    var isClicked: Boolean
+)

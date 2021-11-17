@@ -1,10 +1,7 @@
 package com.mju.csmoa.home.event_item.viewholder
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.DiscretePathEffect
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,17 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
-import com.mju.csmoa.home.event_item.DetailEventItemActivity
 import com.mju.csmoa.home.event_item.EventItemChangedListener
-import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
-import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
+import com.mju.csmoa.home.event_item.domain.model.EventItem
 
 class RecommendedEventItemViewHolder(
     parent: ViewGroup,
