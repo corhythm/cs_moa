@@ -4,5 +4,5 @@ object Constants {
     const val TAG = "로그"
 
 //    const val API_BASE_URL = "http://10.0.2.2:5000"
-    const val API_BASE_URL = "http://172.30.1.48:5000"
+    const val API_BASE_URL = "http://172.30.1.50:5000"
 }

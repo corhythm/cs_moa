@@ -35,7 +35,7 @@
     <string-array name="cs_brand_list">
         <item>cu</item>
         <item>gs25</item>
-        <item>seven-eleven</item>
+        <item>seven</item>
         <item>ministop</item>
         <item>emart24</item>
     </string-array>
@@ -72,7 +72,7 @@
 
     <string-array name="item_category_list">
         <item>음료</item>
-        <item>과자</item>
+        <item>과자류</item>
         <item>식품</item>
         <item>아이스크림</item>
     </string-array>

@@ -149,7 +149,7 @@ class DetailEventItemActivity : AppCompatActivity() {
             val likeSetOnClickListener = View.OnClickListener {
                 try {
 
-                    var animator: ValueAnimator? = null
+                    var animator: ValueAnimator?
 
                     if (detailEventItem.isLike!!) {
                         detailEventItem.isLike = false

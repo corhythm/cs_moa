@@ -22,16 +22,15 @@ class FilteringBottomSheetDialog(
 
     private lateinit var binding: DialogFileringBottomSheetBinding
     private var filteringCount = 0 // 필터링 개수
-    private var isInitializationClicked = false // 초기화가 클릭됐으면
 
     private lateinit var itemCsBrandRecyclerAdapter: ItemCsBrandRecyclerAdapter
     private lateinit var itemEventTypeRecyclerAdapter: ItemEventTypeRecyclerAdapter
     private lateinit var itemCategoryRecyclerAdapter: ItemCategoryRecyclerAdapter
 
     // 초기화를 눌렀을 때 원래 LinkedHashMap에 있는 값들 임시저장
-    private lateinit var tempCsBrandMap: LinkedHashMap<String, Boolean>
-    private lateinit var tempEventTypeMap: LinkedHashMap<String, Boolean>
-    private lateinit var tempItemCategoryMap: LinkedHashMap<String, Boolean>
+    private lateinit var originCsBrandMap: LinkedHashMap<String, Boolean>
+    private lateinit var originEventTypeMap: LinkedHashMap<String, Boolean>
+    private lateinit var originItemCategoryMap: LinkedHashMap<String, Boolean>
 
     private val itemCsBrandList = ArrayList<ItemCsBrand>()
     private val itemEventTypeList = ArrayList<ItemEventType>()
@@ -45,42 +44,46 @@ class FilteringBottomSheetDialog(
     }
 
     private fun init() {
+
+
+        // 현재 이미 클릭된 개수 카운트
+        csBrandMap.forEach { (k, v) ->
+            Log.d(TAG, "과연: k = $k, v = $v, csBrandMap[$k] = ${csBrandMap[k]} ")
+            if (v) ++filteringCount
+        }
+        eventTypeMap.forEach { (_, v) -> if (v) ++filteringCount }
+        itemCategoryMap.forEach { (_, v) -> if (v) ++filteringCount }
+        setFilteringButton() // 필터링 버튼에 현재 클릭된 개수 반영
+
+        // NOTE: 클릭만 하고 취소 누르면 원래 값을 유지해야 하므로 여기서 임시 값 저장
+        originCsBrandMap = csBrandMap.toMutableMap() as LinkedHashMap<String, Boolean>
+        originEventTypeMap = eventTypeMap.toMutableMap() as LinkedHashMap<String, Boolean>
+        originItemCategoryMap = itemCategoryMap.toMutableMap() as LinkedHashMap<String, Boolean>
+
+        // cancel
         binding.textViewDialogFilteringCancel.setOnClickListener {
-            if (isInitializationClicked) { // 초기화 누르고 그냥 취소할 경우 원래 값으로 복원
-                csBrandMap.forEach { (k, _) -> csBrandMap[k] = tempCsBrandMap.getValue(k)}
-                eventTypeMap.forEach { (k, _) -> eventTypeMap[k] = tempEventTypeMap.getValue(k)}
-                itemCategoryMap.forEach { (k, _) -> itemCategoryMap[k] = tempItemCategoryMap.getValue(k)}
+
+            csBrandMap.forEach { (k, _) -> csBrandMap[k] = originCsBrandMap.getValue(k) }
+            eventTypeMap.forEach { (k, _) -> eventTypeMap[k] = originEventTypeMap.getValue(k) }
+            itemCategoryMap.forEach { (k, _) ->
+                itemCategoryMap[k] = originItemCategoryMap.getValue(k)
             }
             dismiss()
         }
+
+        // apply
         binding.textViewDialogFilteringFilteringApply.setOnClickListener {
             dismiss()
             whenDialogDestroyed()
         }
 
-        // 현재 이미 클릭된 개수 카운트
-        csBrandMap.forEach { (k, v) ->
-            Log.d(TAG, "과연: k = $k, v = $v, csBrandMap[$k] = ${csBrandMap[k]} ")
-            if (v) ++filteringCount }
-        eventTypeMap.forEach { (_, v) -> if (v) ++filteringCount }
-        itemCategoryMap.forEach { (_, v) -> if (v) ++filteringCount }
-        setFilteringButton() // 필터링 버튼에 현재 클릭된 개수 반영
-
-        // NOTE: 초기화 버튼 클릭됐을 떄 나중에 클릭만 하고 취소 누르면
-        // NOTE: 원래 값을 유지해야 하므로 여기서 임시 값 저장
-        tempCsBrandMap = csBrandMap.toMutableMap() as LinkedHashMap<String, Boolean>
-        tempEventTypeMap = eventTypeMap.toMutableMap() as LinkedHashMap<String, Boolean>
-        tempItemCategoryMap = itemCategoryMap.toMutableMap() as LinkedHashMap<String, Boolean>
-        
         // 초기화 버튼 눌렸을 때
         binding.buttonDialogFilteringReset.setOnClickListener {
 
             // data isClicked -> false
             itemCsBrandList.forEach { itemCsBrand -> itemCsBrand.isClicked = false }
-            itemEventTypeList.forEach { itemEventType -> itemEventType.isClicked = false}
+            itemEventTypeList.forEach { itemEventType -> itemEventType.isClicked = false }
             itemCategoryList.forEach { itemCategory -> itemCategory.isClicked = false }
-
-            isInitializationClicked = true
 
             // hashMap replaceAll -> false
             csBrandMap.forEach { (k, _) -> csBrandMap[k] = false }

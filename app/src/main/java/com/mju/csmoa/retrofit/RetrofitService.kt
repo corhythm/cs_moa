@@ -50,13 +50,18 @@ interface RetrofitService {
 
     // NOTE: 추천 행사 상품 가져오기
     @GET("/recommended-event-items")
-    suspend fun getRecommendedEventItems(@Header("Access-Token") accessToken: String): GetEventItemsRes
+    suspend fun getRecommendedEventItems(
+        @Header("Access-Token") accessToken: String,
+        @Query("cs-brand") csBrands: List<String>?,
+        @Query("event-type") eventTypes: List<String>?,
+        @Query("category") categories: List<String>?
+    ): GetEventItemsRes
 
     // NOTE: 일반 행사 상품 가져오기
     @GET("/event-items")
     suspend fun getEventItems(
         @Header("Access-Token") accessToken: String,
-        @Query("page") pageNum: Int
+        @Query("page") pageNum: Int,
     ): GetEventItemsRes
 
     // NOTE: 특정 행사 상품 정보 + 추천 행사 상품 가져오기
