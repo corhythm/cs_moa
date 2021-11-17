@@ -39,7 +39,6 @@ class ItemCategoryViewHolder(parent: ViewGroup) :
 
     fun bind(itemCategory: ItemCategory, filterItemClickListener: FilterItemClickListener) {
 
-        Log.d(TAG, "ItemCategoryViewHolder -bind() called / itemCategory = $itemCategory")
         val saturationValue = if (itemCategory.isClicked) 1F else 0F
 
         with(binding) {

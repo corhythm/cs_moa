@@ -14,22 +14,24 @@ import com.mju.csmoa.util.RecyclerViewDecoration
 
 class FilteringBottomSheetDialog(
     context: Context,
-    private val csBrandMap: LinkedHashMap<String, Boolean>,
-    private val eventTypeMap: LinkedHashMap<String, Boolean>,
-    private val itemCategoryMap: LinkedHashMap<String, Boolean>,
-    private val whenDialogDestroyed: (
-        csBrandMap: LinkedHashMap<String, Boolean>,
-        eventTypeMap: LinkedHashMap<String, Boolean>,
-        itemCategoryMap: LinkedHashMap<String, Boolean>
-    ) -> Unit
+    private var csBrandMap: LinkedHashMap<String, Boolean>,
+    private var eventTypeMap: LinkedHashMap<String, Boolean>,
+    private var itemCategoryMap: LinkedHashMap<String, Boolean>,
+    private val whenDialogDestroyed: () -> Unit
 ) : BottomSheetDialog(context), FilterItemClickListener {
 
     private lateinit var binding: DialogFileringBottomSheetBinding
     private var filteringCount = 0 // 필터링 개수
+    private var isInitializationClicked = false // 초기화가 클릭됐으면
 
     private lateinit var itemCsBrandRecyclerAdapter: ItemCsBrandRecyclerAdapter
     private lateinit var itemEventTypeRecyclerAdapter: ItemEventTypeRecyclerAdapter
     private lateinit var itemCategoryRecyclerAdapter: ItemCategoryRecyclerAdapter
+
+    // 초기화를 눌렀을 때 원래 LinkedHashMap에 있는 값들 임시저장
+    private lateinit var tempCsBrandMap: LinkedHashMap<String, Boolean>
+    private lateinit var tempEventTypeMap: LinkedHashMap<String, Boolean>
+    private lateinit var tempItemCategoryMap: LinkedHashMap<String, Boolean>
 
     private val itemCsBrandList = ArrayList<ItemCsBrand>()
     private val itemEventTypeList = ArrayList<ItemEventType>()
@@ -43,33 +45,52 @@ class FilteringBottomSheetDialog(
     }
 
     private fun init() {
-        binding.textViewDialogFilteringCancel.setOnClickListener { dismiss() }
+        binding.textViewDialogFilteringCancel.setOnClickListener {
+            if (isInitializationClicked) { // 초기화 누르고 그냥 취소할 경우 원래 값으로 복원
+                csBrandMap.forEach { (k, _) -> csBrandMap[k] = tempCsBrandMap.getValue(k)}
+                eventTypeMap.forEach { (k, _) -> eventTypeMap[k] = tempEventTypeMap.getValue(k)}
+                itemCategoryMap.forEach { (k, _) -> itemCategoryMap[k] = tempItemCategoryMap.getValue(k)}
+            }
+            dismiss()
+        }
         binding.textViewDialogFilteringFilteringApply.setOnClickListener {
             dismiss()
-            whenDialogDestroyed(this.csBrandMap, this.eventTypeMap, this.itemCategoryMap)
+            whenDialogDestroyed()
         }
 
         // 현재 이미 클릭된 개수 카운트
-        csBrandMap.forEach { (_, v) -> if (v) filteringCount++ }
-        eventTypeMap.forEach { (_, v) -> if (v) filteringCount++ }
-        eventTypeMap.forEach { (_, v) -> if (v) filteringCount++ }
-        setFilteringButton()
+        csBrandMap.forEach { (k, v) ->
+            Log.d(TAG, "과연: k = $k, v = $v, csBrandMap[$k] = ${csBrandMap[k]} ")
+            if (v) ++filteringCount }
+        eventTypeMap.forEach { (_, v) -> if (v) ++filteringCount }
+        itemCategoryMap.forEach { (_, v) -> if (v) ++filteringCount }
+        setFilteringButton() // 필터링 버튼에 현재 클릭된 개수 반영
 
-
+        // NOTE: 초기화 버튼 클릭됐을 떄 나중에 클릭만 하고 취소 누르면
+        // NOTE: 원래 값을 유지해야 하므로 여기서 임시 값 저장
+        tempCsBrandMap = csBrandMap.toMutableMap() as LinkedHashMap<String, Boolean>
+        tempEventTypeMap = eventTypeMap.toMutableMap() as LinkedHashMap<String, Boolean>
+        tempItemCategoryMap = itemCategoryMap.toMutableMap() as LinkedHashMap<String, Boolean>
+        
         // 초기화 버튼 눌렸을 때
         binding.buttonDialogFilteringReset.setOnClickListener {
 
+            // data isClicked -> false
+            itemCsBrandList.forEach { itemCsBrand -> itemCsBrand.isClicked = false }
+            itemEventTypeList.forEach { itemEventType -> itemEventType.isClicked = false}
+            itemCategoryList.forEach { itemCategory -> itemCategory.isClicked = false }
+
+            isInitializationClicked = true
+
+            // hashMap replaceAll -> false
             csBrandMap.forEach { (k, _) -> csBrandMap[k] = false }
             eventTypeMap.forEach { (k, _) -> eventTypeMap[k] = false }
             itemCategoryMap.forEach { (k, _) -> itemCategoryMap[k] = false }
 
-            itemCsBrandList.forEach { itemCsBrand -> itemCsBrand.isClicked = false }
-            itemEventTypeList.forEach { itemEventType -> itemEventType.isClicked = false }
-            itemCategoryList.forEach { itemCategory -> itemCategory.isClicked = false }
-
             itemCsBrandRecyclerAdapter.notifyItemRangeChanged(0, itemCsBrandList.size)
             itemEventTypeRecyclerAdapter.notifyItemRangeChanged(0, itemEventTypeList.size)
             itemCategoryRecyclerAdapter.notifyItemRangeChanged(0, itemCategoryList.size)
+
             filteringCount = 0
             setFilteringButton()
         }
@@ -137,7 +158,6 @@ class FilteringBottomSheetDialog(
     }
 
     private fun initItemCategory() {
-
         // 카테고리 리소스 가져오기
         val itemCategoryNameList =
             context.resources.getStringArray(R.array.item_category_list)
@@ -166,25 +186,22 @@ class FilteringBottomSheetDialog(
     // 필터링 아이템 클릭됐을 때
     override fun setOnFilterClicked(selectedFilterName: String, position: Int, isClicked: Boolean) {
 
-        // 편의점 브랜드
-        if (csBrandMap.containsKey(selectedFilterName)) {
+        if (csBrandMap.containsKey(selectedFilterName)) { // 편의점 브랜드
             csBrandMap[selectedFilterName] = isClicked
             itemCsBrandRecyclerAdapter.notifyItemChanged(position)
         }
 
-        // 행사 종류
-        if (eventTypeMap.containsKey(selectedFilterName)) {
+        if (eventTypeMap.containsKey(selectedFilterName)) { // 행사 종류
             eventTypeMap[selectedFilterName] = isClicked
             itemEventTypeRecyclerAdapter.notifyItemChanged(position)
         }
 
-        // 카테고리
-        if (itemCategoryMap.containsKey(selectedFilterName)) {
+        if (itemCategoryMap.containsKey(selectedFilterName)) { // 카테고리
             itemCategoryMap[selectedFilterName] = isClicked
             itemCategoryRecyclerAdapter.notifyItemChanged(position)
         }
 
-        if (isClicked) filteringCount++ else filteringCount--
+        if (isClicked) ++filteringCount else --filteringCount
         setFilteringButton()
     }
 
@@ -198,7 +215,6 @@ class FilteringBottomSheetDialog(
         }
         binding.buttonDialogFilteringReset.text = "초기화($filteringCount)"
     }
-
 }
 
 

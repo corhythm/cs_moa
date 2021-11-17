@@ -87,7 +87,6 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
         itemEventTypeNameList.forEach { eventTypeName -> eventTypeMap[eventTypeName] = false }
         itemCategoryNameList.forEach { categoryName -> itemCategoryMap[categoryName] = false }
 
-
         // 필터 버튼 클릭했을 때
         binding.cardViewEventItemsEventTypeContainer.setOnClickListener {
             FilteringBottomSheetDialog(
@@ -95,16 +94,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                 csBrandMap = this.csBrandMap,
                 eventTypeMap = this.eventTypeMap,
                 itemCategoryMap = this.itemCategoryMap,
-                whenDialogDestroyed = { csBrandMap: LinkedHashMap<String, Boolean>,
-                              eventTypeMap: LinkedHashMap<String, Boolean>,
-                              itemCategoryMap: LinkedHashMap<String, Boolean> ->
-                    // init
-                    this.csBrandMap = csBrandMap
-                    this.eventTypeMap = eventTypeMap
-                    this.itemCategoryMap = itemCategoryMap
-                    Log.d(TAG, "in fragment, ${this.csBrandMap}, ${this.eventTypeMap}, ${this.itemCategoryMap}")
-                    // 여기서 재검색 해야 함.
-                }
+                whenDialogDestroyed = { Log.d(TAG, "EventItemsFragment -init() called") }
             ).show()
         }
 

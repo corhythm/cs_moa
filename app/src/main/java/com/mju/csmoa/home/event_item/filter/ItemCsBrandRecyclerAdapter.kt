@@ -38,7 +38,6 @@ class ItemCsBrandViewHolder(parent: ViewGroup) :
 
     fun bind(itemCsBrand: ItemCsBrand, filterItemClickListener: FilterItemClickListener) {
 
-        Log.d(TAG, "ItemCsBrandViewHolder -bind() called / itemCsBrand = $itemCsBrand")
         val saturationValue: Float
         val strokeColor: Int
 

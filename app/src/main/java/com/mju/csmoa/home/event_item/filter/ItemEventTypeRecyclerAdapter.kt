@@ -38,8 +38,6 @@ class ItemEventTypeViewHolder(parent: ViewGroup) :
 
     fun bind(itemEventType: ItemEventType, filterItemClickListener: FilterItemClickListener) {
 
-        Log.d(TAG, "ItemEventTypeViewHolder -bind() called / itemEventType = $itemEventType")
-
         val textAndStrokeColor = if (itemEventType.isClicked)
             Color.parseColor(itemEventType.textAndStrokeColor)
         else
