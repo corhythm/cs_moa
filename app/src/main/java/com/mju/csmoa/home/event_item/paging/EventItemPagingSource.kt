@@ -22,6 +22,7 @@ class EventItemPagingSource(
 
     companion object {
         private const val FIRST_PAGE_INDEX = 1
+        const val PAGE_SIZE = 10
     }
 
     override fun getRefreshKey(state: PagingState<Int, EventItem>): Int? {
@@ -58,10 +59,13 @@ class EventItemPagingSource(
             prevKey : 이전 값 (위 스크롤 방향)
             nextKey : 다음 값 (아래 스크롤 방향)
             */
+
+
+
             LoadResult.Page(
                 data = response?.result!!,
                 prevKey = if (position == FIRST_PAGE_INDEX) null else position - 1,
-                nextKey = position.plus(1)
+                nextKey = if (response.result.size < PAGE_SIZE) null else position.plus(1)
             )
 
         } catch (ex: Exception) {

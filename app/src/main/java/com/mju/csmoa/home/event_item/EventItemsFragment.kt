@@ -43,6 +43,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
     private lateinit var detailEventItemLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var concatAdapter: ConcatAdapter
+    private lateinit var sealedRecommendedEventItemAdapter: SealedRecommendedEventItemAdapter
     private lateinit var pagingDataAdapter: EventItemPagingDataAdapter
     private lateinit var recommendEventItems: List<EventItem> // 추천 행사 상품 (10개)
     private var recommendedEventItemAdapter: RecommendedEventItemAdapter? = null // notify 용도
@@ -164,6 +165,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                 val colorList = requireContext().resources.getStringArray(R.array.color_top10)
                 val jwtToken = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
+
                 val response =
                     RetrofitManager.retrofitService?.getRecommendedEventItems(
                         jwtToken!!.accessToken!!,
@@ -176,18 +178,17 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                     itemEventItem.colorCode = colorList[index]
                 }
 
-                recommendEventItems = response?.result!! // 추천 행사 상품 리스트
-                val sealedRecommendedEventItemAdapter =
-                    SealedRecommendedEventItemAdapter(recommendEventItems, this@EventItemsFragment)
-                pagingDataAdapter = EventItemPagingDataAdapter(this@EventItemsFragment)
-                pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.retry() })
-                concatAdapter =
-                    ConcatAdapter(sealedRecommendedEventItemAdapter, pagingDataAdapter)
-
-
 
                 withContext(Dispatchers.Main) {
                     binding.recyclerViewEventItemsRecommendationEventItems.apply {
+                        // 어댑터 선언을 여기서 안 하면 에러남
+                        recommendEventItems = response?.result!! // 추천 행사 상품 리스트
+                        sealedRecommendedEventItemAdapter =
+                            SealedRecommendedEventItemAdapter(recommendEventItems, this@EventItemsFragment)
+                        pagingDataAdapter = EventItemPagingDataAdapter(this@EventItemsFragment)
+                        pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.retry() })
+                        concatAdapter =
+                            ConcatAdapter(sealedRecommendedEventItemAdapter, pagingDataAdapter)
 
                         adapter = concatAdapter
                         setHasFixedSize(true)
@@ -199,6 +200,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                         ).apply {
                             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                                 override fun getSpanSize(position: Int): Int {
+                                    Log.d(TAG, "in withContext, SpanSizeLookUp")
                                     return when (concatAdapter.getItemViewType(position)) {
                                         HEADER -> 2
                                         BODY -> 1

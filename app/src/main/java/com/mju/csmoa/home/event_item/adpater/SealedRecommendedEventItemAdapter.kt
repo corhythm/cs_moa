@@ -13,14 +13,12 @@ class SealedRecommendedEventItemAdapter(
 ) :
     RecyclerView.Adapter<SealedRecommendedEventItemViewHolder>() {
 
-    override fun getItemViewType(position: Int): Int {
-        return HEADER
-    }
+    override fun getItemViewType(position: Int) = HEADER
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SealedRecommendedEventItemViewHolder = SealedRecommendedEventItemViewHolder(parent, eventItemChangedListener)
+    )= SealedRecommendedEventItemViewHolder(parent, eventItemChangedListener)
 
 
     override fun onBindViewHolder(holder: SealedRecommendedEventItemViewHolder, position: Int) {

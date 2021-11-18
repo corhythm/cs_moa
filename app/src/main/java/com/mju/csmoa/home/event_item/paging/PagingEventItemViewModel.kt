@@ -7,6 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mju.csmoa.home.event_item.domain.model.EventItem
+import com.mju.csmoa.home.event_item.paging.EventItemPagingSource.Companion.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 
 class PagingEventItemViewModel : ViewModel() {
@@ -26,7 +27,7 @@ class PagingEventItemViewModel : ViewModel() {
     }
 
     fun getEventItems(): Flow<PagingData<EventItem>> {
-        return Pager(config = PagingConfig(pageSize = 14),
+        return Pager(config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
                 EventItemPagingSource(
                     csBrands,

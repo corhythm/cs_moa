@@ -68,6 +68,8 @@
                 android:id="@+id/recyclerView_eventItems_recommendationEventItems"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="45dp"
                 android:padding="10dp" />
 
         </RelativeLayout>

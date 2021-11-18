@@ -8,7 +8,7 @@ import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.EventItemViewHolder
 
 class EventItemPagingDataAdapter(private val eventItemChangedListener: EventItemChangedListener) :
-    PagingDataAdapter<EventItem, EventItemViewHolder>(DiffUtilCallback()){
+    PagingDataAdapter<EventItem, EventItemViewHolder>(DiffUtilCallback()) {
 
     companion object {
         const val HEADER = 0 // 추천 아이템
@@ -17,9 +17,9 @@ class EventItemPagingDataAdapter(private val eventItemChangedListener: EventItem
 
     override fun getItemViewType(position: Int) = BODY
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventItemViewHolder {
-        return EventItemViewHolder(parent, eventItemChangedListener)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        EventItemViewHolder(parent, eventItemChangedListener)
+
 
     override fun onBindViewHolder(holder: EventItemViewHolder, position: Int) {
         holder.bind(getItem(position))
