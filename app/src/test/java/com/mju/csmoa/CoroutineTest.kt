@@ -1,10 +1,8 @@
 package com.mju.csmoa
 
-import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import okhttp3.internal.wait
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -171,7 +169,7 @@ class CoroutineTest {
 
     @Test
     fun plusAndMinusTest() {
-        val
+
     }
 
 

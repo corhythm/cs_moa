@@ -1,6 +1,5 @@
 package com.mju.csmoa.home.event_item.paging
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -12,8 +11,28 @@ import kotlinx.coroutines.flow.Flow
 
 class PagingEventItemViewModel : ViewModel() {
 
+    private lateinit var csBrands: MutableList<String>
+    private lateinit var eventTypes: MutableList<String>
+    private lateinit var categories: MutableList<String>
+
+    fun setFilterDataList(
+        csBrands: MutableList<String>,
+        eventTypes: MutableList<String>,
+        categories: MutableList<String>
+    ) {
+        this.csBrands = csBrands
+        this.eventTypes = eventTypes
+        this.categories = categories
+    }
+
     fun getEventItems(): Flow<PagingData<EventItem>> {
         return Pager(config = PagingConfig(pageSize = 14),
-            pagingSourceFactory = { EventItemPagingSource() }).flow.cachedIn(viewModelScope)
+            pagingSourceFactory = {
+                EventItemPagingSource(
+                    csBrands,
+                    eventTypes,
+                    categories
+                )
+            }).flow.cachedIn(viewModelScope)
     }
 }

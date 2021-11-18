@@ -40,7 +40,6 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
 
     private var _binding: FragmentEventItemsBinding? = null
     private val binding get() = _binding!!
-    private val pagingEventItemViewModel: PagingEventItemViewModel by activityViewModels()
     private lateinit var detailEventItemLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var concatAdapter: ConcatAdapter
@@ -48,8 +47,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
     private lateinit var recommendEventItems: List<EventItem> // 추천 행사 상품 (10개)
     private var recommendedEventItemAdapter: RecommendedEventItemAdapter? = null // notify 용도
 
-    private var csBrandMap =
-        LinkedHashMap<String, Boolean>() // (cu, gs25, seven-eleven, ministop, emart24)
+    private var csBrandMap = LinkedHashMap<String, Boolean>() // (cu, gs25, seven-eleven, ministop, emart24)
     private var eventTypeMap = LinkedHashMap<String, Boolean>() // 행사 종류 (1+1, 2+1, 3+1, 4+1)
     private var itemCategoryMap = LinkedHashMap<String, Boolean>() // (음료, 과자, 식품, 아이스크림)
 
@@ -57,6 +55,9 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
     private lateinit var csBrands: MutableList<String>
     private lateinit var eventTypes: MutableList<String>
     private lateinit var categories: MutableList<String>
+
+    // pagingViewModel
+    private val pagingEventItemViewModel: PagingEventItemViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,6 +110,9 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                 binding.swipeLayoutEventItemsRoot.isRefreshing = false
             }
         }
+
+        // viewModel에 데이터 전달
+        pagingEventItemViewModel.setFilterDataList(csBrands, eventTypes, categories)
 
         initRecyclerView()
 
@@ -179,6 +183,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                 pagingDataAdapter.withLoadStateFooter(footer = EventItemLoadStateAdapter { pagingDataAdapter.retry() })
                 concatAdapter =
                     ConcatAdapter(sealedRecommendedEventItemAdapter, pagingDataAdapter)
+
 
 
                 withContext(Dispatchers.Main) {

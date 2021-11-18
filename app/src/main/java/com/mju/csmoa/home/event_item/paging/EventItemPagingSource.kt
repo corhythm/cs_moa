@@ -12,14 +12,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class EventItemPagingSource : PagingSource<Int, EventItem>() {
+class EventItemPagingSource(
+    private val csBrands: MutableList<String>,
+    private val eventTypes: MutableList<String>,
+    private val categories: MutableList<String>,
+) : PagingSource<Int, EventItem>() {
 
     private lateinit var jwtTokenInfo: JwtTokenInfo
 
     companion object {
         private const val FIRST_PAGE_INDEX = 1
     }
-
 
     override fun getRefreshKey(state: PagingState<Int, EventItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -31,16 +34,24 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, EventItem> {
         // LoadParams : 로드할 키와 항목 수 , LoadResult : 로드 작업의 결과
         return try {
+
             // 네트워크 자원 조금 손해보더라도 여기서 받아와야 lateinit null exception 안 걸림
             jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
 
             // accessToken 만료되면 다시 받아오기
-            if (MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken )) {
+            if (MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken)) {
                 jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()!!
             }
 
             val position = params.key ?: FIRST_PAGE_INDEX
-            val response = RetrofitManager.retrofitService?.getEventItems(jwtTokenInfo.accessToken, position)
+            val response =
+                RetrofitManager.retrofitService?.getEventItems(
+                    jwtTokenInfo.accessToken,
+                    position,
+                    csBrands,
+                    eventTypes,
+                    categories
+                )
 
             /* 로드에 성공 시 LoadResult.Page 반환
             data : 전송되는 데이터
@@ -54,7 +65,10 @@ class EventItemPagingSource : PagingSource<Int, EventItem>() {
             )
 
         } catch (ex: Exception) {
-            Log.d(TAG, "EventItemPagingSource -load() called (error!!!!!) / ${ex.printStackTrace()}")
+            Log.d(
+                TAG,
+                "EventItemPagingSource -load() called (error!!!!!) / ${ex.printStackTrace()}"
+            )
             Log.d(TAG, "EventItemPagingSource -load() called (error) / ${ex.message}")
             LoadResult.Error(ex)
         }

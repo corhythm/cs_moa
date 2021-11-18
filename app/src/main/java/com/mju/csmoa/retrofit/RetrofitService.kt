@@ -62,6 +62,9 @@ interface RetrofitService {
     suspend fun getEventItems(
         @Header("Access-Token") accessToken: String,
         @Query("page") pageNum: Int,
+        @Query("cs-brand") csBrands: List<String>?,
+        @Query("event-type") eventTypes: List<String>?,
+        @Query("category") categories: List<String>?
     ): GetEventItemsRes
 
     // NOTE: 특정 행사 상품 정보 + 추천 행사 상품 가져오기
