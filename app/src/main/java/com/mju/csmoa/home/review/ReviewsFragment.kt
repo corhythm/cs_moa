@@ -1,25 +1,24 @@
 package com.mju.csmoa.home.review
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mju.csmoa.databinding.FragmentReviewMainBinding
+import com.mju.csmoa.databinding.FragmentReviewsBinding
 import com.mju.csmoa.databinding.ItemReviewMainBinding
 import java.util.*
 
-class ReviewMainFragment : Fragment() {
-    private var _binding: FragmentReviewMainBinding? = null
+class ReviewsFragment : Fragment() {
+    private var _binding: FragmentReviewsBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentReviewMainBinding.inflate(inflater, container, false)
+        _binding = FragmentReviewsBinding.inflate(inflater, container, false)
         init()
         return binding.root
     }

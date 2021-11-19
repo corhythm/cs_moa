@@ -1,4 +1,4 @@
-package com.mju.csmoa
+package com.mju.csmoa.home.search
 
 import android.os.Bundle
 import android.util.Log
@@ -27,7 +27,6 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
     private val searchHistoryViewModel: SearchHistoryViewModel by viewModels {
         SearchHistoryViewModelFactory(MyApplication.instance.repository)
     }
-    private val TAG = "로그"
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
 
 
@@ -58,7 +57,6 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
         // The onChanged() method fires when the observed data changes and the activity in the foreground.
         // SearchHistoryFragment is a LifeCycleOwner
         searchHistoryViewModel.allSearchHistories.observe(viewLifecycleOwner) { searchHistories ->
-            Log.d(TAG, "SearchHistoryFragment.viewLifeCycleOwner: $viewLifecycleOwner")
             searchHistories.let {
                 searchHistoryAdapter.submitList(searchHistories)
                 // 성능 부분에서 좀 손해를 보겠으나, 이 정도는 괜찮을 듯
@@ -95,11 +93,10 @@ class SearchHistoryFragment : Fragment(), ItemButtonClickListener {
     }
 
     override fun setOnSearchWordClicked(searchWord: String) {
-        (requireActivity() as HomeActivity).goToSearchResult(searchWord)
+        (requireActivity() as HomeActivity).goToSearchResults(searchWord)
     }
 
     override fun onDestroyView() {
-        Log.d(TAG, "SearchHistoryFragment.onDestroyView: ")
         super.onDestroyView()
         _binding = null
     }
