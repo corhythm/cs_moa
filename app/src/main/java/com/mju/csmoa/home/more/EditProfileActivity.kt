@@ -1,6 +1,5 @@
 package com.mju.csmoa.home.more
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,9 +18,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.mju.csmoa.DialogButtonDelegate
 import com.mju.csmoa.R
-import com.mju.csmoa.YesOrNoBottomSheetDialog
+import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivityEditProfileBinding
 import com.mju.csmoa.home.more.model.UserInfo
 import com.mju.csmoa.retrofit.RetrofitManager
@@ -327,27 +325,17 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val bottomSheetDialog = YesOrNoBottomSheetDialog(
+        val eitherAOrBDialog = EitherAOrBDialog(
             context = this,
             theme = R.style.BottomSheetDialogTheme,
             lottieName = "man_question2.json",
             title = "Exit?",
-            message = "회원가입을 중단하실 건가요?\n중간에 나가시면 수정한 정보는 저장되지 않아요 :("
-        )
-
-        // dirty code (builder에서 전달해서 처리하고 싶은데, super.onBackPressed()가 안 먹는다)
-        bottomSheetDialog.setOnClickListener(object : DialogButtonDelegate {
-            override fun setOnYesClickedListener(dialogInterface: DialogInterface?) {
-                dialogInterface?.dismiss()
-                super@EditProfileActivity.onBackPressed()
-            }
-
-            override fun setOnNoClickedListener(dialogInterface: DialogInterface?) {
-                dialogInterface?.dismiss()
-            }
-        })
-
-        bottomSheetDialog.show()
+            message = "회원정보 수정을 중단하실 건가요?\n중간에 나가시면 수정한 정보는 저장되지 않아요 :(",
+            buttonAText = "No",
+            buttonBText = "Yes",
+            onButtonAClicked = { },
+            ouButtonBClicked = { super@EditProfileActivity.onBackPressed() }
+        ).show()
     }
 
     private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {

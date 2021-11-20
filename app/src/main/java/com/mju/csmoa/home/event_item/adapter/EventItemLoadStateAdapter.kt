@@ -1,4 +1,4 @@
-package com.mju.csmoa.home.event_item.adpater
+package com.mju.csmoa.home.event_item.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

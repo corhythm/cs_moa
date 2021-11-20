@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet_container"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background">
+
+    <TextView
+        android:id="@+id/textView_dialogSelectMenu_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/airbnb_cereal_bold"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textColor="@color/colorGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Review Photo" />
+
+    <View
+        android:id="@+id/view_dialogSelectMenu_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#DAD2D2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_dialogSelectMenu_title" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView_dialogSelectMenu_lottie"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_dialogSelectMenu_divider"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="photo.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1"/>
+
+    <Button
+        android:id="@+id/button_dialogSelectMenu_firstButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:elevation="30dp"
+        tools:text="Gallery"
+        android:textColor="@color/white"
+        android:layout_marginEnd="20dp"
+        android:textSize="20dp"
+        android:backgroundTint="@color/azure"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lottieAnimationView_dialogSelectMenu_lottie" />
+
+    <Button
+        android:id="@+id/button_dialogSelectMenu_SecondButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#B4ED18"
+        tools:text="Take Picture"
+        android:textStyle="italic|bold"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@id/button_dialogSelectMenu_firstButton"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintStart_toStartOf="@id/button_dialogSelectMenu_firstButton"
+        app:layout_constraintTop_toBottomOf="@id/button_dialogSelectMenu_firstButton"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

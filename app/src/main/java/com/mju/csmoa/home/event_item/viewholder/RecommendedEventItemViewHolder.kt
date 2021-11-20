@@ -10,7 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
-import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
+import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.HEADER
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 
 class RecommendedEventItemViewHolder(

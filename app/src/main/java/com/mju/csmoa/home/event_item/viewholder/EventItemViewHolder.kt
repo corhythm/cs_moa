@@ -10,7 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
-import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.BODY
+import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.util.Constants.TAG
 

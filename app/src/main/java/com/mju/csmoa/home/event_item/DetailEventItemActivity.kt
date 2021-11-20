@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
-import com.mju.csmoa.home.event_item.adpater.DetailRecommendedEventItemAdapter
+import com.mju.csmoa.home.event_item.adapter.DetailRecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.event_item.domain.model.EventItem
@@ -30,7 +28,6 @@ import kotlinx.coroutines.*
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.io.IOException
-import kotlin.math.log
 
 class DetailEventItemActivity : AppCompatActivity() {
 

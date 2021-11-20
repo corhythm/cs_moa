@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemRecommendedEventItemListBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
-import com.mju.csmoa.home.event_item.adpater.RecommendedEventItemAdapter
+import com.mju.csmoa.home.event_item.adapter.RecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.util.RecyclerViewDecoration
 

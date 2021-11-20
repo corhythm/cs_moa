@@ -9,7 +9,7 @@
     android:background="@drawable/bottom_sheet_background">
 
     <TextView
-        android:id="@+id/textView_lottieAnimationView_title"
+        android:id="@+id/textView_dialogEitherAOrB_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -24,24 +24,24 @@
         tools:text="Exit?" />
 
     <View
-        android:id="@+id/view_layoutBottomSheet_divider"
+        android:id="@+id/view_dialogEitherAOrB_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:background="#DAD2D2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_lottieAnimationView_title" />
+        app:layout_constraintTop_toBottomOf="@id/textView_dialogEitherAOrB_title" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView_lottieAnimationView_lottie"
+        android:id="@+id/lottieAnimationView_dialogEitherAOrB_lottie"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_layoutBottomSheet_divider"
+        app:layout_constraintTop_toBottomOf="@id/view_dialogEitherAOrB_divider"
         app:lottie_autoPlay="true"
         app:lottie_fileName="question_mark2.json"
         app:lottie_loop="true"
@@ -49,7 +49,7 @@
 
 
     <TextView
-        android:id="@+id/textView_layoutBottomSheet_message"
+        android:id="@+id/textView_dialogEitherAOrB_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -59,38 +59,38 @@
         android:fontFamily="@font/baemin_hanna_air"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lottieAnimationView_lottieAnimationView_lottie"
+        app:layout_constraintTop_toBottomOf="@id/lottieAnimationView_dialogEitherAOrB_lottie"
         tools:text="회원가입을 중단하실 건가요?\n중간에 나가시면 기존 정보는 저장되지 않아요 :(" />
 
     <Button
-        android:id="@+id/button_layoutBottomSheet_No"
+        android:id="@+id/button_dialogEitherAOrB_buttonA"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/white"
         android:elevation="30dp"
-        android:text="No"
+        tools:text="No"
         android:textColor="@color/azure"
         android:layout_marginEnd="20dp"
         android:textSize="20dp"
         android:textStyle="italic|bold"
-        app:layout_constraintEnd_toStartOf="@id/button_layoutBottomSheet_Yes"
+        app:layout_constraintEnd_toStartOf="@id/button_dialogEitherAOrB_buttonB"
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_layoutBottomSheet_message" />
+        app:layout_constraintTop_toBottomOf="@id/textView_dialogEitherAOrB_message" />
 
     <Button
-        android:id="@+id/button_layoutBottomSheet_Yes"
+        android:id="@+id/button_dialogEitherAOrB_buttonB"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:backgroundTint="#ED1818"
-        android:text="Yes"
+        tools:text="Yes"
         android:textStyle="italic|bold"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toEndOf="@id/button_layoutBottomSheet_No"
-        app:layout_constraintTop_toTopOf="@id/button_layoutBottomSheet_No" />
+        app:layout_constraintStart_toEndOf="@id/button_dialogEitherAOrB_buttonA"
+        app:layout_constraintTop_toTopOf="@id/button_dialogEitherAOrB_buttonA" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

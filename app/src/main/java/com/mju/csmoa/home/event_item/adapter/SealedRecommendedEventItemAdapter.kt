@@ -1,9 +1,9 @@
-package com.mju.csmoa.home.event_item.adpater
+package com.mju.csmoa.home.event_item.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.home.event_item.EventItemChangedListener
-import com.mju.csmoa.home.event_item.adpater.EventItemPagingDataAdapter.Companion.HEADER
+import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.HEADER
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.SealedRecommendedEventItemViewHolder
 

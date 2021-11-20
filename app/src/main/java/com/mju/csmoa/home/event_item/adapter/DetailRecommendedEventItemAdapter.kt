@@ -1,4 +1,4 @@
-package com.mju.csmoa.home.event_item.adpater
+package com.mju.csmoa.home.event_item.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

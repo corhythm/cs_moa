@@ -4,15 +4,20 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
-    <!-- GPS -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- GPS -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:name=".util.MyApplication"
@@ -26,12 +31,14 @@
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".home.review.WriteReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.event_item.DetailEventItemActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".review.NewReviewActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".home.more.EditProfileActivity"
             android:exported="false"
@@ -41,9 +48,7 @@
             android:exported="false" />
         <activity
             android:name=".home.HomeActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".login.SignUpActivity"
             android:exported="true"
@@ -75,6 +80,17 @@
                     android:scheme="kakao65e36577bc172f14cbcf4d37397acc43" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

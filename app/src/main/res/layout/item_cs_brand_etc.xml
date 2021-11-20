@@ -5,8 +5,9 @@
     android:layout_height="90dp"
     android:padding="5dp">
 
+
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:id="@+id/cardView_csBrand_container"
+        android:id="@+id/cardView_csBrandEtc_container"
         android:layout_width="75dp"
         android:layout_height="75dp"
         app:cardCornerRadius="50dp"
@@ -14,32 +15,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#F3F813"
+        app:strokeColor="#EF0C76"
         app:strokeWidth="3dp">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView_csBrand_selectBrand"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/img_cs_emart24" />
+            <TextView
+                android:id="@+id/textView_csBrandEtc_selectBrand"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/maple_story_light"
+                android:gravity="center"
+                android:text="기타"
+                android:textColor="#EF0C76"
+                android:textSize="30dp" />
 
             <ImageView
-                android:id="@+id/imageView_csBrand_check"
+                android:id="@+id/imageView_csBrandEtc_check"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/ic_all_green_check"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </FrameLayout>
+
 
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 

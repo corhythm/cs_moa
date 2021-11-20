@@ -9,15 +9,12 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.addTextChangedListener
-import com.mju.csmoa.DialogButtonDelegate
 import com.mju.csmoa.R
-import com.mju.csmoa.YesOrNoBottomSheetDialog
+import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivitySignUpBinding
 import com.mju.csmoa.login.domain.model.PostSignUpReq
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
-import org.w3c.dom.Text
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.*
@@ -243,26 +240,18 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val bottomSheetDialog = YesOrNoBottomSheetDialog(
-            context = this@SignUpActivity,
+
+        val eitherAOrBDialog = EitherAOrBDialog(
+            context = this,
             theme = R.style.BottomSheetDialogTheme,
             lottieName = "man_question.json",
             title = "Exit?",
-            message = "회원가입을 중단하실 건가요?\n중간에 나가시면 기존 정보는 저장되지 않아요 :("
-        )
+            message = "회원가입을 중단하실 건가요?\n중간에 나가시면 기존 정보는 저장되지 않아요 :(",
+            buttonAText = "No",
+            buttonBText = "Yes",
+            onButtonAClicked = { },
+            ouButtonBClicked = { super@SignUpActivity.onBackPressed() }
+        ).show()
 
-        // dirty code (builder에서 전달해서 처리하고 싶은데, super.onBackPressed()가 안 먹는다)
-        bottomSheetDialog.setOnClickListener(object : DialogButtonDelegate {
-            override fun setOnYesClickedListener(dialogInterface: DialogInterface?) {
-                dialogInterface?.dismiss()
-                super@SignUpActivity.onBackPressed()
-            }
-
-            override fun setOnNoClickedListener(dialogInterface: DialogInterface?) {
-                dialogInterface?.dismiss()
-            }
-        })
-
-        bottomSheetDialog.show()
     }
 }
