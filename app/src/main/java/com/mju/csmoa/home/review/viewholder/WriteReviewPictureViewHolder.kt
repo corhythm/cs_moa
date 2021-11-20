@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemWriteReviewCameraBinding
 import com.mju.csmoa.databinding.ItemWriteReviewPictureBinding
-import com.mju.csmoa.home.review.domain.ReviewPicture
+import com.mju.csmoa.home.review.domain.model.ReviewPicture
 import com.mju.csmoa.util.Constants.TAG
 
 
@@ -49,6 +47,7 @@ class WriteReviewPictureViewHolder(
     init {
         // 추가된 사진 취소 버튼 클릭 -> 리스트에서 삭제
         binding.cardViewWriteReviewImageCancel.setOnClickListener {
+            binding.cardViewWriteReviewImageCancel.strokeWidth = 0
             Log.d(TAG, "삭제되는 뷰홀더 position: $absoluteAdapterPosition")
             onCancelClicked.invoke(absoluteAdapterPosition)
         }
@@ -56,6 +55,10 @@ class WriteReviewPictureViewHolder(
 
     fun bind(reviewPicture: ReviewPicture) {
         Log.d(TAG, "WriteReviewPictureViewHolder -bind() called / reviewPicture = $reviewPicture")
-        binding.imageViewWriteReviewImageImage.setImageURI(reviewPicture.pictureUri)
+//        binding.imageViewWriteReviewImageImage.setImageURI(reviewPicture.pictureUri)
+        Glide.with(parent.context)
+            .load(reviewPicture.pictureUri)
+            .into(binding.imageViewWriteReviewImageImage)
     }
+
 }

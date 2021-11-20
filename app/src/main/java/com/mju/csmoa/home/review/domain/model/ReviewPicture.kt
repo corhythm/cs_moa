@@ -1,4 +1,4 @@
-package com.mju.csmoa.home.review.domain
+package com.mju.csmoa.home.review.domain.model
 
 import android.net.Uri
 

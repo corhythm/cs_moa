@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mju.csmoa.R
 import com.mju.csmoa.common.SelectMenuDialog
@@ -18,9 +19,19 @@ import com.mju.csmoa.databinding.ActivityWriteReviewBinding
 import com.mju.csmoa.home.review.adapter.WriteReviewPictureAdapter
 import com.mju.csmoa.home.review.adapter.WriteReviewPictureAdapter.Companion.CAMERA
 import com.mju.csmoa.home.review.adapter.WriteReviewPictureAdapter.Companion.PICTURE
-import com.mju.csmoa.home.review.domain.ReviewPicture
+import com.mju.csmoa.home.review.domain.model.ReviewPicture
+import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
 import com.swein.easypermissionmanager.EasyPermissionManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.io.File
@@ -37,6 +48,7 @@ class WriteReviewActivity : AppCompatActivity() {
     private lateinit var selectGalleryLauncher: ActivityResultLauncher<String>
     private var tempImageUri: Uri? = null
     private var tempImageAbsoluteFilePath: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +82,73 @@ class WriteReviewActivity : AppCompatActivity() {
 
             // 제품 리뷰 완료 -> 서버로 데이터 전송
             textViewWriteReviewComplete.setOnClickListener {
-                finish()
+                if (isAllRequirementsMeet()) {
+                    try {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            val accessToken =
+                                MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken!!
+
+                            val reviewMultipartImages =
+                                mutableListOf<MultipartBody.Part>() // multiFile list
+                            reviewPictures.forEachIndexed { index, reviewPicture ->
+                                if (index > 0) {
+                                    Log.d(TAG, "index = $index, reviewPicture = $reviewPicture")
+                                    val file = File(reviewPicture.absoluteFilePath!!)
+                                    val requestImageFile: RequestBody =
+                                        file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                                    reviewMultipartImages.add(
+                                        MultipartBody.Part.createFormData(
+                                            "reviewImages",
+                                            file.name,
+                                            requestImageFile
+                                        )
+                                    )
+                                }
+
+                            }
+
+                            val title = binding.editTextWriteReviewTitle.text.toString()
+                                .toRequestBody(MultipartBody.FORM)
+                            val price = binding.editTextWriteReviewPrice.text.toString()
+                                .toRequestBody(MultipartBody.FORM)
+                            val rating = binding.ratingBarWriteReviewReviewRating.rating.toString()
+                                .toRequestBody(MultipartBody.FORM)
+                            val category =
+                                binding.spinnerWriteReviewCategory.selectedItem.toString()
+                                    .toRequestBody(MultipartBody.FORM)
+                            val csBrand = binding.textViewWriteReviewWhereCsBuy.text.toString()
+                                .toRequestBody(MultipartBody.FORM)
+                            val content = binding.editTextWriteReviewContent.text.toString()
+                                .toRequestBody(MultipartBody.FORM)
+
+                            val response = RetrofitManager.retrofitService?.postReview(
+                                accessToken = accessToken,
+                                reviewImages = reviewMultipartImages,
+                                title = title,
+                                price = price,
+                                rating = rating,
+                                category = category,
+                                csBrand = csBrand,
+                                content = content
+                            )
+
+                            Log.d(TAG, "response = $response")
+                            if (response?.isSuccess != null || response?.isSuccess == true) {
+                                withContext(Dispatchers.Main) {
+                                    makeToast("리뷰가 정상적으로 등록되었습니다", MotionToastStyle.SUCCESS)
+                                    finish()
+                                }
+                            }
+                        }
+                    } catch (ex: Exception) {
+                        Log.d(TAG, "(while file transfer, exception): ${ex.printStackTrace()}")
+                        makeToast("리뷰 저장 중 오류가 발생했습니다", MotionToastStyle.ERROR)
+                    }
+
+
+                }
+
+                //finish()
             }
 
             // 권한 요청
@@ -131,12 +209,11 @@ class WriteReviewActivity : AppCompatActivity() {
             val onCameraClicked: () -> Unit = {
                 if (reviewPictures.size >= 6) {
                     makeToast(
-                        "리뷰 이미지 추가",
                         "리뷰 이미지는 최대 5장까지만 업로드 할 수 있어요!",
                         MotionToastStyle.ERROR
                     )
                 } else {
-                    val selectMenuDialog = SelectMenuDialog(
+                    SelectMenuDialog(
                         context = this@WriteReviewActivity,
                         theme = R.style.BottomSheetDialogTheme,
                         title = "Review Photo",
@@ -214,6 +291,41 @@ class WriteReviewActivity : AppCompatActivity() {
         )
     }
 
+    private fun isAllRequirementsMeet(): Boolean {
+        // 사진 한 장 이상
+        if (reviewPictures.size <= 1) {
+            makeToast("1장 이상의 사진을 추가해주세요.", MotionToastStyle.ERROR)
+            return false
+        }
+        // title
+        if (binding.editTextWriteReviewTitle.text.isEmpty()) {
+            makeToast("리뷰할 제품의 제목을 입력해주세요.", MotionToastStyle.ERROR)
+            return false
+        }
+        // price
+        if (binding.editTextWriteReviewPrice.text.isEmpty()) {
+            makeToast("리뷰할 제품의 가격을 입력해주세요.", MotionToastStyle.ERROR)
+            return false
+        }
+        // 제품 카테고리
+        if (binding.spinnerWriteReviewCategory.selectedItem == null) {
+            makeToast("제품의 카테고리를 선택해주세요.", MotionToastStyle.ERROR)
+            return false
+        }
+        // 편의점 브랜드
+        if (binding.textViewWriteReviewWhereCsBuy.text.isEmpty()) {
+            makeToast("제품을 구매하신 편의점 브랜드를 선택해주세요.", MotionToastStyle.ERROR)
+            return false
+        }
+        // 내용
+        if (binding.editTextWriteReviewContent.text.length < 10) {
+            makeToast("최소 입력 문자수는 10자 이상입니다.", MotionToastStyle.ERROR)
+            return false
+        }
+
+        return true
+    }
+
     private fun createImageFile(): File {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("review_image", ".jpg", storageDir)
@@ -262,10 +374,10 @@ class WriteReviewActivity : AppCompatActivity() {
         return null
     }
 
-    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+    private fun makeToast(content: String, motionToastStyle: MotionToastStyle) {
         MotionToast.createColorToast(
             this,
-            title,
+            "새 리뷰 작성",
             content,
             motionToastStyle,
             MotionToast.GRAVITY_BOTTOM,

@@ -7,6 +7,7 @@ import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
+import com.mju.csmoa.home.review.domain.PostReviewRes
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
@@ -40,7 +41,8 @@ interface RetrofitService {
     @Multipart
     @PATCH("/user-info")
     suspend fun patchUserInfo(
-        @Header("Access-Token") accessToken: String, @Part profileImageFile: MultipartBody.Part?,
+        @Header("Access-Token") accessToken: String,
+        @Part profileImageFile: MultipartBody.Part?,
         @Part("nickname") nickname: RequestBody?
     ): PatchUserInfoRes?
 
@@ -87,5 +89,19 @@ interface RetrofitService {
         @Header("Access-Token") accessToken: String,
         @Body postEventItemHistoryAndLikeReq: PostEventItemHistoryAndLikeReq
     ): BaseResponse<PostEventItemLikeRes>
+
+    // NOTE: 리뷰 작성
+    @Multipart
+    @POST("/reviews")
+    suspend fun postReview(
+        @Header("Access-Token") accessToken: String,
+        @Part reviewImages: List<MultipartBody.Part>,
+        @Part("title") title: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("rating") rating: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("csBrand") csBrand: RequestBody,
+        @Part("content") content: RequestBody
+    ): BaseResponse<PostReviewRes>
 
 }

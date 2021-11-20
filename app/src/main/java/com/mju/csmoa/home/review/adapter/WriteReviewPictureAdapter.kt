@@ -2,7 +2,7 @@ package com.mju.csmoa.home.review.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mju.csmoa.home.review.domain.ReviewPicture
+import com.mju.csmoa.home.review.domain.model.ReviewPicture
 import com.mju.csmoa.home.review.viewholder.WriteReviewCameraViewHolder
 import com.mju.csmoa.home.review.viewholder.WriteReviewPictureViewHolder
 

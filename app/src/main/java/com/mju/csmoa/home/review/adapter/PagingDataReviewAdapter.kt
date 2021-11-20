@@ -3,7 +3,7 @@ package com.mju.csmoa.home.review.adapter
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.mju.csmoa.home.review.domain.Review
+import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.home.review.viewholder.ReviewViewHolder
 
 

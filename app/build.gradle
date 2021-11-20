@@ -138,6 +138,9 @@ dependencies {
 
     // spinner
     implementation 'com.github.chivorns:smartmaterialspinner:1.4.0'
+
+    // ratingBar
+    implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
 }
 
 protobuf {

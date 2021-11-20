@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemReviewBinding
-import com.mju.csmoa.home.review.domain.Review
+import com.mju.csmoa.home.review.domain.model.Review
 
 class ReviewViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     ItemReviewBinding.inflate(

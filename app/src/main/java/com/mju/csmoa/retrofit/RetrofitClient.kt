@@ -25,7 +25,6 @@ object RetrofitClient {
 
         // 로그를 찍기 위해 로깅 인터셉터 추가 (전반적인 통신 내역 볼 수 있음)
         val loggingInterceptor = HttpLoggingInterceptor { message ->
-            Log.d(TAG, "RetrofitClient -getClient() called / $message")
 
             when {
                 message.isJsonObject() ->
