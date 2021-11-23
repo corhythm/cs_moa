@@ -180,6 +180,7 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
 
 
                 withContext(Dispatchers.Main) {
+                    binding.progressBarEventItemsOnGoing.visibility = View.INVISIBLE
                     binding.recyclerViewEventItemsRecommendationEventItems.apply {
                         // 어댑터 선언을 여기서 안 하면 에러남
                         recommendEventItems = response?.result!! // 추천 행사 상품 리스트
@@ -200,7 +201,6 @@ class EventItemsFragment : Fragment(), EventItemChangedListener {
                         ).apply {
                             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                                 override fun getSpanSize(position: Int): Int {
-                                    Log.d(TAG, "in withContext, SpanSizeLookUp")
                                     return when (concatAdapter.getItemViewType(position)) {
                                         HEADER -> 2
                                         BODY -> 1

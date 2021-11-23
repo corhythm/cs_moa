@@ -16,6 +16,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ProgressBar
+                android:id="@+id/progressBar_eventItems_onGoing"
+                android:layout_width="100dp"
+                android:visibility="visible"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"/>
+
             <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                 android:id="@+id/cardView_eventItems_gotoTop"
                 android:layout_width="50dp"
@@ -70,7 +77,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="45dp"
-                android:padding="10dp" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
 
         </RelativeLayout>
 

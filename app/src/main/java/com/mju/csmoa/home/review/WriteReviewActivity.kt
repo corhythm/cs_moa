@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -84,6 +85,8 @@ class WriteReviewActivity : AppCompatActivity() {
             textViewWriteReviewComplete.setOnClickListener {
                 if (isAllRequirementsMeet()) {
                     try {
+                        binding.progressBarWriteReviewOnGoing.visibility = View.VISIBLE
+
                         lifecycleScope.launch(Dispatchers.IO) {
                             val accessToken =
                                 MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken!!
@@ -135,6 +138,7 @@ class WriteReviewActivity : AppCompatActivity() {
                             Log.d(TAG, "response = $response")
                             if (response?.isSuccess != null || response?.isSuccess == true) {
                                 withContext(Dispatchers.Main) {
+                                    binding.progressBarWriteReviewOnGoing.visibility = View.INVISIBLE
                                     makeToast("리뷰가 정상적으로 등록되었습니다", MotionToastStyle.SUCCESS)
                                     finish()
                                 }
@@ -144,7 +148,6 @@ class WriteReviewActivity : AppCompatActivity() {
                         Log.d(TAG, "(while file transfer, exception): ${ex.printStackTrace()}")
                         makeToast("리뷰 저장 중 오류가 발생했습니다", MotionToastStyle.ERROR)
                     }
-
 
                 }
 
@@ -189,18 +192,22 @@ class WriteReviewActivity : AppCompatActivity() {
             selectGalleryLauncher =
                 registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                     uri?.let {
-                        Log.d(TAG, "WriteReviewActivity -init() called / uri = $uri")
-                        reviewPictures.add(
-                            ReviewPicture(
-                                type = PICTURE,
-                                date = Date().toString(),
-                                pictureUri = uri,
-                                absoluteFilePath = getFilePathFromUri(uri)
+                        val absoluteFilePath = getFilePathFromUri(uri)
+                        if (absoluteFilePath != null) {
+                            reviewPictures.add(
+                                ReviewPicture(
+                                    type = PICTURE,
+                                    date = Date().toString(),
+                                    pictureUri = uri,
+                                    absoluteFilePath = absoluteFilePath
+                                )
                             )
-                        )
-                        // notifyItemInserted를 안 해줘도 반영이 되는데 이건 왜 그런지 모르겠다.
+                            // notifyItemInserted를 안 해줘도 반영이 되는데 이건 왜 그런지 모르겠다.
 //                        writeReviewPictureAdapter.notifyItemInserted(reviewPictures.size - 1)
-                        writeReviewPictureAdapter.notifyItemChanged(0)
+                            writeReviewPictureAdapter.notifyItemChanged(0)
+                            return@registerForActivityResult
+                        }
+                        makeToast("사진은 갤러리를 통해서 접근해주세요", MotionToastStyle.ERROR)
                     }
                 }
 
@@ -218,7 +225,7 @@ class WriteReviewActivity : AppCompatActivity() {
                         theme = R.style.BottomSheetDialogTheme,
                         title = "Review Photo",
                         firstButtonText = "Take Photo",
-                        secondButtonText = "Gallery",
+                        secondButtonText = "From Gallery",
                         lottieName = "photo.json",
                         onFirstButtonClicked = { // gallery
                             tempImageUri = FileProvider.getUriForFile(
@@ -340,7 +347,7 @@ class WriteReviewActivity : AppCompatActivity() {
             MediaStore.Images.Media.WIDTH,
             MediaStore.Images.Media.HEIGHT,
             MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.ImageColumns.DATA // deprecated 됐지만 현재는 이것 말고는 절대 경로를 가져올 수 있는 방법이 없음
+            "_data" // deprecated 됐지만 현재는 이것 말고는 절대 경로를 가져올 수 있는 방법이 없음
         )
 
         contentResolver.query(
@@ -355,7 +362,7 @@ class WriteReviewActivity : AppCompatActivity() {
                 cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
             val bucketDisplayNameColumn =
                 cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-            val dataColumn = cursor?.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA)
+            val dataColumn = cursor?.getColumnIndexOrThrow("_data")
 
             if (cursor?.moveToFirst()!!) {
                 val id = cursor.getLong(idColumn!!)

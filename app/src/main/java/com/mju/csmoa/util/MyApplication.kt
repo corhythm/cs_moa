@@ -1,6 +1,7 @@
 package com.mju.csmoa.util
 
 import android.app.Application
+import android.graphics.Color
 import com.kakao.sdk.common.KakaoSdk
 import com.mju.csmoa.R
 import com.mju.csmoa.util.datastore.JwtTokenInfoProtoManager
@@ -24,7 +25,46 @@ class MyApplication : Application() {
 
     companion object {
         lateinit var instance: MyApplication
-        private set
+            private set
+
+        fun getCsBrandResourceId(csBrand: String): Int {
+            return when (csBrand) {
+                "cu" -> R.drawable.img_cs_cu
+                "gs25" -> R.drawable.img_cs_gs25
+                "seven" -> R.drawable.img_cs_seveneleven
+                "ministop" -> R.drawable.img_cs_ministop
+                "emart24" -> R.drawable.img_cs_emart24
+                else -> -1
+            }
+        }
+
+        fun getCsBrandColor(csBrand: String): Int {
+            val csBrandColorList =
+                instance.resources.getStringArray(R.array.cs_brand_color_list)
+
+            return when (csBrand) {
+                "cu" -> Color.parseColor(csBrandColorList[0])
+                "gs25" -> Color.parseColor(csBrandColorList[1])
+                "seven" -> Color.parseColor(csBrandColorList[2])
+                "ministop" -> Color.parseColor(csBrandColorList[3])
+                "emart24" -> Color.parseColor(csBrandColorList[4])
+                else -> -1
+            }
+        }
+
+        fun getEventTypeColor(eventType: String): Int {
+            val eventTypeColorList =
+                this.instance.resources.getStringArray(R.array.event_type_color_list)
+
+            return when (eventType) {
+                "1+1" -> Color.parseColor(eventTypeColorList[0])
+                "2+1" -> Color.parseColor(eventTypeColorList[1])
+                "3+1" -> Color.parseColor(eventTypeColorList[2])
+                "4+1" -> Color.parseColor(eventTypeColorList[3])
+                else -> -1
+            }
+        }
+
     }
 
     override fun onCreate() {
@@ -36,7 +76,6 @@ class MyApplication : Application() {
 //        getAppKeyHash()
 //        Log.d(TAG, " -onCreate() called / (kakao) keyHash = ${Utility.getKeyHash(this)}")
     }
-
 
 
 //    @RequiresApi(Build.VERSION_CODES.P)

@@ -141,6 +141,12 @@ dependencies {
 
     // ratingBar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+
+    // viewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    // Material View Pager Dots Indicator
+    implementation 'com.tbuonomo:dotsindicator:4.2'
 }
 
 protobuf {

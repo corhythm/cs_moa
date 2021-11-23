@@ -241,7 +241,7 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        val eitherAOrBDialog = EitherAOrBDialog(
+        EitherAOrBDialog(
             context = this,
             theme = R.style.BottomSheetDialogTheme,
             lottieName = "man_question.json",

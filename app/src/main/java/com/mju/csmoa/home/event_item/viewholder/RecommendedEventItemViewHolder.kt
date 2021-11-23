@@ -12,6 +12,7 @@ import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.HEADER
 import com.mju.csmoa.home.event_item.domain.model.EventItem
+import com.mju.csmoa.util.MyApplication
 
 class RecommendedEventItemViewHolder(
     parent: ViewGroup,
@@ -26,6 +27,16 @@ class RecommendedEventItemViewHolder(
     ) {
 
     private var binding = ItemRecommendedEventItemBinding.bind(itemView)
+
+    init {
+        // root 아이템 클릭했을 때
+        binding.root.setOnClickListener {
+            eventItemChangedListener.onClickedEventItem(
+                HEADER,
+                absoluteAdapterPosition
+            )
+        }
+    }
 
     fun bind(eventItem: EventItem) {
         with(binding) {
@@ -58,57 +69,17 @@ class RecommendedEventItemViewHolder(
                 .error(R.drawable.ic_all_404)
                 .into(imageViewItemRecommendedEventItemRecommendedImage)
 
-            // 이벤트 타입별 컬러 설정
-            val csBrandColorList =
-                root.context.resources.getStringArray(R.array.cs_brand_color_list)
-            var csBrandStrokeColor = Color.BLACK
-            var csBrandResourceId = -1
-            when (eventItem.csBrand) {
-                "cu" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[0])
-                    csBrandResourceId = R.drawable.img_cs_cu
-                }
-                "gs25" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[1])
-                    csBrandResourceId = R.drawable.img_cs_gs25
-                }
-                "seven" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[2])
-                    csBrandResourceId = R.drawable.img_cs_seveneleven
-                }
-                "ministop" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[3])
-                    csBrandResourceId = R.drawable.img_cs_ministop
-                }
-                "emart24" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[4])
-                    csBrandResourceId = R.drawable.img_cs_emart24
-                }
-            }
-
             // 편의점 브랜드 설정
+            val csBrandStrokeColor = MyApplication.getCsBrandColor(eventItem.csBrand!!)
+            val csBrandResourceId = MyApplication.getCsBrandResourceId(eventItem.csBrand)
             cardViewItemRecommendedEventItemCsBrandContainer.strokeColor = csBrandStrokeColor
             imageViewItemRecommendedEventItemCsBrand.setImageResource(csBrandResourceId)
 
-            val eventTypeColorList =
-                root.context.resources.getStringArray(R.array.event_type_color_list)
-            var eventTypeColor = Color.BLACK
-            when (eventItem.itemEventType) {
-                "1+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[0])
-                "2+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[1])
-                "3+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[2])
-                "4+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[3])
-            }
-
             // 이벤트 타입 설정
+            val eventTypeColor = MyApplication.getEventTypeColor(eventItem.itemEventType!!)
             textViewItemRecommendedEventItemEventType.text = eventItem.itemEventType
             textViewItemRecommendedEventItemEventType.setTextColor(eventTypeColor)
             cardViewItemRecommendedEventItemEventTypeContainer.strokeColor = eventTypeColor
-
-            // root 아이템 클릭했을 때
-            root.setOnClickListener { eventItemChangedListener.onClickedEventItem(HEADER, absoluteAdapterPosition) }
-
-
         }
     }
 

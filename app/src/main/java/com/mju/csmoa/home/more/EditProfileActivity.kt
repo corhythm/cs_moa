@@ -236,7 +236,7 @@ class EditProfileActivity : AppCompatActivity() {
             MediaStore.Images.Media.WIDTH,
             MediaStore.Images.Media.HEIGHT,
             MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.ImageColumns.DATA // deprecated 됐지만 현재는 이것 말고는 절대 경로를 가져올 수 있는 방법이 없음
+            "_data" // deprecated 됐지만 현재는 이것 말고는 절대 경로를 가져올 수 있는 방법이 없음
         )
 
         contentResolver.query(
@@ -251,7 +251,7 @@ class EditProfileActivity : AppCompatActivity() {
                 cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
             val bucketDisplayNameColumn =
                 cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-            val dataColumn = cursor?.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA)
+            val dataColumn = cursor?.getColumnIndexOrThrow("_data")
 
             if (cursor?.moveToFirst()!!) {
                 val id = cursor.getLong(idColumn!!)
@@ -325,7 +325,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val eitherAOrBDialog = EitherAOrBDialog(
+        EitherAOrBDialog(
             context = this,
             theme = R.style.BottomSheetDialogTheme,
             lottieName = "man_question2.json",

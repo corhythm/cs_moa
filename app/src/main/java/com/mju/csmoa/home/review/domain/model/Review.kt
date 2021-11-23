@@ -6,10 +6,12 @@ data class Review(
     val itemName: String,
     val itemPrice: String,
     val itemStarScore: Float,
-    val imageUrls: List<String>,
+    val itemImageUrl: String,
     val csBrand: String,
-    val itemImgSrc: String,
-    val heartNum: Int,
+    val content: String,
+    val likeNum: Int,
     val commentNum: Int,
+    val viewNum: Int,
     val createdAt: String,
+    val isLike: Boolean
 )

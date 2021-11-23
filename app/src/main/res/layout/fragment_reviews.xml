@@ -16,6 +16,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ProgressBar
+                android:id="@+id/progressBar_reviews_onGoing"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"/>
 
             <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                 android:id="@+id/cardView_reviews_writeReview"
@@ -38,6 +43,29 @@
                     android:background="@android:color/transparent"
                     android:padding="10dp"
                     android:src="@drawable/ic_all_write" />
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:id="@+id/cardView_reviews_gotoTop"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignEnd="@id/recyclerView_reviews_containerReviews"
+                android:layout_alignBottom="@id/cardView_reviews_writeReview"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="80dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="50dp"
+                app:strokeColor="#7E36BEFD"
+                app:strokeWidth="3dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Top"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/sandol_b"/>
 
             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
@@ -48,7 +76,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="45dp"
-                android:padding="10dp" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
         </RelativeLayout>
 

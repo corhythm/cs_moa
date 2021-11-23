@@ -1,3 +1,11 @@
 <resources>
-        <dimen name="fab_margin">16dp</dimen>
-    </resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="pageMargin">30dp</dimen>
+    <dimen name="pagerWidth">10dp</dimen>
+    <dimen name="offset">10dp</dimen>
+    <dimen name="pageMarginAndOffset">10dp</dimen>
+
+    <dimen name="viewpager_next_item_visible">26dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">42dp</dimen>
+</resources>

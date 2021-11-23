@@ -27,17 +27,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
-        android:supportsRtl="false"
+        android:supportsRtl="true"
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".home.review.WriteReviewActivity"
+            android:name=".home.review.DetailedReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".home.event_item.DetailEventItemActivity"
-            android:exported="true" />
+            android:name=".home.review.WriteReviewActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".review.NewReviewActivity"
+            android:name=".home.event_item.DetailEventItemActivity"
             android:exported="true" />
         <activity
             android:name=".home.more.EditProfileActivity"
@@ -90,7 +91,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

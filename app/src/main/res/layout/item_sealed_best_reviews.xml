@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView_sealedBestReviews_lottie1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/textView_sealedBestReviews_recommendationLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textView_sealedBestReviews_recommendationLabel"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="best.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1" />
+
+    <TextView
+        android:id="@+id/textView_sealedBestReviews_recommendationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이번주 Best 리뷰!"
+        android:textColor="@color/colorGray"
+        android:textSize="30dp"
+        app:layout_constraintStart_toEndOf="@id/lottieAnimationView_sealedBestReviews_lottie1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/cardView_sealedBestReviews_bestReviewContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_sealedBestReviews_recommendationLabel"
+        app:layout_constraintVertical_bias="0.2">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager2_sealedBestReviews_bestReviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal" />
+
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:id="@+id/dotsIndicator_sealedBestReviews_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="7dp"
+            app:dotsColor="#F1F1F1"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="10dp"
+            app:dotsSpacing="3dp"
+            app:dotsWidthFactor="2.5"
+            app:progressMode="true"
+            app:selectedDotColor="#FFC107" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_sealedBestReviews_divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="5dp"
+        android:background="#F0F2F3"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardView_sealedBestReviews_bestReviewContainer" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView_sealedBestReviews_lottie2"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_sealedBestReviews_divider"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="review.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1" />
+
+    <TextView
+        android:id="@+id/textView_sealedBestReviews_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="끌리는 대로 리뷰!"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lottieAnimationView_sealedBestReviews_lottie2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.review.domain.PostReviewRes
+import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
 import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
@@ -103,5 +104,16 @@ interface RetrofitService {
         @Part("csBrand") csBrand: RequestBody,
         @Part("content") content: RequestBody
     ): BaseResponse<PostReviewRes>
+
+    @GET("/best-reviews")
+    suspend fun getBestReviews(
+        @Header("Access-Token") accessToken: String
+    ): BaseResponse<List<Review>>
+
+    @GET("/reviews")
+    suspend fun getReviews(
+        @Header("Access-Token") accessToken: String,
+        @Query("page") pageNum: Int
+    ): BaseResponse<List<Review>>
 
 }
