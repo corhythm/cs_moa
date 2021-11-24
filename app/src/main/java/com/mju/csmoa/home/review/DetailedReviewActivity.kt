@@ -1,22 +1,31 @@
 package com.mju.csmoa.home.review
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
 import com.mju.csmoa.databinding.ActivityDetailedReviewBinding
 import com.mju.csmoa.home.review.adapter.DetailedReviewAdapter
 import com.mju.csmoa.home.review.adapter.PagingDataCommentAdapter
+import com.mju.csmoa.home.review.domain.model.Comment
+import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.home.review.paging.PagingCommentViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.util.RecyclerViewDecoration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -57,7 +66,9 @@ class DetailedReviewActivity : AppCompatActivity() {
                     )
 
                     // 답글 보기 클릭하면
-                    val onNestedCommentOnClicked: (position: Int) -> Unit = { }
+                    val onNestedCommentOnClicked: (position: Int) -> Unit = {
+
+                    }
 
                     if (response?.result != null) {
                         val detailedReviewAdapter = DetailedReviewAdapter(response.result!!)
@@ -70,6 +81,7 @@ class DetailedReviewActivity : AppCompatActivity() {
                             progressBarDetailedReviewLoading.visibility = View.INVISIBLE
                             recyclerViewDetailedReviewReviewAndComments.apply {
                                 adapter = concatAdapter
+                                addItemDecoration(RecyclerViewDecoration(15, 30, 30, 30))
                                 layoutManager = LinearLayoutManager(
                                     this@DetailedReviewActivity,
                                     LinearLayoutManager.VERTICAL,
@@ -83,9 +95,9 @@ class DetailedReviewActivity : AppCompatActivity() {
                             .collectLatest { pagingData -> pagingDataCommentAdapter.submitData(pagingData) }
                     }
 
-                } // lifeCycleOwner.launch
-            } // if(intent.hasExtra)
-        } // with(binding)
+                }
+            }
+        }
 
 
     }

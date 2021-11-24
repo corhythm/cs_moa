@@ -33,7 +33,7 @@ class DetailEventItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventItemBinding
     private lateinit var jwtTokenInfo: JwtTokenInfo
-    private lateinit var detailEventItem: EventItem
+    private var detailEventItem: EventItem? = null
     private var type = -1 // HEADER(recommended, 0) || BODY(normal, 1)
     private var position = -1
 
@@ -94,7 +94,7 @@ class DetailEventItemActivity : AppCompatActivity() {
 
                             // 행사 상품 정보 넘겨주고 init
                             detailEventItem = response.result!!.detailEventItem
-                            withContext(Dispatchers.Main) { initEventItemInfo(detailEventItem) }
+                            withContext(Dispatchers.Main) { initEventItemInfo(detailEventItem!!) }
                         }
                         else -> {
                             withContext(Dispatchers.Main) {
@@ -142,7 +142,6 @@ class DetailEventItemActivity : AppCompatActivity() {
             }
 
 
-
             val likeSetOnClickListener = View.OnClickListener {
                 try {
 
@@ -159,13 +158,17 @@ class DetailEventItemActivity : AppCompatActivity() {
                     }
 
                     animator?.addUpdateListener { animation: ValueAnimator ->
-                        lottieAnimationViewDetailEventItemHeart.progress = animation.animatedValue as Float
+                        lottieAnimationViewDetailEventItemHeart.progress =
+                            animation.animatedValue as Float
                     }
                     animator?.start()
 
                     textViewDetailEventItemLikeCount.text =
                         detailEventItem.likeCount.toString() //좋아요 개수 업데이트
-                    Log.d(TAG, "DetailEventItemActivity -initEventItemInfo() called / detailEventItem = $detailEventItem")
+                    Log.d(
+                        TAG,
+                        "DetailEventItemActivity -initEventItemInfo() called / detailEventItem = $detailEventItem"
+                    )
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val accessToken =
@@ -234,13 +237,16 @@ class DetailEventItemActivity : AppCompatActivity() {
 
     // 종료할 때, eventItem 정보 가져가기
     override fun onBackPressed() {
-        val detailEventItemIntent = Intent().apply {
-            putExtra("detailEventItem", detailEventItem)
-            putExtra("type", this@DetailEventItemActivity.type)
-            putExtra("position", position)
+        if (detailEventItem != null) {
+            val detailEventItemIntent = Intent().apply {
+                putExtra("detailEventItem", detailEventItem)
+                putExtra("type", this@DetailEventItemActivity.type)
+                putExtra("position", position)
+            }
+            setResult(RESULT_OK, detailEventItemIntent)
+            super.onBackPressed()
         }
-        setResult(RESULT_OK, detailEventItemIntent)
-        super.onBackPressed()
+
     }
 
 }

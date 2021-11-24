@@ -21,7 +21,8 @@ class RecyclerViewDecoration(
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        if (parent.getChildAdapterPosition(view) != Objects.requireNonNull(parent.adapter).itemCount - 1) {
+        // Objects.requireNonNull(parent.adapter).itemCount - 1 하면 맨 마지막 아이템 적용 안 됨
+        if (parent.getChildAdapterPosition(view) != Objects.requireNonNull(parent.adapter).itemCount) {
             outRect.top = this.top
             outRect.bottom = this.bottom
             outRect.left = start

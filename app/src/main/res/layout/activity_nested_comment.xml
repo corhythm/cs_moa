@@ -1,13 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    tools:context=".home.review.DetailedReviewActivity">
+    tools:context=".home.review.NestedCommentActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout_detailedReview_appbarLayout"
+        android:id="@+id/appBarLayout_nestedComment_appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="30dp"
@@ -16,28 +16,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_detailedReview_toolbar"
+            android:id="@+id/toolbar_nestedComment_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:padding="5dp"
             app:navigationIcon="@drawable/ic_all_back"
-            app:title="리뷰 상세정보" />
+            app:title="답글" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_detailedReview_reviewAndComments"
+        android:id="@+id/recyclerView_nestedComment_reviewAndComments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="150dp"
-        app:layout_constraintBottom_toTopOf="@id/cardView_detailedReview_inputCommentContainer"
+        app:layout_constraintBottom_toTopOf="@id/cardView_nestedComment_inputCommentContainer"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout_detailedReview_appbarLayout" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout_nestedComment_appbarLayout" />
 
     <ProgressBar
-        android:id="@+id/progressBar_detailedReview_loading"
+        android:id="@+id/progressBar_nestedComment_loading"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
 
 
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:id="@+id/cardView_detailedReview_inputCommentContainer"
+        android:id="@+id/cardView_nestedComment_inputCommentContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.9"
-        app:strokeColor="@color/azure"
+        app:strokeColor="#FFD3B5"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,12 +64,12 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editText_detailedReview_inputComment"
+                android:id="@+id/editText_nestedComment_inputComment"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:background="@android:color/transparent"
-                android:hint="댓글을 입력하세요."
+                android:hint="답글을 입력하세요."
                 android:paddingStart="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHeight_percent="1"
@@ -77,20 +77,17 @@
                 app:layout_constraintWidth_percent="0.86" />
 
             <ImageView
-                android:id="@+id/imageView_detailedReview_send"
+                android:id="@+id/imageView_nestedComment_send"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:padding="10dp"
-                android:src="@drawable/ic_all_send"
-                app:layout_constraintBottom_toBottomOf="@id/editText_detailedReview_inputComment"
+                android:src="@drawable/ic_all_send2"
+                app:layout_constraintBottom_toBottomOf="@id/editText_nestedComment_inputComment"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/editText_detailedReview_inputComment"
-                app:layout_constraintTop_toTopOf="@id/editText_detailedReview_inputComment" />
+                app:layout_constraintStart_toEndOf="@id/editText_nestedComment_inputComment"
+                app:layout_constraintTop_toTopOf="@id/editText_nestedComment_inputComment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

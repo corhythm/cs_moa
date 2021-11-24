@@ -181,7 +181,7 @@
                 android:gravity="center"
                 android:text="기타"
                 android:textColor="#EF0C76"
-                android:textSize="18dp"
+                android:textSize="15dp"
                 android:visibility="invisible" />
         </FrameLayout>
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
