@@ -22,8 +22,7 @@
             android:id="@+id/imageView_review_itemImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             tools:src="@drawable/img_review_item1" />
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 

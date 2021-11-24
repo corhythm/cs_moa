@@ -8,7 +8,7 @@ import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.viewholder.EventItemViewHolder
 
 class EventItemPagingDataAdapter(private val eventItemChangedListener: EventItemChangedListener) :
-    PagingDataAdapter<EventItem, EventItemViewHolder>(DiffUtilCallback()) {
+    PagingDataAdapter<EventItem, EventItemViewHolder>(EventItemDiffUtilCallback()) {
 
     companion object {
         const val HEADER = 0 // 추천 아이템
@@ -26,7 +26,7 @@ class EventItemPagingDataAdapter(private val eventItemChangedListener: EventItem
     }
 }
 
-class DiffUtilCallback : DiffUtil.ItemCallback<EventItem>() {
+class EventItemDiffUtilCallback : DiffUtil.ItemCallback<EventItem>() {
 
     override fun areItemsTheSame(oldItem: EventItem, newItem: EventItem): Boolean {
         return oldItem.eventItemId == newItem.eventItemId

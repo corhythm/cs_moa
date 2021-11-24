@@ -8,6 +8,8 @@ import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.review.domain.PostReviewRes
+import com.mju.csmoa.home.review.domain.model.Comment
+import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
 import com.mju.csmoa.login.domain.model.PostLoginReq
@@ -105,15 +107,31 @@ interface RetrofitService {
         @Part("content") content: RequestBody
     ): BaseResponse<PostReviewRes>
 
+    // NOTE: 베스트 리뷰 가져오기
     @GET("/best-reviews")
     suspend fun getBestReviews(
         @Header("Access-Token") accessToken: String
     ): BaseResponse<List<Review>>
 
+    // NOTE: 일반 리뷰 가져오기
     @GET("/reviews")
     suspend fun getReviews(
         @Header("Access-Token") accessToken: String,
         @Query("page") pageNum: Int
     ): BaseResponse<List<Review>>
+
+    // NOTE: 리뷰 세부 정보 가져오기
+    @GET("reviews/{reviewId}")
+    suspend fun getDetailedReview(
+        @Header("Access-Token") accessToken: String,
+        @Path("reviewId") reviewId: Long
+    ): BaseResponse<DetailedReview>
+
+    // NOTE: 세부 리뷰 정보에서 댓글 가져오기
+    @GET("reviews/{reviewId}/comments")
+    suspend fun getReviewComments(
+        @Path("reviewId") reviewId: Long,
+        @Query("page") pageNum: Int // 5개씩 가져옴
+    ): BaseResponse<List<Comment>>
 
 }

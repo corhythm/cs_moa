@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/relativeLayout_detailedReview_imageContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.55"
+        app:layout_constraintWidth_percent="0.9">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="@color/azure">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager2_detailedReview_bestReviews"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true" />
+
+            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                android:id="@+id/dotsIndicator_detailedReview_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="7dp"
+                app:dotsColor="#F1F1F1"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="10dp"
+                app:dotsSpacing="3dp"
+                app:dotsWidthFactor="2.5"
+                app:progressMode="true"
+                app:selectedDotColor="#FFC107" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView_detailedReview_profileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout_detailedReview_imageContainer"
+        tools:src="@drawable/img_all_basic_profile" />
+
+    <TextView
+        android:id="@+id/textView_detailedReview_nickname"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_detailedReview_profileImage"
+        app:layout_constraintStart_toEndOf="@id/imageView_detailedReview_profileImage"
+        app:layout_constraintTop_toTopOf="@id/imageView_detailedReview_profileImage"
+        tools:text="김밥말이헤헤" />
+
+    <TextView
+        android:id="@+id/textView_detailedReview_createdAt"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="@font/sandol_b"
+        android:text="21.09.81 11:31"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_nickname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toEndOf="@id/textView_detailedReview_nickname"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_nickname" />
+
+    <TextView
+        android:id="@+id/textView_detailedReview_reviewTitle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="25dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/imageView_detailedReview_profileImage"
+        app:layout_constraintTop_toBottomOf="@id/imageView_detailedReview_profileImage"
+        tools:text="시원한 냉우동" />
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_detailedReview_csBrandContainer"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="50dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toStartOf="@id/textView_detailedReview_createdAt"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_createdAt"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_createdAt"
+        app:strokeColor="#F3F813"
+        app:strokeWidth="1.5dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView_detailedReview_csBrand"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_cs_emart24"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView_detailedReview_csBrandEtc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/maple_story_light"
+                android:gravity="center"
+                android:text="기타"
+                android:textColor="#EF0C76"
+                android:textSize="18dp"
+                android:visibility="invisible" />
+        </FrameLayout>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <TextView
+        android:id="@+id/textView_detailedReview_price"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/godo_maum"
+        android:gravity="center"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView_detailedReview_reviewTitle"
+        app:layout_constraintHorizontal_bias=".2"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_reviewTitle"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_reviewTitle"
+        app:layout_constraintTop_toBottomOf="@id/textView_detailedReview_reviewTitle"
+        tools:text="4,500원" />
+
+    <ImageView
+        android:id="@+id/imageView_detailedReview_starScoreImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_all_filled_star"
+        app:layout_constraintEnd_toStartOf="@id/textView_detailedReview_starScore"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_starScore"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_starScore"/>
+
+    <TextView
+        android:id="@+id/textView_detailedReview_starScore"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@id/imageView_detailedReview_likeImage"
+        app:layout_constraintTop_toTopOf="@id/imageView_detailedReview_likeImage"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_detailedReview_likeImage"
+        tools:text="4.3" />
+
+    <ImageView
+        android:id="@+id/imageView_detailedReview_likeImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_all_empty_stroke_colored_heart"
+        app:layout_constraintEnd_toStartOf="@id/textView_detailedReview_likeNum"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_likeNum"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_likeNum"/>
+
+    <TextView
+        android:id="@+id/textView_detailedReview_likeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/imageView_detailedReview_viewImage"
+        app:layout_constraintTop_toTopOf="@id/imageView_detailedReview_viewImage"
+        app:layout_constraintBottom_toBottomOf="@id/imageView_detailedReview_viewImage"
+        tools:text="112" />
+
+    <ImageView
+        android:id="@+id/imageView_detailedReview_viewImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="fitCenter"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_all_eye"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_viewNum"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_viewNum"
+        app:layout_constraintEnd_toStartOf="@id/textView_detailedReview_viewNum" />
+
+    <TextView
+        android:id="@+id/textView_detailedReview_viewNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/azure"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_detailedReview_reviewTitle"
+        android:layout_marginTop="15dp"
+        tools:text="210" />
+
+    <TextView
+        android:id="@+id/textView_detailedReview_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".85"
+        app:layout_constraintTop_toBottomOf="@id/imageView_detailedReview_starScoreImage"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/>
+
+    <View
+        android:id="@+id/view_detailedReview_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.95"
+        android:background="#cdcdcd"
+        app:layout_constraintTop_toBottomOf="@id/textView_detailedReview_content"
+        android:layout_marginTop="20dp"
+        android:elevation="5dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedReview_commentNum"
+        app:layout_constraintEnd_toStartOf="@id/textView_detailedReview_commentNum"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedReview_commentNum"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_all_comment"/>
+
+    <TextView
+        android:id="@+id/textView_detailedReview_commentNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintTop_toBottomOf="@id/view_detailedReview_divider"
+        android:layout_marginTop="20dp"
+        tools:text="댓글(50)"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

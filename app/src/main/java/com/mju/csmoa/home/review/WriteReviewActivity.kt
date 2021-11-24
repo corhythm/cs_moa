@@ -62,6 +62,7 @@ class WriteReviewActivity : AppCompatActivity() {
 
         with(binding) {
             setSupportActionBar(toolbarWriteReviewToolbar) // 툴바 활성화
+            toolbarWriteReviewToolbar.setNavigationOnClickListener { onBackPressed() } // 네비 아이콘 클릭했을 때 -> 뒤로 가기
 
             // category spinner
             spinnerWriteReviewCategory.setItem(
@@ -78,8 +79,6 @@ class WriteReviewActivity : AppCompatActivity() {
                     }
                 ).show()
             }
-
-            toolbarWriteReviewToolbar.setNavigationOnClickListener { onBackPressed() } // 네비 아이콘 클릭했을 때 -> 뒤로 가기
 
             // 제품 리뷰 완료 -> 서버로 데이터 전송
             textViewWriteReviewComplete.setOnClickListener {

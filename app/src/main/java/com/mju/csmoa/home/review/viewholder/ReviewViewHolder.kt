@@ -10,6 +10,7 @@ import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemReviewBinding
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.util.MyApplication
+import java.util.*
 
 class ReviewViewHolder(
     private val parent: ViewGroup,
@@ -26,10 +27,12 @@ class ReviewViewHolder(
     }
 
     fun bind(review: Review?) {
-        with(binding) {
+        val random = Random()
 
+        with(binding) {
             Glide.with(parent.context)
                 .load(review!!.itemImageUrl)
+                .fitCenter()
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
@@ -40,6 +43,7 @@ class ReviewViewHolder(
             textViewReviewLikeNum.text = review.likeNum.toString()
             textViewReviewRating.text = "(${review.itemStarScore})"
             ratingBarReviewReviewRating.rating = review.itemStarScore
+            textViewReviewPrice.text = review.itemPrice
             textViewReviewViewNum.text = review.viewNum.toString()
             textViewReviewCreatedAt.text = review.createdAt
 
@@ -49,13 +53,17 @@ class ReviewViewHolder(
                 imageViewReviewLikeNumImage.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
             }
 
+            val color: Int =
+                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+            cardViewReviewImageContainer.strokeColor = color
+
             // 편의점 브랜드 로고 설정
             val csBrandStrokeColor = MyApplication.getCsBrandColor(review.csBrand)
             val csBrandResourceId = MyApplication.getCsBrandResourceId(review.csBrand)
 
             if (csBrandResourceId == -1 &&  csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
                 imageViewReviewCsBrand.visibility = View.INVISIBLE
-                textViewReviewCsBrandEtc.visibility = View.INVISIBLE
+                textViewReviewCsBrandEtc.visibility = View.VISIBLE
             } else {
                 // 편의점 브랜드 설정
                 cardViewReviewCsBrandContainer.strokeColor = csBrandStrokeColor

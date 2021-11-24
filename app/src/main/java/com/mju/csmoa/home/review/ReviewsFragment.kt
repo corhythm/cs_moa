@@ -1,11 +1,15 @@
 package com.mju.csmoa.home.review
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,11 +17,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withCreated
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentReviewsBinding
 import com.mju.csmoa.home.event_item.adapter.EventItemLoadStateAdapter
+import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.review.adapter.PagingDataReviewAdapter
 import com.mju.csmoa.home.review.adapter.SealedBestReviewsAdapter
+import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.home.review.paging.PagingReviewViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
@@ -36,6 +43,7 @@ class ReviewsFragment : Fragment() {
     private lateinit var sealedBestReviewsAdapter: SealedBestReviewsAdapter
     private lateinit var pagingDataAdapter: PagingDataReviewAdapter
     private val pagingReviewViewModel: PagingReviewViewModel by activityViewModels()
+    private lateinit var detailedReviewLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +75,25 @@ class ReviewsFragment : Fragment() {
             }
         }
 
+        detailedReviewLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val review = result.data?.getParcelableExtra<DetailedReview>("detailedReview")
+                    if (review != null) {
+                        with(binding) {
+//                            textViewMoreNickname.text = patchUserInfoRes.result.nickname
+//                            Glide.with(requireContext()).load(patchUserInfoRes.result.userProfileImageUrl)
+//                                .placeholder(R.drawable.img_all_basic_profile)
+//                                .error(R.drawable.img_all_basic_profile)
+//                                .into(imageViewMoreProfileImg)
+//
+//                            userInfo?.userProfileImageUrl = patchUserInfoRes.result.userProfileImageUrl
+//                            userInfo?.nickname = patchUserInfoRes.result.nickname
+                        }
+                    }
+                }
+            }
+
         initReviews()
     }
 
@@ -94,15 +121,26 @@ class ReviewsFragment : Fragment() {
                         }
                     }
 
-                    val bestReviewOnClicked: (position: Int, rootPosition: Int) -> Unit = { position, rootPosition ->
-                        Log.d(TAG, "ReviewsFragment -initReviews() called / $position, $rootPosition")
+                    val bestReviewOnClicked: (position: Int, rootPosition: Int) -> Unit =
+                        { position, rootPosition ->
+                            Log.d(
+                                TAG,
+                                "bestReview 클릭!!! / bestReview = ${bestReviews[position][rootPosition]}"
+                            )
+                            goToDetailedReview(bestReviews[position][rootPosition])
+                        }
+
+                    val reviewOnClicked: (position: Int) -> Unit = { position ->
+                        val review = pagingDataAdapter.peek(position - 1)
+                        Log.d(
+                            TAG,
+                            "normal review 클릭!! / review = $review"
+                        )
+                        goToDetailedReview(review!!)
                     }
 
-                    val reviewOnClicked: (position: Int) -> Unit = {
-
-                    }
-
-                    sealedBestReviewsAdapter = SealedBestReviewsAdapter(bestReviews, bestReviewOnClicked)
+                    sealedBestReviewsAdapter =
+                        SealedBestReviewsAdapter(bestReviews, bestReviewOnClicked)
                     pagingDataAdapter = PagingDataReviewAdapter(reviewOnClicked)
                     concatAdapter = ConcatAdapter(sealedBestReviewsAdapter, pagingDataAdapter)
 
@@ -131,6 +169,7 @@ class ReviewsFragment : Fragment() {
 
     }
 
+
     private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
         MotionToast.createColorToast(
             requireActivity(),
@@ -146,5 +185,13 @@ class ReviewsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun goToDetailedReview(review: Review) {
+        val detailedReviewIntent =
+            Intent(requireContext(), DetailedReviewActivity::class.java).apply {
+                putExtra("review", review)
+            }
+        detailedReviewLauncher.launch(detailedReviewIntent)
     }
 }

@@ -1,5 +1,9 @@
 package com.mju.csmoa.home.review.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Review(
     val reviewId: Long,
     val userId: Long,
@@ -14,4 +18,4 @@ data class Review(
     val viewNum: Int,
     val createdAt: String,
     val isLike: Boolean
-)
+) : Parcelable

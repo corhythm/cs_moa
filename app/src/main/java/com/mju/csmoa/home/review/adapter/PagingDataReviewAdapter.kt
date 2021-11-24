@@ -8,7 +8,7 @@ import com.mju.csmoa.home.review.viewholder.ReviewViewHolder
 
 
 class PagingDataReviewAdapter(private val reviewOnClicked: (position: Int) -> Unit) :
-    PagingDataAdapter<Review, ReviewViewHolder>(DiffUtilCallback()) {
+    PagingDataAdapter<Review, ReviewViewHolder>(ReviewDiffUtilCallback()) {
 
     override fun getItemViewType(position: Int) = 1
 
@@ -19,7 +19,7 @@ class PagingDataReviewAdapter(private val reviewOnClicked: (position: Int) -> Un
     }
 }
 
-class DiffUtilCallback : DiffUtil.ItemCallback<Review>() {
+class ReviewDiffUtilCallback : DiffUtil.ItemCallback<Review>() {
 
     override fun areItemsTheSame(oldItem: Review, newItem: Review): Boolean {
         return oldItem.reviewId == newItem.reviewId

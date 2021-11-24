@@ -1,5 +1,6 @@
 package com.mju.csmoa.home.review.viewholder
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemBestReviewBinding
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.util.MyApplication
+import java.util.*
+
 
 class BestReviewViewHolder(
     private val parent: ViewGroup,
@@ -45,13 +48,20 @@ class BestReviewViewHolder(
 
     fun bind(review: List<Review>) {
 
+        val random = Random(256)
+
         with(binding.layoutBestReviewRootContainer1) {
             Glide.with(parent.context)
                 .load(review[0].itemImageUrl)
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
+                .centerCrop()
                 .into(imageViewBestReviewItemImage)
+
+            val color: Int =
+                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+            cardViewBestReviewItemImageContainer.strokeColor = color
 
             textViewBestReviewTitle.text = review[0].itemName // 아이템 이름
             textViewBestReviewPrice.text = review[0].itemPrice // 가격
@@ -71,9 +81,9 @@ class BestReviewViewHolder(
             val csBrandStrokeColor = MyApplication.getCsBrandColor(review[0].csBrand)
             val csBrandResourceId = MyApplication.getCsBrandResourceId(review[0].csBrand)
 
-            if (csBrandResourceId == -1 &&  csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
+            if (csBrandResourceId == -1 && csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
                 imageViewBestReviewCsBrand.visibility = View.INVISIBLE
-                textViewBestReviewCsBrandEtc.visibility = View.INVISIBLE
+                textViewBestReviewCsBrandEtc.visibility = View.VISIBLE
             } else {
                 // 편의점 브랜드 설정
                 cardViewBestReviewCsBrandContainer.strokeColor = csBrandStrokeColor
@@ -89,6 +99,10 @@ class BestReviewViewHolder(
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
                 .into(imageViewBestReviewItemImage)
+
+            val color: Int =
+                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+            cardViewBestReviewItemImageContainer.strokeColor = color
 
             textViewBestReviewTitle.text = review[1].itemName // 아이템 이름
             textViewBestReviewPrice.text = review[1].itemPrice // 가격
@@ -108,9 +122,9 @@ class BestReviewViewHolder(
             val csBrandStrokeColor = MyApplication.getCsBrandColor(review[1].csBrand)
             val csBrandResourceId = MyApplication.getCsBrandResourceId(review[1].csBrand)
 
-            if (csBrandResourceId == -1 &&  csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
+            if (csBrandResourceId == -1 && csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
                 imageViewBestReviewCsBrand.visibility = View.INVISIBLE
-                textViewBestReviewCsBrandEtc.visibility = View.INVISIBLE
+                textViewBestReviewCsBrandEtc.visibility = View.VISIBLE
             } else {
                 // 편의점 브랜드 설정
                 cardViewBestReviewCsBrandContainer.strokeColor = csBrandStrokeColor
@@ -125,6 +139,10 @@ class BestReviewViewHolder(
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
                 .into(imageViewBestReviewItemImage)
+
+            val color: Int =
+                Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+            cardViewBestReviewItemImageContainer.strokeColor = color
 
             textViewBestReviewTitle.text = review[2].itemName // 아이템 이름
             textViewBestReviewPrice.text = review[2].itemPrice // 가격
@@ -144,9 +162,9 @@ class BestReviewViewHolder(
             val csBrandStrokeColor = MyApplication.getCsBrandColor(review[2].csBrand)
             val csBrandResourceId = MyApplication.getCsBrandResourceId(review[2].csBrand)
 
-            if (csBrandResourceId == -1 &&  csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
+            if (csBrandResourceId == -1 && csBrandStrokeColor == -1) { // 편의점 브랜드가 기타이면
                 imageViewBestReviewCsBrand.visibility = View.INVISIBLE
-                textViewBestReviewCsBrandEtc.visibility = View.INVISIBLE
+                textViewBestReviewCsBrandEtc.visibility = View.VISIBLE
             } else {
                 // 편의점 브랜드 설정
                 cardViewBestReviewCsBrandContainer.strokeColor = csBrandStrokeColor

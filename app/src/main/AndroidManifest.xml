@@ -32,6 +32,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".home.review.DetailedReviewActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".home.review.WriteReviewActivity"
