@@ -129,15 +129,16 @@ interface RetrofitService {
 
     // NOTE: 세부 리뷰 정보에서 댓글 가져오기
     @GET("reviews/{reviewId}/comments")
-    suspend fun getReviewComments(
+    suspend fun getReviewParentComments(
         @Path("reviewId") reviewId: Long,
         @Query("page") pageNum: Int // 5개씩 가져옴
     ): BaseResponse<List<Comment>>
 
     // NOTE: 대댓글 가져오기
-    @GET("comments")
-    suspend fun getReviewNestedComments(
-        @Path("/comments/{commentId}/nested-comments") commentId: Long,
+    @GET("/comments/{commentId}/child-comments")
+    suspend fun getReviewChildComments(
+        @Path("commentId") commentId: Long,
+        @Query("page") pageNum: Int // 5개씩 가져옴
     ): BaseResponse<List<Comment>>
 
 }

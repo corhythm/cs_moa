@@ -161,7 +161,7 @@ class ReviewsFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     Log.d(TAG, "ReviewsFragment - exception / ${ex.stackTrace}")
                     Log.d(TAG, "ReviewsFragment - exception / ${ex.message}")
-                    makeToast("데이터 가져오기 실패", "행사 상품 데이터를 가져오는 데 실패했습니다", MotionToastStyle.ERROR)
+                    makeToast()
                 }
             }
         }
@@ -170,7 +170,11 @@ class ReviewsFragment : Fragment() {
     }
 
 
-    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+    private fun makeToast(
+        title: String = "리뷰 보기",
+        content: String = "리뷰 데이터를 가져오는 데 실패했습니다.",
+        motionToastStyle: MotionToastStyle = MotionToastStyle.ERROR
+    ) {
         MotionToast.createColorToast(
             requireActivity(),
             title,

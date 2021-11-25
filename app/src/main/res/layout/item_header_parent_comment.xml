@@ -16,40 +16,17 @@
         android:padding="5dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView_comment_profileImage"
+            android:id="@+id/imageView_parentComment_profileImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/img_all_basic_profile" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView_comment_goToNestedComment"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            app:cardBackgroundColor="#eee3e7"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/textView_comment_nestedCommentNum"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:textSize="12dp"
-                tools:text="답글(13)" />
-        </androidx.cardview.widget.CardView>
-
         <TextView
-            android:id="@+id/textView_comment_nickname"
+            android:id="@+id/textView_parentComment_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -57,33 +34,66 @@
             android:fontFamily="@font/sandol_b"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_comment_profileImage"
+            app:layout_constraintTop_toBottomOf="@id/imageView_parentComment_profileImage"
             tools:text="오겹살" />
 
         <TextView
-            android:id="@+id/textView_comment_createdAt"
+            android:id="@+id/textView_parentComment_createdAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/sandol_b"
             android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="@id/textView_comment_nickname"
+            app:layout_constraintBottom_toBottomOf="@id/textView_parentComment_nickname"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textView_comment_nickname"
+            app:layout_constraintTop_toTopOf="@id/textView_parentComment_nickname"
             tools:text="13분 전" />
 
         <TextView
-            android:id="@+id/textView_comment_content"
+            android:id="@+id/textView_parentComment_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_comment_nickname"
+            app:layout_constraintTop_toBottomOf="@id/textView_parentComment_nickname"
             app:layout_constraintWidth_percent="0.85"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="15dp"
             tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+
+        <View
+            android:id="@+id/view_parentComment_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.95"
+            android:background="#cdcdcd"
+            app:layout_constraintTop_toBottomOf="@id/textView_parentComment_content"
+            android:layout_marginTop="20dp"
+            android:elevation="5dp"/>
+
+        <ImageView
+            android:id="@+id/imageView_parentComment_commentImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toBottomOf="@id/view_parentComment_divider"
+            app:layout_constraintEnd_toStartOf="@id/textView_parentComment_commentNum"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_all_child_comment"/>
+
+        <TextView
+            android:id="@+id/textView_parentComment_commentNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.55"
+            app:layout_constraintTop_toTopOf="@id/imageView_parentComment_commentImage"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_parentComment_commentImage"
+            tools:text="댓글(50)"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

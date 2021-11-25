@@ -1,5 +1,6 @@
 package com.mju.csmoa.home.review.viewholder
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,9 @@ import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemCommentBinding
 import com.mju.csmoa.home.review.domain.model.Comment
 
-class CommentViewHolder(
+class ParentCommentViewHolder(
     private val parent: ViewGroup,
-    private val onNestedCommentClicked: (position: Int) -> Unit
+    private val onChildCommentClicked: (position: Int) -> Unit
 ) :
     RecyclerView.ViewHolder(
         ItemCommentBinding.inflate(
@@ -37,12 +38,14 @@ class CommentViewHolder(
 
             // 답글이 있으면
             if (comment.nestedCommentNum > 0) {
-                cardViewCommentGoToNestedComment.visibility = View.VISIBLE
                 textViewCommentNestedCommentNum.text = "답글(${comment.nestedCommentNum})"
-
-                // 답글 클릭하면
-                cardViewCommentGoToNestedComment.setOnClickListener { onNestedCommentClicked.invoke(absoluteAdapterPosition) }
+            } else { // 답글이 없으면
+                textViewCommentNestedCommentNum.text = "답글쓰기"
+                cardViewCommentGoToNestedComment.setCardBackgroundColor(Color.parseColor("#FF8C94"))
             }
+
+            // 답글 클릭하면
+            cardViewCommentGoToNestedComment.setOnClickListener { onChildCommentClicked.invoke(absoluteAdapterPosition) }
         }
     }
 }

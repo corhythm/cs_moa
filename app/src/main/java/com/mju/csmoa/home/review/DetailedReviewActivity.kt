@@ -13,15 +13,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
-import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
 import com.mju.csmoa.databinding.ActivityDetailedReviewBinding
 import com.mju.csmoa.home.review.adapter.DetailedReviewAdapter
 import com.mju.csmoa.home.review.adapter.PagingDataCommentAdapter
-import com.mju.csmoa.home.review.domain.model.Comment
-import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
+import com.mju.csmoa.home.review.paging.CommentPagingDataSource.Companion.PARENT_COMMENT
 import com.mju.csmoa.home.review.paging.PagingCommentViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.MyApplication
@@ -37,6 +34,8 @@ class DetailedReviewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailedReviewBinding
     private val pagingCommentViewModel: PagingCommentViewModel by viewModels()
+    private lateinit var childCommentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var pagingDataCommentAdapter: PagingDataCommentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +49,18 @@ class DetailedReviewActivity : AppCompatActivity() {
             setSupportActionBar(toolbarDetailedReviewToolbar)
             toolbarDetailedReviewToolbar.setNavigationOnClickListener { onBackPressed() }
 
+            // init launch
+            childCommentLauncher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+
+                    }
+                }
+
             if (intent.hasExtra("review")) { // review 객체가 존재하면
                 val review = intent.getParcelableExtra<Review>("review")
                 if (review == null) {
-                    makeToast("리뷰 상세 정보", "리뷰 정보를 불러올 수 없습니다", MotionToastStyle.ERROR)
+                    makeToast()
                     return
                 }
 
@@ -66,13 +73,20 @@ class DetailedReviewActivity : AppCompatActivity() {
                     )
 
                     // 답글 보기 클릭하면
-                    val onNestedCommentOnClicked: (position: Int) -> Unit = {
-
+                    val onNestedCommentOnClicked: (position: Int) -> Unit = { position: Int ->
+                        val parentComment = pagingDataCommentAdapter.peek(position - 1)
+                        val childCommentIntent = Intent(
+                            this@DetailedReviewActivity,
+                            ChildCommentActivity::class.java
+                        ).apply {
+                            putExtra("parentComment", parentComment)
+                        }
+                        childCommentLauncher.launch(childCommentIntent)
                     }
 
                     if (response?.result != null) {
                         val detailedReviewAdapter = DetailedReviewAdapter(response.result!!)
-                        val pagingDataCommentAdapter =
+                        pagingDataCommentAdapter =
                             PagingDataCommentAdapter(onNestedCommentOnClicked)
                         val concatAdapter =
                             ConcatAdapter(detailedReviewAdapter, pagingDataCommentAdapter)
@@ -81,7 +95,7 @@ class DetailedReviewActivity : AppCompatActivity() {
                             progressBarDetailedReviewLoading.visibility = View.INVISIBLE
                             recyclerViewDetailedReviewReviewAndComments.apply {
                                 adapter = concatAdapter
-                                addItemDecoration(RecyclerViewDecoration(15, 30, 30, 30))
+                                addItemDecoration(RecyclerViewDecoration(15, 30, 20, 20))
                                 layoutManager = LinearLayoutManager(
                                     this@DetailedReviewActivity,
                                     LinearLayoutManager.VERTICAL,
@@ -90,9 +104,17 @@ class DetailedReviewActivity : AppCompatActivity() {
                             }
                         }
 
-                        pagingCommentViewModel.setReviewId(response.result?.reviewId!!)
-                        pagingCommentViewModel.getComments()
-                            .collectLatest { pagingData -> pagingDataCommentAdapter.submitData(pagingData) }
+                        pagingCommentViewModel.apply {
+                            setCommentType(
+                                depth = PARENT_COMMENT,
+                                id = response.result?.reviewId!!
+                            )
+                        }.getComments()
+                            .collectLatest { pagingData ->
+                                pagingDataCommentAdapter.submitData(
+                                    pagingData
+                                )
+                            }
                     }
 
                 }
@@ -102,7 +124,11 @@ class DetailedReviewActivity : AppCompatActivity() {
 
     }
 
-    private fun makeToast(title: String, content: String, motionToastStyle: MotionToastStyle) {
+    private fun makeToast(
+        title: String = "리뷰 상세 정보",
+        content: String = "리뷰 데이터를 가져오는데 실패했습니다",
+        motionToastStyle: MotionToastStyle = MotionToastStyle.ERROR
+    ) {
         MotionToast.createColorToast(
             this,
             title,

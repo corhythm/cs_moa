@@ -10,12 +10,21 @@ import com.mju.csmoa.home.review.domain.model.Comment
 import kotlinx.coroutines.flow.Flow
 
 class PagingCommentViewModel : ViewModel() {
-    private var reviewId: Long? = null
+    private var id: Long? = null
+    private var depth: Int? = null
 
-    fun setReviewId(reviewId: Long) { this.reviewId = reviewId}
+    fun setCommentType(depth: Int, id: Long) {
+        this.depth = depth
+        this.id = id
+    }
 
     fun getComments(): Flow<PagingData<Comment>> {
         return Pager(config = PagingConfig(pageSize = CommentPagingDataSource.PAGE_SIZE),
-            pagingSourceFactory = { CommentPagingDataSource(reviewId ?: 1) }).flow.cachedIn(viewModelScope)
+            pagingSourceFactory = {
+                CommentPagingDataSource(
+                    depth = depth ?: 1,
+                    id = id ?: 1
+                )
+            }).flow.cachedIn(viewModelScope)
     }
 }

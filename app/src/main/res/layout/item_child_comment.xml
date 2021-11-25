@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="5dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="#fdf5e6"
     app:cardCornerRadius="25dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +16,7 @@
         android:padding="5dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView_nestedComment_profileImage"
+            android:id="@+id/imageView_childComment_profileImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
@@ -24,31 +26,31 @@
             tools:src="@drawable/img_all_basic_profile" />
 
         <TextView
-            android:id="@+id/textView_nestedComment_nickname"
+            android:id="@+id/textView_childComment_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/sandol_b"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView_nestedComment_profileImage"
+            android:textSize="25dp"
+            app:layout_constraintStart_toEndOf="@id/imageView_childComment_profileImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_childComment_profileImage"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_childComment_profileImage"
             tools:text="오겹살" />
 
         <TextView
-            android:id="@+id/textView_nestedComment_createdAt"
+            android:id="@+id/textView_childComment_createdAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/sandol_b"
             android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="@id/textView_nestedComment_nickname"
+            app:layout_constraintBottom_toBottomOf="@id/textView_childComment_nickname"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textView_nestedComment_nickname"
+            app:layout_constraintTop_toTopOf="@id/textView_childComment_nickname"
             tools:text="13분 전" />
 
         <TextView
-            android:id="@+id/textView_nestedComment_content"
+            android:id="@+id/textView_childComment_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -56,10 +58,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView_nestedComment_nickname"
+            app:layout_constraintTop_toBottomOf="@id/textView_childComment_nickname"
             app:layout_constraintWidth_percent="0.85"
             tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged." />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.circularreveal.cardview.CircularRevealCardView>

@@ -49,4 +49,18 @@ class RetrofitTest {
 
         }
     }
+
+    @Test
+    fun exceptionTest() {
+        try {
+            val temp: Temp? = null
+            print(temp!!.alpha)
+        } catch (ex: kotlin.Exception) {
+            println("kotlin exception: ${ex.printStackTrace()}")
+        } catch(ex: java.lang.Exception) {
+            println("java exception: ${ex.printStackTrace()}")
+        }
+    }
+
+    data class Temp(val alpha: Int)
 }

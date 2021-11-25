@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.review.NestedCommentActivity">
+    tools:context=".home.review.ChildCommentActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout_nestedComment_appbarLayout"
+        android:id="@+id/appBarLayout_childComment_appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="30dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_nestedComment_toolbar"
+            android:id="@+id/toolbar_childComment_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
@@ -26,18 +26,18 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_nestedComment_reviewAndComments"
+        android:id="@+id/recyclerView_childComment_reviewAndComments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="150dp"
-        app:layout_constraintBottom_toTopOf="@id/cardView_nestedComment_inputCommentContainer"
+        app:layout_constraintBottom_toTopOf="@id/cardView_childComment_inputCommentContainer"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout_nestedComment_appbarLayout" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout_childComment_appbarLayout" />
 
     <ProgressBar
-        android:id="@+id/progressBar_nestedComment_loading"
+        android:id="@+id/progressBar_childComment_loading"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
 
 
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:id="@+id/cardView_nestedComment_inputCommentContainer"
+        android:id="@+id/cardView_childComment_inputCommentContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -64,7 +64,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editText_nestedComment_inputComment"
+                android:id="@+id/editText_childComment_inputComment"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
@@ -77,15 +77,15 @@
                 app:layout_constraintWidth_percent="0.86" />
 
             <ImageView
-                android:id="@+id/imageView_nestedComment_send"
+                android:id="@+id/imageView_childComment_send"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:padding="10dp"
                 android:src="@drawable/ic_all_send2"
-                app:layout_constraintBottom_toBottomOf="@id/editText_nestedComment_inputComment"
+                app:layout_constraintBottom_toBottomOf="@id/editText_childComment_inputComment"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/editText_nestedComment_inputComment"
-                app:layout_constraintTop_toTopOf="@id/editText_nestedComment_inputComment" />
+                app:layout_constraintStart_toEndOf="@id/editText_childComment_inputComment"
+                app:layout_constraintTop_toTopOf="@id/editText_childComment_inputComment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

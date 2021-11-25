@@ -1,5 +1,10 @@
 package com.mju.csmoa.home.review.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class Comment(
     val reviewCommentId: Long,
     val userId: Long,
@@ -8,5 +13,6 @@ data class Comment(
     val bundleId: Long,
     val commentContent: String,
     val nestedCommentNum: Int,
-    val createdAt: String
-)
+    val createdAt: String,
+    val depth: Int
+) : Parcelable

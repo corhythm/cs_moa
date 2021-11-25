@@ -7,11 +7,14 @@ import com.mju.csmoa.home.review.domain.model.Comment
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants
 
-class CommentPagingDataSource(private val reviewId: Long) : PagingSource<Int, Comment>() {
+class CommentPagingDataSource(private val depth: Int, private val id: Long) :
+    PagingSource<Int, Comment>() {
 
     companion object {
-        private const val FIRST_PAGE_INDEX = 1
+        const val FIRST_PAGE_INDEX = 1
         const val PAGE_SIZE = 5
+        const val PARENT_COMMENT = 1 // 부모 댓글이면 id는 reviewId
+        const val CHILD_COMMENT = 0 // 자식 댓글이면 id는 reviewCommentId
     }
 
     override fun getRefreshKey(state: PagingState<Int, Comment>): Int? {
@@ -24,7 +27,10 @@ class CommentPagingDataSource(private val reviewId: Long) : PagingSource<Int, Co
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Comment> {
         return try {
             val position = params.key ?: FIRST_PAGE_INDEX
-            val response = RetrofitManager.retrofitService?.getReviewComments(reviewId, position)
+            val response = if (depth == 1)
+                RetrofitManager.retrofitService?.getReviewParentComments(reviewId = id, pageNum = position) // 부모 댓글
+            else
+                RetrofitManager.retrofitService?.getReviewChildComments(commentId = id, pageNum = position) // 자식 댓글
             val comments = response?.result!!
 
             LoadResult.Page(
