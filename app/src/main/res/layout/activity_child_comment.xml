@@ -82,6 +82,8 @@
                 android:layout_height="0dp"
                 android:padding="10dp"
                 android:src="@drawable/ic_all_send2"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="@id/editText_childComment_inputComment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/editText_childComment_inputComment"

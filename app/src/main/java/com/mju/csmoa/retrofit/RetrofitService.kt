@@ -135,11 +135,20 @@ interface RetrofitService {
     ): BaseResponse<List<Comment>>
 
     // NOTE: 대댓글 가져오기
-    @GET("/comments/{commentId}/child-comments")
+    @GET("/comments/{bundleId}/child-comments")
     suspend fun getReviewChildComments(
-        @Path("commentId") commentId: Long,
+        @Path("bundleId") bundleId: Long,
         @Query("page") pageNum: Int // 5개씩 가져옴
     ): BaseResponse<List<Comment>>
+
+    // NOTE: 대댓글 쓰기
+    @POST("/reviews/{reviewId}/comments/{bundleId}/child-comments")
+    suspend fun postChildComment(
+        @Path("reviewId") reviewId: Long,
+        @Path("bundleId") bundleId: Long,
+        @Header("Access-Token") accessToken: String,
+        @Body content: RequestBody
+    ): BaseResponse<Comment>
 
 }
 

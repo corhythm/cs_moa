@@ -7,12 +7,13 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Comment(
     val reviewCommentId: Long,
+    val reviewId: Long,
     val userId: Long,
     val nickname: String,
     val userProfileImageUrl: String,
     val bundleId: Long,
     val commentContent: String,
-    val nestedCommentNum: Int,
+    var nestedCommentNum: Int,
     val createdAt: String,
     val depth: Int
 ) : Parcelable

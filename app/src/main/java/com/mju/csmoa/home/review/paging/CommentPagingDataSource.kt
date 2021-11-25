@@ -30,13 +30,13 @@ class CommentPagingDataSource(private val depth: Int, private val id: Long) :
             val response = if (depth == 1)
                 RetrofitManager.retrofitService?.getReviewParentComments(reviewId = id, pageNum = position) // 부모 댓글
             else
-                RetrofitManager.retrofitService?.getReviewChildComments(commentId = id, pageNum = position) // 자식 댓글
+                RetrofitManager.retrofitService?.getReviewChildComments(bundleId = id, pageNum = position) // 자식 댓글
             val comments = response?.result!!
 
             LoadResult.Page(
                 data = comments,
                 prevKey = if (position == FIRST_PAGE_INDEX) null else position - 1,
-                nextKey = if (comments.size < PAGE_SIZE) null else position.plus(1)
+                nextKey = if (comments.isEmpty()) null else position.plus(1)
             )
         } catch (ex: Exception) {
             Log.d(

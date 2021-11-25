@@ -13,7 +13,10 @@ import com.mju.csmoa.home.review.adapter.DetailedReviewImageAdapter
 import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.util.MyApplication
 
-class DetailedReviewViewHolder(private val parent: ViewGroup) : RecyclerView.ViewHolder(
+class DetailedReviewViewHolder(
+    private val parent: ViewGroup//,
+//    private val onDetailedReviewLikeClicked: (position: Int) -> Unit
+) : RecyclerView.ViewHolder(
     ItemDetailedReviewBinding.inflate(
         LayoutInflater.from(parent.context), parent, false
     ).root
@@ -40,7 +43,8 @@ class DetailedReviewViewHolder(private val parent: ViewGroup) : RecyclerView.Vie
             textViewDetailedReviewCreatedAt.text = detailedReview.createdAt // 생성 일자
             textViewDetailedReviewContent.text = detailedReview.content // 리뷰 내용
 
-            val csBrandResourceId = MyApplication.getCsBrandResourceId(detailedReview.csBrand) // cs이미지
+            val csBrandResourceId =
+                MyApplication.getCsBrandResourceId(detailedReview.csBrand) // cs이미지
             val csBrandColor = MyApplication.getCsBrandColor(detailedReview.csBrand)
 
             if (csBrandResourceId == -1 && csBrandColor == -1) { // 편의점 브랜드가 기타이면
@@ -66,6 +70,11 @@ class DetailedReviewViewHolder(private val parent: ViewGroup) : RecyclerView.Vie
                 imageViewDetailedReviewLikeImage.setImageResource(R.drawable.ic_all_filledheart)
             } else {
                 imageViewDetailedReviewLikeImage.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
+            }
+
+            // 좋아요 눌렀을 때 혹은 취소했을 때
+            linearLayoutDetailedReviewLikeContainer.setOnClickListener {
+//                onDetailedReviewLikeClicked.invoke(absoluteAdapterPosition)
             }
 
         }

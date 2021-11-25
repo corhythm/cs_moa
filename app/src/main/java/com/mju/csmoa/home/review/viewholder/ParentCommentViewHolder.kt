@@ -1,6 +1,7 @@
 package com.mju.csmoa.home.review.viewholder
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemCommentBinding
 import com.mju.csmoa.home.review.domain.model.Comment
+import com.mju.csmoa.util.Constants.TAG
 
 class ParentCommentViewHolder(
     private val parent: ViewGroup,
@@ -24,6 +26,8 @@ class ParentCommentViewHolder(
     private val binding = ItemCommentBinding.bind(itemView)
 
     fun bind(comment: Comment) {
+        Log.d(TAG, "ParentCommentViewHolder -bind() called / position = $absoluteAdapterPosition")
+
         with(binding) {
             Glide.with(parent.context)
                 .load(comment.userProfileImageUrl)
@@ -39,6 +43,7 @@ class ParentCommentViewHolder(
             // 답글이 있으면
             if (comment.nestedCommentNum > 0) {
                 textViewCommentNestedCommentNum.text = "답글(${comment.nestedCommentNum})"
+                cardViewCommentGoToNestedComment.setCardBackgroundColor(Color.parseColor("#eee3e7"))
             } else { // 답글이 없으면
                 textViewCommentNestedCommentNum.text = "답글쓰기"
                 cardViewCommentGoToNestedComment.setCardBackgroundColor(Color.parseColor("#FF8C94"))
