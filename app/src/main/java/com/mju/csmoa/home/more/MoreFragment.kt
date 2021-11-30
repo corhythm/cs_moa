@@ -18,6 +18,7 @@ import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentMoreBinding
 import com.mju.csmoa.databinding.ItemDividerBinding
 import com.mju.csmoa.databinding.ItemMoreBinding
+import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.more.model.UserInfo
 import com.mju.csmoa.retrofit.RetrofitManager
@@ -32,7 +33,7 @@ class MoreFragment : Fragment() {
 
     private var _binding: FragmentMoreBinding? = null
     private val binding get() = _binding!!
-    private val moreMenuRecyclerAdapter = MoreMenuRecyclerAdapter()
+    private lateinit var moreMenuRecyclerAdapter: MoreMenuRecyclerAdapter
     private lateinit var updateProfileInfoLauncher: ActivityResultLauncher<Intent>
     private var userInfo: UserInfo? = null
 
@@ -49,17 +50,20 @@ class MoreFragment : Fragment() {
         updateProfileInfoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    val patchUserInfoRes = result.data?.getParcelableExtra<PatchUserInfoRes>("patchUserInfoRes")
+                    val patchUserInfoRes =
+                        result.data?.getParcelableExtra<PatchUserInfoRes>("patchUserInfoRes")
                     Log.d(TAG, "update complete / patchUserInfoRes = $patchUserInfoRes")
                     if (patchUserInfoRes != null) {
                         with(binding) {
                             textViewMoreNickname.text = patchUserInfoRes.result.nickname
-                            Glide.with(requireContext()).load(patchUserInfoRes.result.userProfileImageUrl)
+                            Glide.with(requireContext())
+                                .load(patchUserInfoRes.result.userProfileImageUrl)
                                 .placeholder(R.drawable.img_all_basic_profile)
                                 .error(R.drawable.img_all_basic_profile)
                                 .into(imageViewMoreProfileImg)
 
-                            userInfo?.userProfileImageUrl = patchUserInfoRes.result.userProfileImageUrl
+                            userInfo?.userProfileImageUrl =
+                                patchUserInfoRes.result.userProfileImageUrl
                             userInfo?.nickname = patchUserInfoRes.result.nickname
                         }
                     }
@@ -72,12 +76,10 @@ class MoreFragment : Fragment() {
         val itemMoreMenuList = ArrayList<ItemMoreMenu>()
 
         for (i in moreItemNameList.indices) {
-
             if (moreItemNameList[i].equals("divider")) {
                 itemMoreMenuList.add(ItemMoreMenu())
                 continue
             }
-
             itemMoreMenuList.add(
                 ItemMoreMenu(
                     menuImageResourceId = moreItemImageDrawableList.getResourceId(i, 0),
@@ -86,13 +88,22 @@ class MoreFragment : Fragment() {
             )
         }
 
+        // 아이템 클릭됐을 때
+        val onItemClicked: (position: Int) -> Unit = {
+            when(itemMoreMenuList[it].menuName) {
+                "주변 편의점 찾기" -> {
+                    startActivity(Intent(requireContext(), CSMapActivity::class.java))
+                }
+            }
+        }
+        moreMenuRecyclerAdapter = MoreMenuRecyclerAdapter(itemMoreMenuList, onItemClicked)
+
         with(binding) {
             // init recyclerView
             recyclerViewMoreMenuList.apply {
                 adapter = moreMenuRecyclerAdapter
                 layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                moreMenuRecyclerAdapter.submitList(itemMoreMenuList)
             }
 
             // change profile
@@ -103,12 +114,10 @@ class MoreFragment : Fragment() {
                 try {
                     val jwtTokenInfo =
                         MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
-                    Log.d(TAG, "MoreFragment -init() called / jwtTokenInfo = $jwtTokenInfo")
 
                     // 사용자 정보 받아오기
                     val getUserInfoRes =
                         RetrofitManager.retrofitService?.getUserInfo(jwtTokenInfo!!.accessToken)
-                    Log.d(TAG, "MoreFragment -init() called / getUserInfoRes = $getUserInfoRes")
 
                     // 회원 정보 받아오는 데 실패하면
                     if (getUserInfoRes == null) {
@@ -168,13 +177,10 @@ class MoreFragment : Fragment() {
     }
 }
 
-class MoreMenuRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private lateinit var itemMoreList: List<ItemMoreMenu>
-
-    fun submitList(itemMoreList: List<ItemMoreMenu>) {
-        this.itemMoreList = itemMoreList
-    }
+class MoreMenuRecyclerAdapter(
+    private val itemMoreList: List<ItemMoreMenu>,
+    private val onItemClicked: (Position: Int) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return when (itemMoreList[position].menuName) {
@@ -184,19 +190,8 @@ class MoreMenuRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == 0) MoreMenuViewHolder(
-            ItemMoreBinding.inflate(
-                LayoutInflater.from(
-                    parent.context
-                ), parent, false
-            )
-        )
-        else DivideViewHolder(
-            ItemDividerBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
-
+        return if (viewType == 0) MoreMenuViewHolder(parent, onItemClicked)
+        else DivideViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -209,20 +204,36 @@ class MoreMenuRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
 }
 
-class MoreMenuViewHolder(private val itemMoreBinding: ItemMoreBinding) :
-    RecyclerView.ViewHolder(itemMoreBinding.root) {
+class MoreMenuViewHolder(parent: ViewGroup, private val onItemClicked: (Position: Int) -> Unit) :
+    RecyclerView.ViewHolder(
+        ItemMoreBinding.inflate(
+            LayoutInflater.from(
+                parent.context
+            ), parent, false
+        ).root
+    ) {
+
+    private val binding = ItemMoreBinding.bind(itemView)
+
+    init {
+        binding.root.setOnClickListener {
+            onItemClicked.invoke(absoluteAdapterPosition)
+        }
+    }
 
     fun bind(itemMoreMenu: ItemMoreMenu) {
-        itemMoreBinding.imageViewItemMoreMenuImg.setImageResource(itemMoreMenu.menuImageResourceId)
-        itemMoreBinding.textViewItemMoreMenuName.text = itemMoreMenu.menuName
-
-        // 메뉴 중 하나 눌렸을 때
-        itemMoreBinding.root.setOnClickListener { }
+        binding.imageViewItemMoreMenuImg.setImageResource(itemMoreMenu.menuImageResourceId)
+        binding.textViewItemMoreMenuName.text = itemMoreMenu.menuName
     }
 }
 
+
 // Divider
-class DivideViewHolder(private val itemDividerBinding: ItemDividerBinding) :
-    RecyclerView.ViewHolder(itemDividerBinding.root) {}
+class DivideViewHolder(parent: ViewGroup) :
+    RecyclerView.ViewHolder(
+        ItemDividerBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        ).root
+    ) {}
 
 data class ItemMoreMenu(val menuImageResourceId: Int = -1, val menuName: String = "divider")

@@ -147,6 +147,9 @@ dependencies {
 
     // Material View Pager Dots Indicator
     implementation 'com.tbuonomo:dotsindicator:4.2'
+
+    // Kakao Map
+    implementation files('libs/libDaumMapAndroid.jar')
 }
 
 protobuf {

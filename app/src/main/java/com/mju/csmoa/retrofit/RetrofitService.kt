@@ -1,6 +1,7 @@
 package com.mju.csmoa.retrofit
 
 import com.google.gson.JsonElement
+import com.mju.csmoa.home.cs_location.domain.GetSearchKeyWordRes
 import com.mju.csmoa.home.event_item.domain.GetDetailEventItemRes
 import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
 import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
@@ -127,12 +128,20 @@ interface RetrofitService {
         @Path("reviewId") reviewId: Long
     ): BaseResponse<DetailedReview>
 
-    // NOTE: 세부 리뷰 정보에서 댓글 가져오기
+    // NOTE: 부모 댓글 가져오기
     @GET("reviews/{reviewId}/comments")
     suspend fun getReviewParentComments(
         @Path("reviewId") reviewId: Long,
         @Query("page") pageNum: Int // 5개씩 가져옴
     ): BaseResponse<List<Comment>>
+
+    // NOTE: 부모 댓글 쓰기
+    @POST("reviews/{reviewId}/comments")
+    suspend fun postReviewParentComment(
+        @Path("reviewId") reviewId: Long,
+        @Header("Access-Token") accessToken: String,
+        @Body content: RequestBody
+    ): BaseResponse<Comment>
 
     // NOTE: 대댓글 가져오기
     @GET("/comments/{bundleId}/child-comments")
@@ -143,12 +152,25 @@ interface RetrofitService {
 
     // NOTE: 대댓글 쓰기
     @POST("/reviews/{reviewId}/comments/{bundleId}/child-comments")
-    suspend fun postChildComment(
+    suspend fun postReviewChildComment(
         @Path("reviewId") reviewId: Long,
         @Path("bundleId") bundleId: Long,
         @Header("Access-Token") accessToken: String,
         @Body content: RequestBody
     ): BaseResponse<Comment>
+
+    // NOTE: KakaoMap search Query
+    @GET("v2/local/search/keyword.json")    // Keyword.json의 정보를 받아옴
+    suspend fun getSearchKeyword(
+        @Header("Authorization") key: String,     // 카카오 API 인증키 [필수]
+        @Query("query") query: String,             // 검색을 원하는 질의어 [필수]
+        @Query("page") page: Int,
+        // 매개변수 추가 가능
+        @Query("category_group_code") category: String,
+        @Query("x") x: String,
+        @Query("y") y: String,
+        @Query("radius") rad: Int
+    ): GetSearchKeyWordRes
 
 }
 

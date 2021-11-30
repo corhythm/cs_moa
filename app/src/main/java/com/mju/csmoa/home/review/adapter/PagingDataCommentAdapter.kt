@@ -17,7 +17,7 @@ class PagingDataCommentAdapter() :
 
     constructor(onChildCommentClicked: (position: Int) -> Unit) : this() {
         this.onChildCommentClicked = onChildCommentClicked
-    }
+        }
 
     override fun getItemViewType(position: Int): Int {
         return getItem(position)!!.depth

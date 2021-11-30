@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
+import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.event_item.EventItemsFragment
 import com.mju.csmoa.home.more.MoreFragment
 import com.mju.csmoa.home.review.ReviewsFragment
@@ -66,6 +67,8 @@ class HomeActivity : AppCompatActivity() {
                     toolbar.title = "주변 편의점"
                     searchMenu.isVisible = false
                     // 여기는 그냥 새로운 액티비티로 시작하자
+                    startActivity(Intent(this, CSMapActivity::class.java))
+                    binding.bottomNavViewHomeBottomMenu.isSelected = false
                 }
                 R.id.bottomNavMenu_home_recipe -> {
                     toolbar.title = "꿀조합 레시피"

@@ -16,7 +16,9 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginTop="50dp"
-            android:src="@drawable/img_all_myface"
+            app:civ_border_color="@color/enabled"
+            app:civ_border_width="2dp"
+            android:src="@mipmap/launcher_icon_round"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

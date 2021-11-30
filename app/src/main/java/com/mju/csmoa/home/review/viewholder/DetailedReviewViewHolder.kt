@@ -14,8 +14,8 @@ import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.util.MyApplication
 
 class DetailedReviewViewHolder(
-    private val parent: ViewGroup//,
-//    private val onDetailedReviewLikeClicked: (position: Int) -> Unit
+    private val parent: ViewGroup,
+    private val onLikeClicked: () -> Unit
 ) : RecyclerView.ViewHolder(
     ItemDetailedReviewBinding.inflate(
         LayoutInflater.from(parent.context), parent, false
@@ -65,16 +65,18 @@ class DetailedReviewViewHolder(
                 dotsIndicatorDetailedReviewIndicator.setViewPager2(this)
             }
 
-            // 좋아요 눌렀는지 체크
-            if (detailedReview.isLike) { // 좋아요 했으면
+            // 좋아요
+            if (detailedReview.isLike) {
                 imageViewDetailedReviewLikeImage.setImageResource(R.drawable.ic_all_filledheart)
             } else {
                 imageViewDetailedReviewLikeImage.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
             }
+            textViewDetailedReviewLikeNum.text = detailedReview.likeNum.toString()
+
 
             // 좋아요 눌렀을 때 혹은 취소했을 때
             linearLayoutDetailedReviewLikeContainer.setOnClickListener {
-//                onDetailedReviewLikeClicked.invoke(absoluteAdapterPosition)
+                onLikeClicked.invoke()
             }
 
         }

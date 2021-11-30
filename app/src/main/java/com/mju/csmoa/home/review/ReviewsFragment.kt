@@ -41,9 +41,10 @@ class ReviewsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var concatAdapter: ConcatAdapter
     private lateinit var sealedBestReviewsAdapter: SealedBestReviewsAdapter
-    private lateinit var pagingDataAdapter: PagingDataReviewAdapter
+    private lateinit var pagingDataReviewAdapter: PagingDataReviewAdapter
     private val pagingReviewViewModel: PagingReviewViewModel by activityViewModels()
     private lateinit var detailedReviewLauncher: ActivityResultLauncher<Intent>
+    private lateinit var bestReviews: List<List<Review>>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,19 +78,37 @@ class ReviewsFragment : Fragment() {
 
         detailedReviewLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val review = result.data?.getParcelableExtra<DetailedReview>("detailedReview")
-                    if (review != null) {
-                        with(binding) {
-//                            textViewMoreNickname.text = patchUserInfoRes.result.nickname
-//                            Glide.with(requireContext()).load(patchUserInfoRes.result.userProfileImageUrl)
-//                                .placeholder(R.drawable.img_all_basic_profile)
-//                                .error(R.drawable.img_all_basic_profile)
-//                                .into(imageViewMoreProfileImg)
-//
-//                            userInfo?.userProfileImageUrl = patchUserInfoRes.result.userProfileImageUrl
-//                            userInfo?.nickname = patchUserInfoRes.result.nickname
-                        }
+                if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                    val detailedReview =
+                        result.data!!.getParcelableExtra<DetailedReview>("detailedReview")
+                    val type = result.data!!.getIntExtra("type", -1)
+                    val position = result.data!!.getIntExtra("position", -1)
+                    Log.d(TAG, "정상 도착 / detailedReview = $detailedReview, type = $type, position = $position")
+                    val rootPosition: Int?
+                    val review: Review?
+
+                    if (detailedReview != null && type != -1 && position != -1) {
+                        return@registerForActivityResult
+                    }
+
+                    if (type == 0) {
+                        rootPosition = result.data!!.getIntExtra("rootPosition", -1)
+                        review = bestReviews[position][rootPosition]
+                    } else {
+                        review = pagingDataReviewAdapter.peek(position - 1)
+                    }
+
+                    review?.likeNum = detailedReview?.likeNum!!
+                    review?.isLike = detailedReview.isLike
+                    review?.commentNum = detailedReview.commentNum
+
+                    if (type == 0) {
+                        // 여기는 nested adapter까지 전달해줘야 함.
+                        sealedBestReviewsAdapter.notifyItemRangeChanged(0, bestReviews.size)
+                    }
+                    else {
+                        // 여기서도 에러남
+                        pagingDataReviewAdapter.notifyItemChanged(position - 1)
                     }
                 }
             }
@@ -99,7 +118,6 @@ class ReviewsFragment : Fragment() {
 
     private fun initReviews() {
         // 데이터 가져오기
-
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val accessToken =
@@ -110,39 +128,40 @@ class ReviewsFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     binding.progressBarReviewsOnGoing.visibility = View.INVISIBLE
 
-                    val bestReviews = mutableListOf<List<Review>>() //
+                    bestReviews = mutableListOf() //
                     val tempList = mutableListOf<Review>()
                     Log.d(TAG, "response?.result?.size = ${response?.result?.size}")
                     response?.result?.forEachIndexed { index, review ->
                         tempList.add(review) // 012 345 678 91011
                         if (index % 3 == 2) { // 2 5 8 11
-                            bestReviews.add(tempList.toMutableList())
+                            (bestReviews as MutableList<List<Review>>).add(tempList.toMutableList())
                             tempList.clear()
                         }
                     }
 
                     val bestReviewOnClicked: (position: Int, rootPosition: Int) -> Unit =
                         { position, rootPosition ->
-                            Log.d(
-                                TAG,
-                                "bestReview 클릭!!! / bestReview = ${bestReviews[position][rootPosition]}"
+                            goToDetailedReview(
+                                reviewId = bestReviews[position][rootPosition].reviewId,
+                                position = position,
+                                rootPosition = rootPosition,
+                                type = 0
                             )
-                            goToDetailedReview(bestReviews[position][rootPosition])
                         }
 
                     val reviewOnClicked: (position: Int) -> Unit = { position ->
-                        val review = pagingDataAdapter.peek(position - 1)
-                        Log.d(
-                            TAG,
-                            "normal review 클릭!! / review = $review"
+                        val review = pagingDataReviewAdapter.peek(position - 1)
+                        goToDetailedReview(
+                            reviewId = review!!.reviewId,
+                            position = position,
+                            type = 1
                         )
-                        goToDetailedReview(review!!)
                     }
 
                     sealedBestReviewsAdapter =
                         SealedBestReviewsAdapter(bestReviews, bestReviewOnClicked)
-                    pagingDataAdapter = PagingDataReviewAdapter(reviewOnClicked)
-                    concatAdapter = ConcatAdapter(sealedBestReviewsAdapter, pagingDataAdapter)
+                    pagingDataReviewAdapter = PagingDataReviewAdapter(reviewOnClicked)
+                    concatAdapter = ConcatAdapter(sealedBestReviewsAdapter, pagingDataReviewAdapter)
 
                     binding.recyclerViewReviewsContainerReviews.apply {
                         adapter = concatAdapter
@@ -156,7 +175,7 @@ class ReviewsFragment : Fragment() {
                 }
 
                 pagingReviewViewModel.getReviews()
-                    .collectLatest { pagingData -> pagingDataAdapter.submitData(pagingData) }
+                    .collectLatest { pagingData -> pagingDataReviewAdapter.submitData(pagingData) }
             } catch (ex: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.d(TAG, "ReviewsFragment - exception / ${ex.stackTrace}")
@@ -166,9 +185,7 @@ class ReviewsFragment : Fragment() {
             }
         }
 
-
     }
-
 
     private fun makeToast(
         title: String = "리뷰 보기",
@@ -191,10 +208,20 @@ class ReviewsFragment : Fragment() {
         _binding = null
     }
 
-    private fun goToDetailedReview(review: Review) {
+    private fun goToDetailedReview(
+        reviewId: Long,
+        position: Int,
+        rootPosition: Int? = null,
+        type: Int
+    ) {
         val detailedReviewIntent =
             Intent(requireContext(), DetailedReviewActivity::class.java).apply {
-                putExtra("review", review)
+                putExtra("reviewId", reviewId)
+                putExtra("position", position)
+                putExtra("type", type)
+                if (rootPosition != null) {
+                    putExtra("rootPosition", rootPosition)
+                }
             }
         detailedReviewLauncher.launch(detailedReviewIntent)
     }

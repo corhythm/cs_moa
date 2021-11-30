@@ -53,7 +53,7 @@ class ChildCommentActivity : AppCompatActivity() {
             setSupportActionBar(toolbarChildCommentToolbar)
             toolbarChildCommentToolbar.setNavigationOnClickListener { onBackPressed() }
 
-            if (!intent.hasExtra("parentComment") || !intent.hasExtra("position")) {
+            if (!intent.hasExtra("parentComment") && !intent.hasExtra("position")) {
                 makeToast()
                 return
             }
@@ -111,7 +111,7 @@ class ChildCommentActivity : AppCompatActivity() {
                                 MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()?.accessToken!!
                             val requestBody: RequestBody =
                                 content.toRequestBody("text/plain".toMediaTypeOrNull())
-                            RetrofitManager.retrofitService?.postChildComment(
+                            RetrofitManager.retrofitService?.postReviewChildComment(
                                 reviewId = parentComment!!.reviewId,
                                 bundleId = parentComment!!.bundleId,
                                 accessToken = accessToken,
@@ -124,19 +124,14 @@ class ChildCommentActivity : AppCompatActivity() {
 
                         if (response?.isSuccess!! && response.result != null) { // 성공하면
                             parentComment!!.nestedCommentNum = parentComment!!.nestedCommentNum.plus(1)
-                            parentCommentHeaderAdapter.notifyItemChanged(0)
-                            pagingDataCommentAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                            parentCommentHeaderAdapter.notifyItemChanged(0) // header에 있는 댓글 카운터 개수 증가시키고
                             pagingDataCommentAdapter.refresh()
                             makeToast("답글 입력", "답글이 성공적으로 입력되었습니다.", MotionToastStyle.SUCCESS)
                             editTextChildCommentInputComment.setText("")
-                            // 이건 스크롤 위치에 따라서 직접 넣어줄지 아닐지를 결정해야 할 듯하다.
-
                         } else {
                             makeToast("답글 입력", "답글을 등록하는 데 실패했습니다.", MotionToastStyle.ERROR)
                         }
                     }
-
-
                 }
 
             } catch (ex: Exception) {
@@ -156,8 +151,9 @@ class ChildCommentActivity : AppCompatActivity() {
             }
             setResult(RESULT_OK, childCommentIntent)
             super.onBackPressed()
+        } else {
+            super.onBackPressed()
         }
-        super.onBackPressed()
     }
 
     private fun makeToast(

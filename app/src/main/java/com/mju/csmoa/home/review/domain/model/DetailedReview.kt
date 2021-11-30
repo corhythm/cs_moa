@@ -15,9 +15,9 @@ data class DetailedReview(
     val itemImageUrls: List<String>,
     val csBrand: String,
     val content: String,
-    val likeNum: Int,
-    val commentNum: Int,
+    var likeNum: Int,
+    var commentNum: Int,
     val viewNum: Int,
     val createdAt: String,
-    val isLike: Boolean
+    var isLike: Boolean
 ) : Parcelable

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.cs_location.CSMapActivity">
+
+    <net.daum.mf.map.api.MapView
+        android:id="@+id/mapView_csMap_map"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_csMap_cuContainer"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@id/cardView_csMap_gs25Container"
+        app:layout_constraintStart_toStartOf="@id/cardView_csMap_gs25Container"
+        app:strokeColor="#CA7BEF"
+        app:strokeWidth="3dp">
+
+        <ImageView
+            android:id="@+id/imageView_csMap_cu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_cs_cu" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_csMap_gs25Container"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@id/cardView_csMap_sevenContainer"
+        app:layout_constraintStart_toStartOf="@id/cardView_csMap_sevenContainer"
+        app:strokeColor="#2BB9D9"
+        app:strokeWidth="3dp">
+
+        <ImageView
+            android:id="@+id/imageView_csMap_gs25"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_cs_gs25" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_csMap_sevenContainer"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@id/cardView_csMap_ministopContainer"
+        app:layout_constraintStart_toStartOf="@id/cardView_csMap_ministopContainer"
+        app:strokeColor="#007957"
+        app:strokeWidth="3dp">
+
+        <ImageView
+            android:id="@+id/imageView_csMap_seven"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_cs_seveneleven" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_csMap_ministopContainer"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@id/cardView_csMap_emart24Container"
+        app:layout_constraintStart_toStartOf="@id/cardView_csMap_emart24Container"
+        app:strokeColor="#F3F813"
+        app:strokeWidth="3dp">
+
+        <ImageView
+            android:id="@+id/imageView_csMap_ministop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_cs_ministop" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_csMap_emart24Container"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@id/cardView_csMap_filterContainer"
+        app:layout_constraintStart_toStartOf="@id/cardView_csMap_filterContainer"
+        app:strokeColor="#FFB71C"
+        app:strokeWidth="3dp">
+
+        <ImageView
+            android:id="@+id/imageView_csMap_emart24"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_cs_emart24" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_csMap_filterContainer"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:strokeColor="#F8137E"
+        app:strokeWidth="3dp">
+
+        <ImageView
+            android:id="@+id/imageView_csMap_filter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_all_filter" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
