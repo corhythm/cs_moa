@@ -78,24 +78,6 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
 
     private fun init() {
 
-        if (intent.hasExtra("csBrand")) {
-            // 특정 편의점만 검색해야 한다면
-            val csBrand = intent.getStringExtra("csBrand")
-            when (csBrand) {
-                "cu" -> cuClicked = true
-                "gs25" -> gs25Clicked = true
-                "seven" -> sevenClicked = true
-                "ministop" -> ministopClicked = true
-                "emart24" -> emart24Clicked = true
-            }
-        } else {
-            cuClicked = true
-            gs25Clicked = true
-            sevenClicked = true
-            ministopClicked = true
-            emart24Clicked = true
-        }
-
         with(binding) {
             mapViewCsMapMap.currentLocationTrackingMode =
                 MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading // HeadingMode 사용 안 함.
@@ -108,9 +90,59 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
             ministopColor = cardViewCsMapMinistopContainer.strokeColor
             emart24Color = cardViewCsMapEmart24Container.strokeColor
 
-            // 시작할 때 default는 전부 다 클릭되어 있는 상태 false이면 처음에 검색 안 함
-            // 나중에 다른 액티비티에서 시작할 때 여기 값을 조작하면 될 듯
+            if (intent.hasExtra("csBrand")) {
+                // 특정 편의점만 검색해야 한다면
+                when (intent.getStringExtra("csBrand")) {
+                    "cu" -> cuClicked = true
+                    "gs25" -> gs25Clicked = true
+                    "seven" -> sevenClicked = true
+                    "ministop" -> ministopClicked = true
+                    "emart24" -> emart24Clicked = true
+                }
+            } else {
+                cuClicked = true
+                gs25Clicked = true
+                sevenClicked = true
+                ministopClicked = true
+                emart24Clicked = true
+            }
 
+            // 필터 한 번 초기화
+            onCsClicked(
+                cuClicked,
+                cardViewCsMapCuContainer,
+                imageViewCsMapCu,
+                cuColor,
+                cuMapPositionItems
+            )
+            onCsClicked(
+                gs25Clicked,
+                cardViewCsMapGs25Container,
+                imageViewCsMapGs25,
+                gs25Color,
+                gs25MapPositionItems
+            )
+            onCsClicked(
+                sevenClicked,
+                cardViewCsMapSevenContainer,
+                imageViewCsMapSeven,
+                sevenColor,
+                sevenMapPositionItems
+            )
+            onCsClicked(
+                ministopClicked,
+                cardViewCsMapMinistopContainer,
+                imageViewCsMapMinistop,
+                ministopColor,
+                ministopMapPositionItems
+            )
+            onCsClicked(
+                emart24Clicked,
+                cardViewCsMapEmart24Container,
+                imageViewCsMapEmart24,
+                emart24Color,
+                emart24MapPositionItems
+            )
 
             // when filter button is clicked
             cardViewCsMapFilterContainer.setOnClickListener {
@@ -125,10 +157,9 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
                     cuClicked,
                     cardViewCsMapCuContainer,
                     imageViewCsMapCu,
-                    cuColor
+                    cuColor,
+                    cuMapPositionItems
                 )
-                if (!cuClicked) binding.mapViewCsMapMap.removePOIItems(cuMapPositionItems.toTypedArray())
-                else binding.mapViewCsMapMap.addPOIItems(cuMapPositionItems.toTypedArray())
             }
             cardViewCsMapGs25Container.setOnClickListener {
                 gs25Clicked = !gs25Clicked
@@ -136,10 +167,9 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
                     gs25Clicked,
                     cardViewCsMapGs25Container,
                     imageViewCsMapGs25,
-                    gs25Color
+                    gs25Color,
+                    gs25MapPositionItems
                 )
-                if (!gs25Clicked) binding.mapViewCsMapMap.removePOIItems(gs25MapPositionItems.toTypedArray())
-                else binding.mapViewCsMapMap.addPOIItems(gs25MapPositionItems.toTypedArray())
             }
             cardViewCsMapSevenContainer.setOnClickListener {
                 sevenClicked = !sevenClicked
@@ -147,10 +177,9 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
                     sevenClicked,
                     cardViewCsMapSevenContainer,
                     imageViewCsMapSeven,
-                    sevenColor
+                    sevenColor,
+                    sevenMapPositionItems
                 )
-                if (!sevenClicked) binding.mapViewCsMapMap.removePOIItems(sevenMapPositionItems.toTypedArray())
-                else binding.mapViewCsMapMap.addPOIItems(sevenMapPositionItems.toTypedArray())
             }
             cardViewCsMapMinistopContainer.setOnClickListener {
                 ministopClicked = !ministopClicked
@@ -158,12 +187,9 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
                     ministopClicked,
                     cardViewCsMapMinistopContainer,
                     imageViewCsMapMinistop,
-                    ministopColor
+                    ministopColor,
+                    ministopMapPositionItems
                 )
-                if (!ministopClicked) binding.mapViewCsMapMap.removePOIItems(
-                    ministopMapPositionItems.toTypedArray()
-                )
-                else binding.mapViewCsMapMap.addPOIItems(ministopMapPositionItems.toTypedArray())
             }
             cardViewCsMapEmart24Container.setOnClickListener {
                 emart24Clicked = !emart24Clicked
@@ -171,10 +197,9 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
                     emart24Clicked,
                     cardViewCsMapEmart24Container,
                     imageViewCsMapEmart24,
-                    emart24Color
+                    emart24Color,
+                    emart24MapPositionItems
                 )
-                if (!emart24Clicked) binding.mapViewCsMapMap.removePOIItems(emart24MapPositionItems.toTypedArray())
-                else binding.mapViewCsMapMap.addPOIItems(emart24MapPositionItems.toTypedArray())
             }
         }
     }
@@ -183,16 +208,23 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
         isClicked: Boolean,
         cardViewContainer: CircularRevealCardView,
         imageView: ImageView,
-        csColor: Int
+        csColor: Int,
+        csPositionItems: MutableList<MapPOIItem>
     ) {
         if (!isClicked) {
             cardViewContainer.strokeColor = Color.GRAY
             imageView.colorFilter =
                 ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0F) })
+            if (csPositionItems.isNotEmpty()) {
+                binding.mapViewCsMapMap.removePOIItems(csPositionItems.toTypedArray())
+            }
         } else {
             cardViewContainer.strokeColor = csColor
             imageView.colorFilter =
                 ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(1F) })
+            if (csPositionItems.isNotEmpty()) {
+                binding.mapViewCsMapMap.addPOIItems(csPositionItems.toTypedArray())
+            }
         }
     }
 
@@ -293,27 +325,33 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
     private fun addCSMapPoIItem(keyword: String, place: Place) {
         var csImageResourceId: Int = -1
         val point = MapPOIItem() // 리스트에 넣기 위해서 미리 선언
+        var isClicked = false
 
         when (keyword) {
             "cu" -> {
                 csImageResourceId = R.drawable.img_cs_mini_cu
                 cuMapPositionItems.add(point)
+                isClicked = cuClicked
             }
             "gs25" -> {
                 csImageResourceId = R.drawable.img_cs_mini_gs25
                 gs25MapPositionItems.add(point)
+                isClicked = gs25Clicked
             }
             "세븐일레븐" -> {
                 csImageResourceId = R.drawable.img_cs_mini_seven
                 sevenMapPositionItems.add(point)
+                isClicked = sevenClicked
             }
             "ministop" -> {
                 csImageResourceId = R.drawable.img_cs_mini_ministop
                 ministopMapPositionItems.add(point)
+                isClicked = ministopClicked
             }
             "emart24" -> {
                 csImageResourceId = R.drawable.img_cs_mini_emart24
                 emart24MapPositionItems.add(point)
+                isClicked = emart24Clicked
             }
         }
 
@@ -331,7 +369,10 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
             setCustomImageAnchor(0.5f, 1.0f)    // 마커 이미지 기준점
         }
 
-        binding.mapViewCsMapMap.addPOIItem(point)
+        // 데이터만 받아놓고 클릭이 돼 있으면 화면에 표시
+        if (isClicked) {
+            binding.mapViewCsMapMap.addPOIItem(point)
+        }
     }
 
     // 단말의 현위치 좌표값을 통보받을 수 있다.
@@ -343,11 +384,11 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
             longitude = mapPointGeo?.longitude.toString()
             latitude = mapPointGeo?.latitude.toString()
 
-            if (cuClicked) searchKeyword("cu", 1) // 여기있는 page가 뭘 의미하지?
-            if (gs25Clicked) searchKeyword("gs25", 1)
-            if (sevenClicked) searchKeyword("세븐일레븐", 1)
-            if (ministopClicked) searchKeyword("ministop", 1)
-            if (emart24Clicked) searchKeyword("emart24", 1)
+            searchKeyword("cu", 1) // 여기있는 page가 뭘 의미하지?
+            searchKeyword("gs25", 1)
+            searchKeyword("세븐일레븐", 1)
+            searchKeyword("ministop", 1)
+            searchKeyword("emart24", 1)
             passed = true
             Log.d(TAG, "passed = $passed")
         }
