@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
+import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.event_item.adapter.DetailRecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
@@ -24,6 +26,7 @@ import com.mju.csmoa.retrofit.common_domain.BaseResponse
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.RecyclerViewDecoration
+import com.skydoves.balloon.*
 import kotlinx.coroutines.*
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
@@ -141,10 +144,9 @@ class DetailEventItemActivity : AppCompatActivity() {
                 lottieAnimationViewDetailEventItemHeart.progress = 0.5f
             }
 
-
+            // like 버튼 눌렀을 떄
             val likeSetOnClickListener = View.OnClickListener {
                 try {
-
                     val animator: ValueAnimator?
 
                     if (detailEventItem.isLike!!) {
@@ -163,12 +165,8 @@ class DetailEventItemActivity : AppCompatActivity() {
                     }
                     animator?.start()
 
-                    textViewDetailEventItemLikeCount.text =
-                        detailEventItem.likeCount.toString() //좋아요 개수 업데이트
-                    Log.d(
-                        TAG,
-                        "DetailEventItemActivity -initEventItemInfo() called / detailEventItem = $detailEventItem"
-                    )
+                    //좋아요 개수 업데이트
+                    textViewDetailEventItemLikeCount.text = detailEventItem.likeCount.toString()
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val accessToken =
@@ -195,28 +193,47 @@ class DetailEventItemActivity : AppCompatActivity() {
             lottieAnimationViewDetailEventItemHeart.setOnClickListener(likeSetOnClickListener)
             textViewDetailEventItemLikeCount.setOnClickListener(likeSetOnClickListener)
 
-            // csbrand
-            var csBrandResourceId = -1
-            when (detailEventItem.csBrand) {
-                "cu" -> csBrandResourceId = R.drawable.img_cs_cu
-                "gs25" -> csBrandResourceId = R.drawable.img_cs_gs25
-                "seven" -> csBrandResourceId = R.drawable.img_cs_seveneleven
-                "ministop" -> csBrandResourceId = R.drawable.img_cs_ministop
-                "emart24" -> csBrandResourceId = R.drawable.img_cs_emart24
-            }
             // 편의점 브랜드 설정
-            binding.imageViewDetailEventItemCsBrand.setImageResource(csBrandResourceId)
+            binding.imageViewDetailEventItemCsBrand
+                .setImageResource(MyApplication.getCsBrandResourceId(detailEventItem.csBrand!!))
 
-            val eventTypeColorList = resources.getStringArray(R.array.event_type_color_list)
-            var eventTypeColor = Color.BLACK
-            when (detailEventItem.itemEventType) {
-                "1+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[0])
-                "2+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[1])
-                "3+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[2])
-                "4+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[3])
+            // balloon
+            val goToMapBalloon = createBalloon(this@DetailEventItemActivity) {
+                setArrowSize(10)
+                setWidth(BalloonSizeSpec.WRAP)
+                setHeight(65)
+                setPadding(10)
+                setArrowPosition(0.7f)
+                setCornerRadius(4f)
+                setAutoDismissDuration(2500)
+                setAlpha(0.9f)
+                setText("가까운 주변 편의점 보러 가실래요?")
+                setTextColorResource(R.color.white)
+                setTextIsHtml(true)
+                setIconDrawable(
+                    ContextCompat.getDrawable(
+                        this@DetailEventItemActivity,
+                        R.drawable.ic_all_place
+                    )
+                )
+                setBackgroundColorResource(R.color.balloon_color)
+                setOnBalloonClickListener(OnBalloonClickListener {
+                    // Map으로 이동
+                    startActivity(Intent(this@DetailEventItemActivity, CSMapActivity::class.java).apply {
+                        putExtra("csBrand", detailEventItem.csBrand) // 편의점 브랜드 가치 전송
+                    })
+                })
+                setBalloonAnimation(BalloonAnimation.FADE)
+                setLifecycleOwner(lifecycleOwner)
+            }
+
+            // 편의점 브랜드 클릭하면 -> 맵으로 이동
+            binding.imageViewDetailEventItemCsBrand.setOnClickListener {
+                goToMapBalloon.showAlignBottom(binding.imageViewDetailEventItemCsBrand)
             }
 
             // 이벤트 타입 설정
+            val eventTypeColor = MyApplication.getEventTypeColor(detailEventItem.itemEventType!!)
             textViewDetailEventItemEventType.text = detailEventItem.itemEventType
             textViewDetailEventItemEventType.setTextColor(eventTypeColor)
             cardViewDetailEventItemEventTypeContainer.strokeColor = eventTypeColor

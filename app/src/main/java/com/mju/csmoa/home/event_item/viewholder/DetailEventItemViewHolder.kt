@@ -1,6 +1,6 @@
 package com.mju.csmoa.home.event_item.viewholder
 
-import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemDetailRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.domain.model.EventItem
+import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.util.MyApplication
 
 class DetailEventItemViewHolder(
     parent: ViewGroup
@@ -41,49 +43,10 @@ class DetailEventItemViewHolder(
                 eventItem.itemActualPrice
 
 
-            // csbrand
-            val csBrandColorList =
-                root.context.resources.getStringArray(R.array.cs_brand_color_list)
-            var csBrandStrokeColor = Color.BLACK
-            var csBrandResourceId = -1
-            when (eventItem.csBrand) {
-                "cu" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[0])
-                    csBrandResourceId = R.drawable.img_cs_cu
-                }
-                "gs25" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[1])
-                    csBrandResourceId = R.drawable.img_cs_gs25
-                }
-                "seven" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[2])
-                    csBrandResourceId = R.drawable.img_cs_seveneleven
-                }
-                "ministop" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[3])
-                    csBrandResourceId = R.drawable.img_cs_ministop
-                }
-                "emart24" -> {
-                    csBrandStrokeColor = Color.parseColor(csBrandColorList[4])
-                    csBrandResourceId = R.drawable.img_cs_emart24
-                }
-            }
+            val eventTypeColor = MyApplication.getEventTypeColor(eventItem.itemEventType!!)
+            imageViewItemDetailRecommendedEventItemCsBrand
+                .setImageResource(MyApplication.getCsBrandResourceId(eventItem.csBrand!!))
 
-            // 편의점 브랜드 설정
-            cardViewItemDetailRecommendedEventItemEventTypeContainer.strokeColor =
-                csBrandStrokeColor
-            imageViewItemDetailRecommendedEventItemCsBrand.setImageResource(csBrandResourceId)
-
-
-            val eventTypeColorList =
-                root.context.resources.getStringArray(R.array.event_type_color_list)
-            var eventTypeColor = Color.BLACK
-            when (eventItem.itemEventType) {
-                "1+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[0])
-                "2+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[1])
-                "3+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[2])
-                "4+1" -> eventTypeColor = Color.parseColor(eventTypeColorList[3])
-            }
 
             // 이벤트 타입 설정
             textViewItemDetailRecommendedEventItemEventType.text = eventItem.itemEventType

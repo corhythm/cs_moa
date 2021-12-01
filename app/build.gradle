@@ -150,6 +150,9 @@ dependencies {
 
     // Kakao Map
     implementation files('libs/libDaumMapAndroid.jar')
+
+    // word ballon
+    implementation "com.github.skydoves:balloon:1.4.0"
 }
 
 protobuf {

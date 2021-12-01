@@ -42,7 +42,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun init() {
-
         binding.bottomNavViewHomeBottomMenu.setOnItemSelectedListener { menuItem ->
             val toolbar = binding.includeHomeMainToolBar.toolbarMainToolbarToolbar
             val searchMenu =

@@ -77,6 +77,25 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
     }
 
     private fun init() {
+
+        if (intent.hasExtra("csBrand")) {
+            // 특정 편의점만 검색해야 한다면
+            val csBrand = intent.getStringExtra("csBrand")
+            when (csBrand) {
+                "cu" -> cuClicked = true
+                "gs25" -> gs25Clicked = true
+                "seven" -> sevenClicked = true
+                "ministop" -> ministopClicked = true
+                "emart24" -> emart24Clicked = true
+            }
+        } else {
+            cuClicked = true
+            gs25Clicked = true
+            sevenClicked = true
+            ministopClicked = true
+            emart24Clicked = true
+        }
+
         with(binding) {
             mapViewCsMapMap.currentLocationTrackingMode =
                 MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading // HeadingMode 사용 안 함.
@@ -91,11 +110,7 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
 
             // 시작할 때 default는 전부 다 클릭되어 있는 상태 false이면 처음에 검색 안 함
             // 나중에 다른 액티비티에서 시작할 때 여기 값을 조작하면 될 듯
-            cuClicked = true
-            gs25Clicked = true
-            sevenClicked = true
-            ministopClicked = true
-            emart24Clicked = true
+
 
             // when filter button is clicked
             cardViewCsMapFilterContainer.setOnClickListener {
