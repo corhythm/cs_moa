@@ -1,17 +1,25 @@
 package com.mju.csmoa.home.review.viewholder
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemDetailedReviewBinding
+import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.review.adapter.DetailedReviewImageAdapter
 import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.util.MyApplication
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.OnBalloonClickListener
+import com.skydoves.balloon.createBalloon
 
 class DetailedReviewViewHolder(
     private val parent: ViewGroup,
@@ -75,10 +83,44 @@ class DetailedReviewViewHolder(
 
 
             // 좋아요 눌렀을 때 혹은 취소했을 때
-            linearLayoutDetailedReviewLikeContainer.setOnClickListener {
-                onLikeClicked.invoke()
-            }
+            linearLayoutDetailedReviewLikeContainer.setOnClickListener { onLikeClicked.invoke() }
 
+            // 편의점 브랜드 클릭했을 때 -> map으로 이동 (별로 좋은 코드는 아니지만, anchor 뷰를 전달할 수가 없으므로)
+            cardViewDetailedReviewCsBrandContainer.setOnClickListener {
+                createBalloon(parent.context) {
+                    setArrowSize(10)
+                    setWidth(BalloonSizeSpec.WRAP)
+                    setHeight(65)
+                    setPadding(10)
+                    setArrowPosition(0.7f)
+                    setCornerRadius(4f)
+                    setAutoDismissDuration(2500)
+                    setAlpha(0.9f)
+                    setText("가까운 주변 편의점 보러 가실래요?")
+                    setTextColorResource(R.color.white)
+                    setTextIsHtml(true)
+                    setIconDrawable(
+                        ContextCompat.getDrawable(
+                            parent.context,
+                            R.drawable.ic_all_place
+                        )
+                    )
+                    setBackgroundColorResource(R.color.balloon_color)
+                    setOnBalloonClickListener(OnBalloonClickListener {
+                        // Map으로 이동
+                        parent.context.startActivity(
+                            Intent(
+                                parent.context,
+                                CSMapActivity::class.java
+                            ).apply {
+                                putExtra("csBrand", detailedReview.csBrand) // 편의점 브랜드 가치 전송
+                            })
+                    })
+                    setBalloonAnimation(BalloonAnimation.FADE)
+                    setLifecycleOwner(lifecycleOwner)
+                }.showAlignBottom(cardViewDetailedReviewCsBrandContainer)
+
+            }
         }
     }
 }

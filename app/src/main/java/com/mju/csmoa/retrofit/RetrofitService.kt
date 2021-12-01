@@ -8,6 +8,7 @@ import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
+import com.mju.csmoa.home.review.domain.PostReviewLikeRes
 import com.mju.csmoa.home.review.domain.PostReviewRes
 import com.mju.csmoa.home.review.domain.model.Comment
 import com.mju.csmoa.home.review.domain.model.DetailedReview
@@ -171,6 +172,12 @@ interface RetrofitService {
         @Query("y") y: String,
         @Query("radius") rad: Int
     ): GetSearchKeyWordRes
+
+    @POST("/reviews/{reviewId}/like")
+    suspend fun postReviewLike(
+        @Header("Access-Token") accessToken: String,
+        @Path("reviewId") reviewId: Long
+    ): BaseResponse<PostReviewLikeRes>
 
 }
 

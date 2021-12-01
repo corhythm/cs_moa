@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
-import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.event_item.EventItemsFragment
 import com.mju.csmoa.home.more.MoreFragment
 import com.mju.csmoa.home.review.ReviewsFragment
@@ -42,6 +41,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun init() {
+
         binding.bottomNavViewHomeBottomMenu.setOnItemSelectedListener { menuItem ->
             val toolbar = binding.includeHomeMainToolBar.toolbarMainToolbarToolbar
             val searchMenu =
@@ -62,13 +62,6 @@ class HomeActivity : AppCompatActivity() {
                         if (nowFragment !is EventItemsFragment) EventItemsFragment() else nowFragment
                     replaceFragment(nowFragment)
                 }
-                R.id.bottomNavMenu_home_map -> {
-                    toolbar.title = "주변 편의점"
-                    searchMenu.isVisible = false
-                    // 여기는 그냥 새로운 액티비티로 시작하자
-                    startActivity(Intent(this, CSMapActivity::class.java))
-                    binding.bottomNavViewHomeBottomMenu.isSelected = false
-                }
                 R.id.bottomNavMenu_home_recipe -> {
                     toolbar.title = "꿀조합 레시피"
                     searchMenu.isVisible = true // 레시피 역시 검색 지원
@@ -79,10 +72,10 @@ class HomeActivity : AppCompatActivity() {
                     nowFragment = if (nowFragment !is MoreFragment) MoreFragment() else nowFragment
                     replaceFragment(nowFragment)
                 }
-
             }
             return@setOnItemSelectedListener true
         }
+
 
         // 텍스트 일력할 시, X 버튼 노출
         val searchBarTextWatcher = object : TextWatcher {
@@ -194,7 +187,10 @@ class HomeActivity : AppCompatActivity() {
             // focus searchWindow
             if (includeHomeSearchToolbar.editTextSearchToolbarSearchbar.requestFocus()) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(includeHomeSearchToolbar.editTextSearchToolbarSearchbar, InputMethodManager.SHOW_IMPLICIT)
+                imm.showSoftInput(
+                    includeHomeSearchToolbar.editTextSearchToolbarSearchbar,
+                    InputMethodManager.SHOW_IMPLICIT
+                )
             }
         }
 

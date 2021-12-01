@@ -56,7 +56,6 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun init() {
-
         with(binding) {
             swipeLayoutReviewsRoot.setOnRefreshListener {
                 initReviews()
@@ -65,11 +64,10 @@ class ReviewsFragment : Fragment() {
                     binding.swipeLayoutReviewsRoot.isRefreshing = false
                 }
             }
-
+            // 스크롤 맨 위로 이동
             cardViewReviewsGotoTop.setOnClickListener {
                 recyclerViewReviewsContainerReviews.scrollToPosition(0)
             }
-
             // 새 리뷰 작성
             cardViewReviewsWriteReview.setOnClickListener {
                 startActivity(Intent(requireContext(), WriteReviewActivity::class.java))
@@ -83,24 +81,28 @@ class ReviewsFragment : Fragment() {
                         result.data!!.getParcelableExtra<DetailedReview>("detailedReview")
                     val type = result.data!!.getIntExtra("type", -1)
                     val position = result.data!!.getIntExtra("position", -1)
-                    Log.d(TAG, "정상 도착 / detailedReview = $detailedReview, type = $type, position = $position")
                     val rootPosition: Int?
                     val review: Review?
 
-                    if (detailedReview != null && type != -1 && position != -1) {
+                    if (detailedReview == null || type == -1 || position == -1) {
+                        Log.d(TAG, "비정상 종료")
                         return@registerForActivityResult
                     }
 
+                    Log.d(TAG, "정상 도착 / detailedReview = $detailedReview, type = $type, position = $position")
                     if (type == 0) {
                         rootPosition = result.data!!.getIntExtra("rootPosition", -1)
+                        Log.d(TAG, "rootPosition = $rootPosition")
                         review = bestReviews[position][rootPosition]
                     } else {
                         review = pagingDataReviewAdapter.peek(position - 1)
                     }
 
-                    review?.likeNum = detailedReview?.likeNum!!
+                    review?.viewNum = detailedReview.viewNum
+                    review?.likeNum = detailedReview.likeNum
                     review?.isLike = detailedReview.isLike
                     review?.commentNum = detailedReview.commentNum
+
 
                     if (type == 0) {
                         // 여기는 nested adapter까지 전달해줘야 함.

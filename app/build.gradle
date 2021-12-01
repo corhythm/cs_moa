@@ -153,6 +153,9 @@ dependencies {
 
     // word ballon
     implementation "com.github.skydoves:balloon:1.4.0"
+
+    // custom bottomNavigationView
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.8'
 }
 
 protobuf {

@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityDetailedReviewBinding
+import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.review.adapter.DetailedReviewAdapter
 import com.mju.csmoa.home.review.adapter.PagingDataCommentAdapter
 import com.mju.csmoa.home.review.domain.model.Comment
@@ -28,6 +30,10 @@ import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.RecyclerViewDecoration
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.OnBalloonClickListener
+import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -43,11 +49,12 @@ class DetailedReviewActivity : AppCompatActivity() {
     private lateinit var childCommentLauncher: ActivityResultLauncher<Intent>
     private lateinit var pagingDataCommentAdapter: PagingDataCommentAdapter
     private lateinit var detailedReviewAdapter: DetailedReviewAdapter
+
     private var detailedReview: DetailedReview? = null
     private var reviewId: Long? = null
+    private var type: Int? = null
     private var position: Int? = null
     private var rootPosition: Int? = null
-    private var type: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +64,6 @@ class DetailedReviewActivity : AppCompatActivity() {
     }
 
     private fun init() {
-
         // init launch (자식 댓글이 추가됐을 때(ChildCommentActivity로부터) 업데이트 사항이 있을 경우, 답글 수 업데이트 해야 하므로)
         childCommentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -74,7 +80,6 @@ class DetailedReviewActivity : AppCompatActivity() {
                     pagingDataCommentAdapter.notifyItemChanged(position - 1)
                 }
             }
-
 
         setSupportActionBar(binding.toolbarDetailedReviewToolbar)
         binding.toolbarDetailedReviewToolbar.setNavigationOnClickListener { onBackPressed() }
@@ -100,6 +105,8 @@ class DetailedReviewActivity : AppCompatActivity() {
             rootPosition = intent.getIntExtra("rootPosition", -1)
         }
 
+        Log.d(TAG, "in 상세리뷰 / reviewId = $reviewId, type = $type, position = $position, rootPosition = $rootPosition")
+
         initRecyclerView()
         initInputParentComment()
     }
@@ -120,12 +127,25 @@ class DetailedReviewActivity : AppCompatActivity() {
 
             // NOTE: 좋아요 클릭하면 / 좋아요 <-> 싫어요
             val onLikeClicked: () -> Unit = {
-                detailedReview?.isLike = !(detailedReview?.isLike)!!
-                detailedReview?.likeNum = if (detailedReview?.isLike!!)
-                    detailedReview?.likeNum?.plus(1)!!
-                else
-                    detailedReview?.likeNum?.minus(1)!!
-                detailedReviewAdapter.notifyItemChanged(0) // 뭔가 좀 웃긴데?
+                launch {
+                    val postLikeResponse = RetrofitManager.retrofitService.postReviewLike(
+                        accessToken = accessToken!!,
+                        reviewId = detailedReview!!.reviewId
+                    )
+
+                    // 성공하면
+                    if (postLikeResponse.isSuccess && postLikeResponse.result != null) {
+                        withContext(Dispatchers.Main) {
+                            detailedReview?.isLike = !(detailedReview?.isLike)!!
+                            detailedReview?.likeNum = if (detailedReview?.isLike!!)
+                                detailedReview?.likeNum?.plus(1)!!
+                            else
+                                detailedReview?.likeNum?.minus(1)!!
+
+                            detailedReviewAdapter.notifyItemChanged(0)
+                        }
+                    }
+                }
             }
 
             // NOTE: 댓글의 답글 보기 클릭하면
@@ -236,6 +256,7 @@ class DetailedReviewActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        Log.d(TAG, "종료되기 전 / detailedReview = $detailedReview, type = $type, position = $position, rootPosition = $rootPosition")
         if (detailedReview != null && position != null && type != null) {
             val detailedReviewIntent = Intent().apply {
                 putExtra("detailedReview", detailedReview)
