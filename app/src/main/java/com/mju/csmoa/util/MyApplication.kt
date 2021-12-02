@@ -1,7 +1,11 @@
 package com.mju.csmoa.util
 
+import android.Manifest
 import android.app.Application
 import android.graphics.Color
+import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.kakao.sdk.common.KakaoSdk
 import com.mju.csmoa.R
 import com.mju.csmoa.util.datastore.JwtTokenInfoProtoManager
@@ -34,6 +38,19 @@ class MyApplication : Application() {
                 "seven" -> R.drawable.img_cs_seveneleven
                 "ministop" -> R.drawable.img_cs_ministop
                 "emart24" -> R.drawable.img_cs_emart24
+                "기타" -> R.drawable.img_all_etc
+                else -> -1
+            }
+        }
+
+        fun getCsTextBrandResourceId(csBrand: String): Int {
+            return when (csBrand) {
+                "cu" -> R.drawable.img_cs_text_cu
+                "gs25" -> R.drawable.img_cs_text_gs25
+                "seven" -> R.drawable.img_cs_text_seven
+                "ministop" -> R.drawable.img_cs_text_ministop
+                "emart24" -> R.drawable.img_cs_text_emart24
+                "기타" -> R.drawable.img_all_etc
                 else -> -1
             }
         }
@@ -48,6 +65,7 @@ class MyApplication : Application() {
                 "seven" -> Color.parseColor(csBrandColorList[2])
                 "ministop" -> Color.parseColor(csBrandColorList[3])
                 "emart24" -> Color.parseColor(csBrandColorList[4])
+                "기타" -> Color.parseColor("#f4b6c2") // just beautiful color
                 else -> -1
             }
         }

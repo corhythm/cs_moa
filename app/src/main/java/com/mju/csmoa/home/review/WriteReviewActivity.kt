@@ -1,6 +1,7 @@
 package com.mju.csmoa.home.review
 
 import android.Manifest
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -17,10 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mju.csmoa.R
 import com.mju.csmoa.common.SelectMenuDialog
 import com.mju.csmoa.databinding.ActivityWriteReviewBinding
-import com.mju.csmoa.home.review.adapter.WriteReviewPictureAdapter
-import com.mju.csmoa.home.review.adapter.WriteReviewPictureAdapter.Companion.CAMERA
-import com.mju.csmoa.home.review.adapter.WriteReviewPictureAdapter.Companion.PICTURE
-import com.mju.csmoa.home.review.domain.model.ReviewPicture
+import com.mju.csmoa.home.review.adapter.WriteReviewPhotoAdapter
+import com.mju.csmoa.home.review.adapter.WriteReviewPhotoAdapter.Companion.CAMERA
+import com.mju.csmoa.home.review.adapter.WriteReviewPhotoAdapter.Companion.PHOTO
+import com.mju.csmoa.home.review.domain.model.Photo
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
@@ -37,19 +38,17 @@ import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.io.File
 import java.util.*
-import kotlin.math.log
 
 class WriteReviewActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWriteReviewBinding
-    private lateinit var writeReviewPictureAdapter: WriteReviewPictureAdapter
-    private val reviewPictures = mutableListOf<ReviewPicture>()
+    private lateinit var writeReviewPhotoAdapter: WriteReviewPhotoAdapter
+    private val reviewPhotos = mutableListOf<Photo>()
     private lateinit var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var takeCameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var selectGalleryLauncher: ActivityResultLauncher<String>
     private var tempImageUri: Uri? = null
     private var tempImageAbsoluteFilePath: String? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +58,6 @@ class WriteReviewActivity : AppCompatActivity() {
     }
 
     private fun init() {
-
         with(binding) {
             setSupportActionBar(toolbarWriteReviewToolbar) // 툴바 활성화
             toolbarWriteReviewToolbar.setNavigationOnClickListener { onBackPressed() } // 네비 아이콘 클릭했을 때 -> 뒤로 가기
@@ -92,7 +90,7 @@ class WriteReviewActivity : AppCompatActivity() {
 
                             val reviewMultipartImages =
                                 mutableListOf<MultipartBody.Part>() // multiFile list
-                            reviewPictures.forEachIndexed { index, reviewPicture ->
+                            reviewPhotos.forEachIndexed { index, reviewPicture ->
                                 if (index > 0) {
                                     Log.d(TAG, "index = $index, reviewPicture = $reviewPicture")
                                     val file = File(reviewPicture.absoluteFilePath!!)
@@ -106,7 +104,6 @@ class WriteReviewActivity : AppCompatActivity() {
                                         )
                                     )
                                 }
-
                             }
 
                             val title = binding.editTextWriteReviewTitle.text.toString()
@@ -137,8 +134,15 @@ class WriteReviewActivity : AppCompatActivity() {
                             Log.d(TAG, "response = $response")
                             if (response?.isSuccess != null || response?.isSuccess == true) {
                                 withContext(Dispatchers.Main) {
-                                    binding.progressBarWriteReviewOnGoing.visibility = View.INVISIBLE
+                                    binding.progressBarWriteReviewOnGoing.visibility =
+                                        View.INVISIBLE
                                     makeToast("리뷰가 정상적으로 등록되었습니다", MotionToastStyle.SUCCESS)
+
+                                    val finishWriteReviewIntent = Intent().apply {
+                                        putExtra("success", response.isSuccess)
+                                        putExtra("reviewId", response.result?.reviewId)
+                                    }
+                                    setResult(RESULT_OK, finishWriteReviewIntent)
                                     finish()
                                 }
                             }
@@ -147,9 +151,7 @@ class WriteReviewActivity : AppCompatActivity() {
                         Log.d(TAG, "(while file transfer, exception): ${ex.printStackTrace()}")
                         makeToast("리뷰 저장 중 오류가 발생했습니다", MotionToastStyle.ERROR)
                     }
-
                 }
-
                 //finish()
             }
 
@@ -172,17 +174,17 @@ class WriteReviewActivity : AppCompatActivity() {
             takeCameraLauncher =
                 registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
                     if (success) {
-                        reviewPictures.add(
-                            ReviewPicture(
-                                type = PICTURE,
+                        reviewPhotos.add(
+                            Photo(
+                                type = PHOTO,
                                 date = Date().toString(),
                                 pictureUri = tempImageUri,
                                 absoluteFilePath = tempImageAbsoluteFilePath
                             )
                         )
                         // notifyItemInserted를 안 해줘도 반영이 되는데 이건 왜 그런지 모르겠다.
-//                        writeReviewPictureAdapter.notifyItemInserted(reviewPictures.size - 1)
-                        writeReviewPictureAdapter.notifyItemChanged(0)
+//                        writeReviewPictureAdapter.notifyItemInserted(reviewPhotos.size - 1)
+                        writeReviewPhotoAdapter.notifyItemChanged(0)
                     }
                     tempImageAbsoluteFilePath = null
                 }
@@ -193,17 +195,17 @@ class WriteReviewActivity : AppCompatActivity() {
                     uri?.let {
                         val absoluteFilePath = getFilePathFromUri(uri)
                         if (absoluteFilePath != null) {
-                            reviewPictures.add(
-                                ReviewPicture(
-                                    type = PICTURE,
+                            reviewPhotos.add(
+                                Photo(
+                                    type = PHOTO,
                                     date = Date().toString(),
                                     pictureUri = uri,
                                     absoluteFilePath = absoluteFilePath
                                 )
                             )
                             // notifyItemInserted를 안 해줘도 반영이 되는데 이건 왜 그런지 모르겠다.
-//                        writeReviewPictureAdapter.notifyItemInserted(reviewPictures.size - 1)
-                            writeReviewPictureAdapter.notifyItemChanged(0)
+//                        writeReviewPictureAdapter.notifyItemInserted(reviewPhotos.size - 1)
+                            writeReviewPhotoAdapter.notifyItemChanged(0)
                             return@registerForActivityResult
                         }
                         makeToast("사진은 갤러리를 통해서 접근해주세요", MotionToastStyle.ERROR)
@@ -213,7 +215,7 @@ class WriteReviewActivity : AppCompatActivity() {
 
             // 카메라 버튼 눌렸을 때 -> 갤러리나 카메라 가서 리뷰 사진 가져오기
             val onCameraClicked: () -> Unit = {
-                if (reviewPictures.size >= 6) {
+                if (reviewPhotos.size >= 6) {
                     makeToast(
                         "리뷰 이미지는 최대 5장까지만 업로드 할 수 있어요!",
                         MotionToastStyle.ERROR
@@ -250,29 +252,29 @@ class WriteReviewActivity : AppCompatActivity() {
 
             // 추가된 사진 삭제하고 어댑터에게 알려주기
             val onCancelClicked: (position: Int) -> Unit = { position ->
-                reviewPictures.removeAt(position)
-                writeReviewPictureAdapter.notifyItemChanged(0) // 0번은 개수를 표시하기 때문에 무조건 알려줘야 함.
-                writeReviewPictureAdapter.notifyItemRemoved(position) // 삭제된 거도 알려줘야 함.
+                reviewPhotos.removeAt(position)
+                writeReviewPhotoAdapter.notifyItemChanged(0) // 0번은 개수를 표시하기 때문에 무조건 알려줘야 함.
+                writeReviewPhotoAdapter.notifyItemRemoved(position) // 삭제된 거도 알려줘야 함.
             }
 
 
             // 처음 카메라 이미지
-            reviewPictures.add(
-                ReviewPicture(
+            reviewPhotos.add(
+                Photo(
                     type = CAMERA,
                     date = Date().toString(),
                     pictureUri = null,
                     absoluteFilePath = null
                 )
             )
-            writeReviewPictureAdapter = WriteReviewPictureAdapter(
-                reviewPictures = reviewPictures,
+            writeReviewPhotoAdapter = WriteReviewPhotoAdapter(
+                reviewPhotos = reviewPhotos,
                 onCameraClicked = onCameraClicked,
                 onCancelClicked = onCancelClicked
             )
             // 리사이클러뷰
             binding.recyclerViewWriteReviewReviewImages.apply {
-                adapter = writeReviewPictureAdapter
+                adapter = writeReviewPhotoAdapter
                 layoutManager = LinearLayoutManager(
                     this@WriteReviewActivity,
                     LinearLayoutManager.HORIZONTAL,
@@ -299,7 +301,7 @@ class WriteReviewActivity : AppCompatActivity() {
 
     private fun isAllRequirementsMeet(): Boolean {
         // 사진 한 장 이상
-        if (reviewPictures.size <= 1) {
+        if (reviewPhotos.size <= 1) {
             makeToast("1장 이상의 사진을 추가해주세요.", MotionToastStyle.ERROR)
             return false
         }
@@ -372,7 +374,6 @@ class WriteReviewActivity : AppCompatActivity() {
                     TAG,
                     "EditProfileActivity -getFilePathFromUri() called / id = $id, displayName = $displayName, bucketDisplayName = $bucketDisplayName , data = $data"
                 )
-
                 return data
             }
         }

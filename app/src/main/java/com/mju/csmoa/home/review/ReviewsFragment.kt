@@ -1,5 +1,6 @@
 package com.mju.csmoa.home.review
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -28,6 +29,7 @@ import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.home.review.paging.PagingReviewViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
+import com.mju.csmoa.util.Constants
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 import kotlinx.coroutines.*
@@ -44,6 +46,7 @@ class ReviewsFragment : Fragment() {
     private lateinit var pagingDataReviewAdapter: PagingDataReviewAdapter
     private val pagingReviewViewModel: PagingReviewViewModel by activityViewModels()
     private lateinit var detailedReviewLauncher: ActivityResultLauncher<Intent>
+    private lateinit var writeReviewLauncher: ActivityResultLauncher<Intent>
     private lateinit var bestReviews: List<List<Review>>
 
     override fun onCreateView(
@@ -56,24 +59,7 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun init() {
-        with(binding) {
-            swipeLayoutReviewsRoot.setOnRefreshListener {
-                initReviews()
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(1000)
-                    binding.swipeLayoutReviewsRoot.isRefreshing = false
-                }
-            }
-            // 스크롤 맨 위로 이동
-            cardViewReviewsGotoTop.setOnClickListener {
-                recyclerViewReviewsContainerReviews.scrollToPosition(0)
-            }
-            // 새 리뷰 작성
-            cardViewReviewsWriteReview.setOnClickListener {
-                startActivity(Intent(requireContext(), WriteReviewActivity::class.java))
-            }
-        }
-
+        // 상세보기 후 다시 현 액티비티로 왔을 때 변한 값 업데이트
         detailedReviewLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == Activity.RESULT_OK && result.data != null) {
@@ -89,10 +75,8 @@ class ReviewsFragment : Fragment() {
                         return@registerForActivityResult
                     }
 
-                    Log.d(TAG, "정상 도착 / detailedReview = $detailedReview, type = $type, position = $position")
                     if (type == 0) {
                         rootPosition = result.data!!.getIntExtra("rootPosition", -1)
-                        Log.d(TAG, "rootPosition = $rootPosition")
                         review = bestReviews[position][rootPosition]
                     } else {
                         review = pagingDataReviewAdapter.peek(position - 1)
@@ -103,17 +87,64 @@ class ReviewsFragment : Fragment() {
                     review?.isLike = detailedReview.isLike
                     review?.commentNum = detailedReview.commentNum
 
-
-                    if (type == 0) {
-                        // 여기는 nested adapter까지 전달해줘야 함.
+                    if (type == 0) { // 여기는 nested adapter까지 전달해줘야 함.
                         sealedBestReviewsAdapter.notifyItemRangeChanged(0, bestReviews.size)
-                    }
-                    else {
-                        // 여기서도 에러남
+                    } else { // 여기서도 에러남
                         pagingDataReviewAdapter.notifyItemChanged(position - 1)
                     }
                 }
             }
+
+
+        // 권한 허용 요구
+        val requestPermissionsLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: MutableMap<String, Boolean> ->
+                permissions.forEach { (_, v) ->
+                    if (!v) {
+                        makeToast("권한 설정", "권한에 모두 동의해주세요")
+                        requireActivity().finish()
+                    }
+                }
+            }
+
+        requestPermissionsLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+        )
+
+        // 새로운 게시글 작성 후 다시 현재 액티비로 오면 작성한 게시글 맨 위로 업데이트
+        writeReviewLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                Log.d(TAG, "writeReview 끝난 후 / result = $result / result.data = ${result.data}")
+                if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+                    pagingDataReviewAdapter.refresh()
+                }
+            }
+
+
+        with(binding) {
+            swipeLayoutReviewsRoot.setOnRefreshListener {
+                initReviews()
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1000)
+                    binding.swipeLayoutReviewsRoot.isRefreshing = false
+                }
+            }
+            // 스크롤 맨 위로 이동
+            cardViewReviewsGotoTop.setOnClickListener {
+                recyclerViewReviewsContainerReviews.scrollToPosition(0)
+            }
+            // 새 리뷰 작성
+            cardViewReviewsWriteReview.setOnClickListener {
+                val writeReviewIntent = Intent(requireContext(), WriteReviewActivity::class.java)
+                writeReviewLauncher.launch(writeReviewIntent)
+            }
+        }
+
 
         initReviews()
     }

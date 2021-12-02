@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    app:cardCornerRadius="20dp"
+    app:strokeColor="@color/enabled"
+    app:strokeWidth="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/textView_addIngredient_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/sandol_b"
+            android:gravity="center"
+            android:text="재료 추가"
+            android:textColor="@color/enabled"
+            android:textSize="40dp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_addIngredient_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#DAD2D2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_addIngredient_title" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView_addIngredient_lottie"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_addIngredient_divider"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="cook2.json"
+            app:lottie_loop="true"
+            app:lottie_speed="1" />
+
+        <EditText
+            android:id="@+id/editText_addIngredient_ingredientName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="재료 이름"
+            android:inputType="text"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lottieAnimationView_addIngredient_lottie"
+            app:layout_constraintWidth_percent="0.95" />
+
+        <EditText
+            android:id="@+id/editText_addIngredient_ingredientPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:hint="가격 (숫자만 입력해주세요)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editText_addIngredient_ingredientName"
+            app:layout_constraintWidth_percent="0.95" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_addIngredient_csBrand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editText_addIngredient_ingredientPrice"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <Button
+            android:id="@+id/button_addIngredient_cancel"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="#ED1818"
+            android:elevation="30dp"
+            android:fontFamily="@font/sandol_b"
+            android:text="Cancel"
+            android:textSize="18dp"
+            android:textStyle="italic|bold"
+            app:layout_constraintEnd_toStartOf="@id/button_addIngredient_add"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_addIngredient_csBrand" />
+
+        <Button
+            android:id="@+id/button_addIngredient_add"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/sandol_b"
+            android:text="Add"
+            android:textColor="@color/azure"
+            android:textSize="20dp"
+            android:textStyle="italic|bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toEndOf="@id/button_addIngredient_cancel"
+            app:layout_constraintTop_toTopOf="@id/button_addIngredient_cancel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.circularreveal.cardview.CircularRevealCardView>

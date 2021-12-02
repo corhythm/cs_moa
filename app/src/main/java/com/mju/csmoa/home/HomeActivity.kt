@@ -20,6 +20,7 @@ import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
 import com.mju.csmoa.home.event_item.EventItemsFragment
 import com.mju.csmoa.home.more.MoreFragment
+import com.mju.csmoa.home.recipe.RecipesFragment
 import com.mju.csmoa.home.review.ReviewsFragment
 import com.mju.csmoa.home.search.SearchHistoryFragment
 import com.mju.csmoa.home.search.SearchResultActivity
@@ -65,6 +66,9 @@ class HomeActivity : AppCompatActivity() {
                 R.id.bottomNavMenu_home_recipe -> {
                     toolbar.title = "꿀조합 레시피"
                     searchMenu.isVisible = true // 레시피 역시 검색 지원
+                    nowFragment =
+                        if (nowFragment !is RecipesFragment) RecipesFragment() else nowFragment
+                    replaceFragment(nowFragment)
                 }
                 R.id.bottomNavMenu_home_more -> {
                     toolbar.title = "더보기"

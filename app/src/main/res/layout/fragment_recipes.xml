@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeLayout_recipes_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:id="@+id/progressBar_recipes_onGoing"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true" />
+
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:id="@+id/cardView_recipes_writeRecipe"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignEnd="@id/recyclerView_recipes_containerRecipes"
+                android:layout_alignBottom="@id/recyclerView_recipes_containerRecipes"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="50dp"
+                app:cardBackgroundColor="#F36F24"
+                app:cardCornerRadius="50dp"
+                app:strokeColor="#F1B899"
+                app:strokeWidth="3dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_all_recipe" />
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:id="@+id/cardView_recipes_gotoTop"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="invisible"
+                android:layout_alignEnd="@id/recyclerView_recipes_containerRecipes"
+                android:layout_alignBottom="@id/cardView_recipes_writeRecipe"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="80dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="50dp"
+                app:strokeColor="#7E36BEFD"
+                app:strokeWidth="3dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/sandol_b"
+                    android:gravity="center"
+                    android:text="Top"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_recipes_containerRecipes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="45dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

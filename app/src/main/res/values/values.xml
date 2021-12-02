@@ -48,6 +48,22 @@
         <item>@drawable/img_cs_emart24</item>
     </array>
 
+    <array name="cs_brand_logo_mini_list">
+        <item>@drawable/img_cs_mini_cu</item>
+        <item>@drawable/img_cs_mini_gs25</item>
+        <item>@drawable/img_cs_mini_seven</item>
+        <item>@drawable/img_cs_mini_ministop</item>
+        <item>@drawable/img_cs_mini_emart24</item>
+    </array>
+
+    <array name="cs_brand_logo_text_list">
+        <item>@drawable/img_cs_text_cu</item>
+        <item>@drawable/img_cs_text_gs25</item>
+        <item>@drawable/img_cs_text_seven</item>
+        <item>@drawable/img_cs_text_ministop</item>
+        <item>@drawable/img_cs_text_emart24</item>
+    </array>
+
     <string-array name="cs_brand_color_list">
         <item>#CA7BEF</item> <!-- cu -->
         <item>#2BB9D9</item> <!-- gs25 -->

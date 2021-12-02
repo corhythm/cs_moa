@@ -8,6 +8,8 @@ import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
+import com.mju.csmoa.home.recipe.domain.PostRecipeRes
+import com.mju.csmoa.home.recipe.domain.model.Ingredient
 import com.mju.csmoa.home.review.domain.PostReviewLikeRes
 import com.mju.csmoa.home.review.domain.PostReviewRes
 import com.mju.csmoa.home.review.domain.model.Comment
@@ -179,5 +181,15 @@ interface RetrofitService {
         @Path("reviewId") reviewId: Long
     ): BaseResponse<PostReviewLikeRes>
 
+    // NOTE: 레시피 등록
+    @Multipart
+    @POST("/recipes")
+    suspend fun postRecipe(
+        @Header("Access-Token") accessToken: String,
+        @Part recipeImages: List<MultipartBody.Part>,
+        @Part("name") name: RequestBody,
+        @Part("ingredients") ingredients: RequestBody,
+        @Part("content") content: RequestBody
+    ): BaseResponse<PostRecipeRes>
 }
 

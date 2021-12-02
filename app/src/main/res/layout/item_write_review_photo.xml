@@ -17,7 +17,7 @@
         app:strokeWidth="1dp">
 
         <ImageView
-            android:id="@+id/imageView_writeReviewImage_image"
+            android:id="@+id/imageView_writeReviewPhoto_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
@@ -29,7 +29,7 @@
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:id="@+id/cardView_writeReviewImage_cancel"
+        android:id="@+id/cardView_writeReviewPhoto_cancel"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:backgroundTint="#808080"

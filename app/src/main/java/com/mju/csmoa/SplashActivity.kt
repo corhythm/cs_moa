@@ -28,11 +28,8 @@ class SplashActivity : AppCompatActivity() {
                 val jwtTokenInfo = MyApplication.instance.jwtTokenInfoProtoManager.getJwtTokenInfo()
                 Log.d(TAG, "SplashActivity -onCreate() called / jwtTokenInfo = $jwtTokenInfo")
 
-                val isAccessTokenExpired = if (jwtTokenInfo == null)
-                    true
-                else
-                    MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken)
-
+                val isAccessTokenExpired = if (jwtTokenInfo == null) true
+                else MyApplication.instance.jwtService.isAccessTokenExpired(jwtTokenInfo.accessToken)
 
                 // JWT 토큰 만료되면
                 withContext(Dispatchers.Main) {
@@ -46,7 +43,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
 

@@ -32,8 +32,12 @@
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".home.recipe.WriteRecipeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".home.cs_location.CSMapActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".home.review.ChildCommentActivity"
             android:exported="false" />
@@ -99,6 +103,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="65e36577bc172f14cbcf4d37397acc43" />

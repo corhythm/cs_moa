@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/textView_ingredient_nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="재료명: "
+        android:textSize="20dp"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/sandol_m"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textView_ingredient_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/textView_ingredient_nameLabel"
+        tools:text="참치마요 삼각김밥"
+        android:textSize="20dp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/textView_ingredient_priceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가격: "
+        android:textSize="20dp"
+        android:fontFamily="@font/sandol_m"
+        app:layout_constraintEnd_toEndOf="@id/textView_ingredient_nameLabel"
+        app:layout_constraintTop_toBottomOf="@id/textView_ingredient_nameLabel"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/textView_ingredient_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/textView_ingredient_priceLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/textView_ingredient_priceLabel"
+        tools:text="1,000원"
+        android:textSize="20dp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/textView_ingredient_csBrandLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="편의점: "
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/sandol_m"
+        app:layout_constraintTop_toBottomOf="@id/textView_ingredient_priceLabel"
+        app:layout_constraintEnd_toEndOf="@id/textView_ingredient_priceLabel"/>
+
+    <ImageView
+        android:id="@+id/imageView_ingredient_csBrand"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        tools:src="@drawable/img_cs_text_emart24"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="@id/textView_ingredient_price"
+        app:layout_constraintTop_toTopOf="@id/textView_ingredient_csBrandLabel"
+        app:layout_constraintBottom_toBottomOf="@id/textView_ingredient_csBrandLabel"/>
+
+    <View
+        android:id="@+id/view_ingredient_divider3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#F0F2F3"
+        android:elevation="0.5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_ingredient_csBrandLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.95" />
+
+    <ImageView
+        android:id="@+id/imageView_ingredient_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_all_trashcan"
+        android:layout_marginEnd="20dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

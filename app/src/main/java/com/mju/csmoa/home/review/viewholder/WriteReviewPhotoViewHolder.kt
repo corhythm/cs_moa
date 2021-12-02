@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mju.csmoa.databinding.ItemWriteReviewCameraBinding
-import com.mju.csmoa.databinding.ItemWriteReviewPictureBinding
-import com.mju.csmoa.home.review.domain.model.ReviewPicture
+import com.mju.csmoa.databinding.ItemWriteReviewPhotoBinding
+import com.mju.csmoa.home.review.domain.model.Photo
 import com.mju.csmoa.util.Constants.TAG
 
 
@@ -30,35 +30,35 @@ class WriteReviewCameraViewHolder(parent: ViewGroup, onCameraClicked: () -> Unit
 
 }
 
-class WriteReviewPictureViewHolder(
+class WriteReviewPhotoViewHolder(
     private val parent: ViewGroup,
     onCancelClicked: (position: Int) -> Unit
 ) :
     RecyclerView.ViewHolder(
-        ItemWriteReviewPictureBinding.inflate(
+        ItemWriteReviewPhotoBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         ).root
     ) {
 
-    private val binding = ItemWriteReviewPictureBinding.bind(itemView)
+    private val binding = ItemWriteReviewPhotoBinding.bind(itemView)
 
     init {
         // 추가된 사진 취소 버튼 클릭 -> 리스트에서 삭제
-        binding.cardViewWriteReviewImageCancel.setOnClickListener {
-            binding.cardViewWriteReviewImageCancel.strokeWidth = 0
+        binding.cardViewWriteReviewPhotoCancel.setOnClickListener {
+            binding.cardViewWriteReviewPhotoCancel.strokeWidth = 0
             Log.d(TAG, "삭제되는 뷰홀더 position: $absoluteAdapterPosition")
             onCancelClicked.invoke(absoluteAdapterPosition)
         }
     }
 
-    fun bind(reviewPicture: ReviewPicture) {
-        Log.d(TAG, "WriteReviewPictureViewHolder -bind() called / reviewPicture = $reviewPicture")
+    fun bind(photo: Photo) {
+        Log.d(TAG, "WriteReviewPictureViewHolder -bind() called / reviewPicture = $photo")
 //        binding.imageViewWriteReviewImageImage.setImageURI(reviewPicture.pictureUri)
         Glide.with(parent.context)
-            .load(reviewPicture.pictureUri)
-            .into(binding.imageViewWriteReviewImageImage)
+            .load(photo.pictureUri)
+            .into(binding.imageViewWriteReviewPhotoImage)
     }
 
 }
