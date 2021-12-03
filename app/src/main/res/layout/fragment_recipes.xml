@@ -26,8 +26,8 @@
                 android:id="@+id/cardView_recipes_writeRecipe"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_alignEnd="@id/recyclerView_recipes_containerRecipes"
-                android:layout_alignBottom="@id/recyclerView_recipes_containerRecipes"
+                android:layout_alignEnd="@id/recyclerView_recipes_recipes"
+                android:layout_alignBottom="@id/recyclerView_recipes_recipes"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="50dp"
                 app:cardBackgroundColor="#F36F24"
@@ -50,7 +50,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:visibility="invisible"
-                android:layout_alignEnd="@id/recyclerView_recipes_containerRecipes"
+                android:layout_alignEnd="@id/recyclerView_recipes_recipes"
                 android:layout_alignBottom="@id/cardView_recipes_writeRecipe"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="80dp"
@@ -70,7 +70,7 @@
             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_recipes_containerRecipes"
+                android:id="@+id/recyclerView_recipes_recipes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"

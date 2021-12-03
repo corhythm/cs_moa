@@ -17,7 +17,7 @@ import com.mju.csmoa.home.review.domain.model.Review
 import kotlin.math.abs
 
 class SealedBestReviewsViewHolder(
-    private val parent: ViewGroup,
+    parent: ViewGroup,
     private val bestReviewOnClicked: (position: Int, rootPosition: Int) -> Unit
 ) : RecyclerView.ViewHolder(
     ItemSealedBestReviewsBinding.inflate(LayoutInflater.from(parent.context), parent, false).root
@@ -47,8 +47,6 @@ class SealedBestReviewsViewHolder(
             R.dimen.viewpager_current_item_horizontal_margin
         )
         binding.viewpager2SealedBestReviewsBestReviews.addItemDecoration(itemDecoration)
-
-
     }
 
     fun bind(bestReviews: List<List<Review>>) {

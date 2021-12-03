@@ -31,11 +31,11 @@ class EitherAOrBDialog// (dirty code) check if lottie file exists.
             buttonDialogEitherAOrBButtonB.text = buttonBText
 
             buttonDialogEitherAOrBButtonA.setOnClickListener {
-                onButtonAClicked.invoke()
+                onButtonAClicked()
                 dismiss()
             }
             buttonDialogEitherAOrBButtonB.setOnClickListener {
-                ouButtonBClicked.invoke()
+                ouButtonBClicked()
                 dismiss()
             }
 

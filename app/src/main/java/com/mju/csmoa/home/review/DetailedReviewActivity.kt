@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
+import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivityDetailedReviewBinding
 import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.review.adapter.DetailedReviewAdapter
@@ -64,6 +65,9 @@ class DetailedReviewActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        setSupportActionBar(binding.toolbarDetailedReviewToolbar)
+        binding.toolbarDetailedReviewToolbar.setNavigationOnClickListener { onBackPressed() }
+
         // init launch (자식 댓글이 추가됐을 때(ChildCommentActivity로부터) 업데이트 사항이 있을 경우, 답글 수 업데이트 해야 하므로)
         childCommentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -80,9 +84,6 @@ class DetailedReviewActivity : AppCompatActivity() {
                     pagingDataCommentAdapter.notifyItemChanged(position - 1)
                 }
             }
-
-        setSupportActionBar(binding.toolbarDetailedReviewToolbar)
-        binding.toolbarDetailedReviewToolbar.setNavigationOnClickListener { onBackPressed() }
 
         if (!intent.hasExtra("reviewId") && !intent.hasExtra("position") &&
             !intent.hasExtra("type")
@@ -104,8 +105,6 @@ class DetailedReviewActivity : AppCompatActivity() {
         if (type == 0) { // bestReview일 때
             rootPosition = intent.getIntExtra("rootPosition", -1)
         }
-
-        Log.d(TAG, "in 상세리뷰 / reviewId = $reviewId, type = $type, position = $position, rootPosition = $rootPosition")
 
         initRecyclerView()
         initInputParentComment()
@@ -161,12 +160,61 @@ class DetailedReviewActivity : AppCompatActivity() {
                 childCommentLauncher.launch(childCommentIntent)
             }
 
+
+            // NOTE: 편의점 위치 보러 맵으로 이동
+            val goToMapClicked = { anchorView: View, csBrand: String ->
+                createBalloon(this@DetailedReviewActivity) {
+                    setArrowSize(10)
+                    setWidth(BalloonSizeSpec.WRAP)
+                    setHeight(65)
+                    setPadding(10)
+                    setArrowPosition(0.7f)
+                    setCornerRadius(4f)
+                    setAutoDismissDuration(2500)
+                    setAlpha(0.9f)
+                    setText("가까운 주변 편의점 보러 가실래요?")
+                    setTextColorResource(R.color.white)
+                    setTextIsHtml(true)
+                    setIconDrawable(
+                        ContextCompat.getDrawable(
+                            this@DetailedReviewActivity,
+                            R.drawable.ic_all_place
+                        )
+                    )
+                    setBackgroundColorResource(R.color.balloon_color)
+                    setOnBalloonClickListener(OnBalloonClickListener {
+                        // Map으로 이동하기 전에 원하시는 물건이 없을 수도 있다고 사전 고지
+                        EitherAOrBDialog(
+                            context = this@DetailedReviewActivity,
+                            theme = R.style.BottomSheetDialogTheme,
+                            lottieName = "map.json",
+                            title = "주의!!!",
+                            message = "주변 편의점에는 해당 상품이 없을 수도 있어요 :(",
+                            buttonAText = "취소",
+                            buttonBText = "확인",
+                            onButtonAClicked = { },
+                            ouButtonBClicked = {  // Map으로 이동
+                                this@DetailedReviewActivity.startActivity(
+                                    Intent(
+                                        this@DetailedReviewActivity,
+                                        CSMapActivity::class.java
+                                    ).apply {
+                                        putExtra("csBrand", csBrand) // 편의점 브랜드 가치 전송
+                                    })
+                            }
+                        ).show()
+                    })
+                    setBalloonAnimation(BalloonAnimation.FADE)
+                    setLifecycleOwner(lifecycleOwner)
+                }.showAlignBottom(anchorView)
+            }
+
             // NOTE: 상세 리뷰 정보 가져오기
             detailedReview = response.result!!
 
             // NOTE: 리사이클러뷰 초기화
             detailedReviewAdapter =
-                DetailedReviewAdapter(detailedReview!!, onLikeClicked)
+                DetailedReviewAdapter(detailedReview!!, onLikeClicked, goToMapClicked)
             pagingDataCommentAdapter =
                 PagingDataCommentAdapter(onChildCommentClicked)
             val concatAdapter =
@@ -256,7 +304,10 @@ class DetailedReviewActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Log.d(TAG, "종료되기 전 / detailedReview = $detailedReview, type = $type, position = $position, rootPosition = $rootPosition")
+        Log.d(
+            TAG,
+            "종료되기 전 / detailedReview = $detailedReview, type = $type, position = $position, rootPosition = $rootPosition"
+        )
         if (detailedReview != null && position != null && type != null) {
             val detailedReviewIntent = Intent().apply {
                 putExtra("detailedReview", detailedReview)

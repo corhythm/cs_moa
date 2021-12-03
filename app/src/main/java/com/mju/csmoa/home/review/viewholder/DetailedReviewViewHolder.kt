@@ -23,7 +23,8 @@ import com.skydoves.balloon.createBalloon
 
 class DetailedReviewViewHolder(
     private val parent: ViewGroup,
-    private val onLikeClicked: () -> Unit
+    private val onLikeClicked: () -> Unit,
+    private val goToMapClicked: (anchorView: View, csBrand: String) -> Unit
 ) : RecyclerView.ViewHolder(
     ItemDetailedReviewBinding.inflate(
         LayoutInflater.from(parent.context), parent, false
@@ -83,43 +84,14 @@ class DetailedReviewViewHolder(
 
 
             // 좋아요 눌렀을 때 혹은 취소했을 때
-            linearLayoutDetailedReviewLikeContainer.setOnClickListener { onLikeClicked.invoke() }
+            linearLayoutDetailedReviewLikeContainer.setOnClickListener { onLikeClicked() }
 
             // 편의점 브랜드 클릭했을 때 -> map으로 이동 (별로 좋은 코드는 아니지만, anchor 뷰를 전달할 수가 없으므로)
             cardViewDetailedReviewCsBrandContainer.setOnClickListener {
-                createBalloon(parent.context) {
-                    setArrowSize(10)
-                    setWidth(BalloonSizeSpec.WRAP)
-                    setHeight(65)
-                    setPadding(10)
-                    setArrowPosition(0.7f)
-                    setCornerRadius(4f)
-                    setAutoDismissDuration(2500)
-                    setAlpha(0.9f)
-                    setText("가까운 주변 편의점 보러 가실래요?")
-                    setTextColorResource(R.color.white)
-                    setTextIsHtml(true)
-                    setIconDrawable(
-                        ContextCompat.getDrawable(
-                            parent.context,
-                            R.drawable.ic_all_place
-                        )
-                    )
-                    setBackgroundColorResource(R.color.balloon_color)
-                    setOnBalloonClickListener(OnBalloonClickListener {
-                        // Map으로 이동
-                        parent.context.startActivity(
-                            Intent(
-                                parent.context,
-                                CSMapActivity::class.java
-                            ).apply {
-                                putExtra("csBrand", detailedReview.csBrand) // 편의점 브랜드 가치 전송
-                            })
-                    })
-                    setBalloonAnimation(BalloonAnimation.FADE)
-                    setLifecycleOwner(lifecycleOwner)
-                }.showAlignBottom(cardViewDetailedReviewCsBrandContainer)
-
+                goToMapClicked(
+                    binding.cardViewDetailedReviewCsBrandContainer,
+                    detailedReview.csBrand
+                )
             }
         }
     }

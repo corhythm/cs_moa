@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.mju.csmoa.databinding.FragmentRecipesBinding
 import com.mju.csmoa.util.Constants
+import com.mju.csmoa.util.Constants.TAG
 
 class RecipesFragment : Fragment() {
 
@@ -36,9 +37,9 @@ class RecipesFragment : Fragment() {
         // 레시피 작성한 후 리스트에 업데이트
         writeRecipeLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                Log.d(Constants.TAG, "writeReview 끝난 후 / result = $result / result.data = ${result.data}")
+                Log.d(TAG, "writeReview 끝난 후 / result = $result / result.data = ${result.data}")
                 if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-
+                    Log.d(TAG, "result.data = ${result.data}")
                 }
             }
 

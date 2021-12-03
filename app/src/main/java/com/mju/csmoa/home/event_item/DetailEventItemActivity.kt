@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.R
+import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivityDetailEventItemBinding
 import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.event_item.adapter.DetailRecommendedEventItemAdapter
@@ -218,10 +219,26 @@ class DetailEventItemActivity : AppCompatActivity() {
                 )
                 setBackgroundColorResource(R.color.balloon_color)
                 setOnBalloonClickListener(OnBalloonClickListener {
-                    // Map으로 이동
-                    startActivity(Intent(this@DetailEventItemActivity, CSMapActivity::class.java).apply {
-                        putExtra("csBrand", detailEventItem.csBrand) // 편의점 브랜드 가치 전송
-                    })
+                    EitherAOrBDialog(
+                        context = this@DetailEventItemActivity,
+                        theme = R.style.BottomSheetDialogTheme,
+                        lottieName = "map2.json",
+                        title = "주의!!!",
+                        message = "주변 편의점에는 해당 상품이 없을 수도 있어요 :(",
+                        buttonAText = "취소",
+                        buttonBText = "확인",
+                        onButtonAClicked = { },
+                        ouButtonBClicked = {  // Map으로 이동
+                            // Map으로 이동
+                            startActivity(
+                                Intent(
+                                    this@DetailEventItemActivity,
+                                    CSMapActivity::class.java
+                                ).apply {
+                                    putExtra("csBrand", detailEventItem.csBrand) // 편의점 브랜드 가치 전송
+                                })
+                        }
+                    ).show()
                 })
                 setBalloonAnimation(BalloonAnimation.FADE)
                 setLifecycleOwner(lifecycleOwner)

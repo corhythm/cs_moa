@@ -10,6 +10,7 @@ import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.recipe.domain.PostRecipeRes
 import com.mju.csmoa.home.recipe.domain.model.Ingredient
+import com.mju.csmoa.home.recipe.domain.model.Recipe
 import com.mju.csmoa.home.review.domain.PostReviewLikeRes
 import com.mju.csmoa.home.review.domain.PostReviewRes
 import com.mju.csmoa.home.review.domain.model.Comment
@@ -191,5 +192,19 @@ interface RetrofitService {
         @Part("ingredients") ingredients: RequestBody,
         @Part("content") content: RequestBody
     ): BaseResponse<PostRecipeRes>
+
+    // NOTE: 추천 레시피 리스트 가져오기
+    @GET("/recipes")
+    suspend fun getRecommendedRecipes(
+        @Header("Access-Token") accessToken: String,
+    ): BaseResponse<List<Recipe>>
+
+    // NOTE: 일반 레시피 리스트 가져오기
+    @GET("/recipes")
+    suspend fun getRecipes(
+        @Header("Access-Token") accessToken: String,
+        @Query("page") pageNum: Int
+    ): BaseResponse<List<Recipe>>
+
 }
 
