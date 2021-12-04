@@ -84,11 +84,12 @@ class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener 
             mapViewCsMapMap.setCurrentLocationEventListener(this@CSMapActivity)
 
             // 각 편의점 cardView strokeColor 가져오기
-            cuColor = cardViewCsMapCuContainer.strokeColor
-            gs25Color = cardViewCsMapGs25Container.strokeColor
-            sevenColor = cardViewCsMapSevenContainer.strokeColor
-            ministopColor = cardViewCsMapMinistopContainer.strokeColor
-            emart24Color = cardViewCsMapEmart24Container.strokeColor
+            cuColor = cardViewCsMapCuContainer.strokeColorStateList!!.defaultColor
+            gs25Color = cardViewCsMapGs25Container.strokeColorStateList!!.defaultColor
+            sevenColor = cardViewCsMapSevenContainer.strokeColorStateList!!.defaultColor
+            ministopColor = cardViewCsMapMinistopContainer.strokeColorStateList!!.defaultColor
+            emart24Color = cardViewCsMapEmart24Container.strokeColorStateList!!.defaultColor
+
 
             if (intent.hasExtra("csBrand")) {
                 // 특정 편의점만 검색해야 한다면
