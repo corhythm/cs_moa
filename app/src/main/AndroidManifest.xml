@@ -32,9 +32,12 @@
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".home.recipe.DetailedRecipeActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.recipe.WriteRecipeActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".home.cs_location.CSMapActivity"
             android:exported="true" />

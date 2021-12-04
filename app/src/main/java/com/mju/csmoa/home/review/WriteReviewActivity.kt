@@ -12,7 +12,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mju.csmoa.R
@@ -34,7 +33,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.io.File
 import java.util.*
@@ -136,7 +134,12 @@ class WriteReviewActivity : AppCompatActivity() {
                                 withContext(Dispatchers.Main) {
                                     binding.progressBarWriteReviewOnGoing.visibility =
                                         View.INVISIBLE
-                                    makeToast("리뷰가 정상적으로 등록되었습니다", MotionToastStyle.SUCCESS)
+                                    MyApplication.makeToast(
+                                        this@WriteReviewActivity,
+                                        "새 리뷰 작성",
+                                        "리뷰가 정상적으로 등록되었습니다",
+                                        MotionToastStyle.SUCCESS
+                                    )
 
                                     val finishWriteReviewIntent = Intent().apply {
                                         putExtra("success", response.isSuccess)
@@ -149,7 +152,12 @@ class WriteReviewActivity : AppCompatActivity() {
                         }
                     } catch (ex: Exception) {
                         Log.d(TAG, "(while file transfer, exception): ${ex.printStackTrace()}")
-                        makeToast("리뷰 저장 중 오류가 발생했습니다", MotionToastStyle.ERROR)
+                        MyApplication.makeToast(
+                            this@WriteReviewActivity,
+                            "새 리뷰 작성",
+                            "리뷰 저장 중 오류가 발생했습니다",
+                            MotionToastStyle.ERROR
+                        )
                     }
                 }
                 //finish()
@@ -208,7 +216,12 @@ class WriteReviewActivity : AppCompatActivity() {
                             writeReviewPhotoAdapter.notifyItemChanged(0)
                             return@registerForActivityResult
                         }
-                        makeToast("사진은 갤러리를 통해서 접근해주세요", MotionToastStyle.ERROR)
+                        MyApplication.makeToast(
+                            this@WriteReviewActivity,
+                            "새 리뷰 작성",
+                            "사진은 갤러리를 통해서 접근해주세요",
+                            MotionToastStyle.ERROR
+                        )
                     }
                 }
 
@@ -216,7 +229,9 @@ class WriteReviewActivity : AppCompatActivity() {
             // 카메라 버튼 눌렸을 때 -> 갤러리나 카메라 가서 리뷰 사진 가져오기
             val onCameraClicked: () -> Unit = {
                 if (reviewPhotos.size >= 6) {
-                    makeToast(
+                    MyApplication.makeToast(
+                        this@WriteReviewActivity,
+                        "새 리뷰 작성",
                         "리뷰 이미지는 최대 5장까지만 업로드 할 수 있어요!",
                         MotionToastStyle.ERROR
                     )
@@ -302,32 +317,42 @@ class WriteReviewActivity : AppCompatActivity() {
     private fun isAllRequirementsMeet(): Boolean {
         // 사진 한 장 이상
         if (reviewPhotos.size <= 1) {
-            makeToast("1장 이상의 사진을 추가해주세요.", MotionToastStyle.ERROR)
+            MyApplication.makeToast(this, "새 리뷰 작성", "1장 이상의 사진을 추가해주세요.", MotionToastStyle.ERROR)
             return false
         }
         // title
         if (binding.editTextWriteReviewTitle.text.isEmpty()) {
-            makeToast("리뷰할 제품의 제목을 입력해주세요.", MotionToastStyle.ERROR)
+            MyApplication.makeToast(this, "새 리뷰 작성", "리뷰할 제품의 제목을 입력해주세요.", MotionToastStyle.ERROR)
             return false
         }
         // price
         if (binding.editTextWriteReviewPrice.text.isEmpty()) {
-            makeToast("리뷰할 제품의 가격을 입력해주세요.", MotionToastStyle.ERROR)
+            MyApplication.makeToast(this, "새 리뷰 작성", "리뷰할 제품의 가격을 입력해주세요.", MotionToastStyle.ERROR)
             return false
         }
         // 제품 카테고리
         if (binding.spinnerWriteReviewCategory.selectedItem == null) {
-            makeToast("제품의 카테고리를 선택해주세요.", MotionToastStyle.ERROR)
+            MyApplication.makeToast(this, "새 리뷰 작성", "제품의 카테고리를 선택해주세요.", MotionToastStyle.ERROR)
             return false
         }
         // 편의점 브랜드
         if (binding.textViewWriteReviewWhereCsBuy.text.isEmpty()) {
-            makeToast("제품을 구매하신 편의점 브랜드를 선택해주세요.", MotionToastStyle.ERROR)
+            MyApplication.makeToast(
+                this,
+                "새 리뷰 작성",
+                "제품을 구매하신 편의점 브랜드를 선택해주세요.",
+                MotionToastStyle.ERROR
+            )
             return false
         }
         // 내용
         if (binding.editTextWriteReviewContent.text.length < 10) {
-            makeToast("최소 입력 문자수는 10자 이상입니다.", MotionToastStyle.ERROR)
+            MyApplication.makeToast(
+                this,
+                "새 리뷰 작성",
+                "최소 입력 문자수는 10자 이상입니다.",
+                MotionToastStyle.ERROR
+            )
             return false
         }
 
@@ -358,39 +383,24 @@ class WriteReviewActivity : AppCompatActivity() {
             null,
             "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
         ).use { cursor ->
-            val idColumn = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            val displayNameColumn =
-                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-            val bucketDisplayNameColumn =
-                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+//            val idColumn = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+//            val displayNameColumn =
+//                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+//            val bucketDisplayNameColumn =
+//                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
             val dataColumn = cursor?.getColumnIndexOrThrow("_data")
 
             if (cursor?.moveToFirst()!!) {
-                val id = cursor.getLong(idColumn!!)
-                val displayName = cursor.getString(displayNameColumn!!)
-                val bucketDisplayName = cursor.getString(bucketDisplayNameColumn!!)
+//                val id = cursor.getLong(idColumn!!)
+//                val displayName = cursor.getString(displayNameColumn!!)
+//                val bucketDisplayName = cursor.getString(bucketDisplayNameColumn!!)
                 val data = cursor.getString(dataColumn!!)
-                Log.d(
-                    TAG,
-                    "EditProfileActivity -getFilePathFromUri() called / id = $id, displayName = $displayName, bucketDisplayName = $bucketDisplayName , data = $data"
-                )
+
                 return data
             }
         }
 
         return null
-    }
-
-    private fun makeToast(content: String, motionToastStyle: MotionToastStyle) {
-        MotionToast.createColorToast(
-            this,
-            "새 리뷰 작성",
-            content,
-            motionToastStyle,
-            MotionToast.GRAVITY_BOTTOM,
-            MotionToast.SHORT_DURATION,
-            ResourcesCompat.getFont(this, R.font.helvetica_regular)
-        )
     }
 
 }

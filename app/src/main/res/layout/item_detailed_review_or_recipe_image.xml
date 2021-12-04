@@ -4,8 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+<!--    리뷰나 레시피 상세보기에서 뷰페이저에 들어가는 전체 이미지 -->
+<!--    또 만들기 귀찮아서 공용으로 사용하자 -->
     <ImageView
-        android:id="@+id/imageView_detailedReviewImage_reviewImage"
+        android:id="@+id/imageView_detailedReviewOrRecipeImage_reviewImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"

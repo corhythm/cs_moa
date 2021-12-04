@@ -1,11 +1,13 @@
 package com.mju.csmoa.util
 
 import android.Manifest
+import android.app.Activity
 import android.app.Application
 import android.graphics.Color
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import com.kakao.sdk.common.KakaoSdk
 import com.mju.csmoa.R
 import com.mju.csmoa.util.datastore.JwtTokenInfoProtoManager
@@ -14,6 +16,8 @@ import com.mju.csmoa.util.room.repository.SearchHistoryRepository
 import com.mju.csmoa.util.secret.JwtService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 class MyApplication : Application() {
 
@@ -81,6 +85,23 @@ class MyApplication : Application() {
                 "4+1" -> Color.parseColor(eventTypeColorList[3])
                 else -> -1
             }
+        }
+
+        fun makeToast(
+            activity: Activity,
+            title: String,
+            content: String,
+            motionToastStyle: MotionToastStyle
+        ) {
+            MotionToast.createColorToast(
+                activity,
+                title,
+                content,
+                motionToastStyle,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.SHORT_DURATION,
+                ResourcesCompat.getFont(activity, R.font.helvetica_regular)
+            )
         }
 
     }

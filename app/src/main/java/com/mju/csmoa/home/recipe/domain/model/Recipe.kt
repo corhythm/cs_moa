@@ -1,9 +1,12 @@
 package com.mju.csmoa.home.recipe.domain.model
 
 data class Recipe(
-    val name: String,
+    val recipeId: Long,
+    val recipeName: String,
     val recipeMainImageUrl: String,
-    val ingredients: List<Ingredient>,
-    val likeNum: Int,
-    val isLike: Boolean
+    val recipeContent: String,
+    val ingredients: String,
+    var viewNum: Int,
+    var likeNum: Int,
+    var isLike: Boolean
 )

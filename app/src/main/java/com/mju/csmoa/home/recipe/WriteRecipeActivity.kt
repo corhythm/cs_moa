@@ -164,7 +164,7 @@ class WriteRecipeActivity : AppCompatActivity() {
 
     private fun initIngredient() {
         // dialog에서 재료 추가 완료 버튼 눌렀을 때
-        val onCompleteClicked: (ingredientName: String, ingredientPrice: Int, csBrand: String) -> Unit =
+        val onCompleteClicked: (ingredientName: String, ingredientPrice: String, csBrand: String) -> Unit =
             { ingredientName, ingredientPrice, csBrand ->
                 ingredients.add(Ingredient(ingredientName, ingredientPrice, csBrand))
                 ingredientAdapter.notifyItemChanged(0)
@@ -180,7 +180,7 @@ class WriteRecipeActivity : AppCompatActivity() {
             ingredientAdapter.notifyItemChanged(it)
         }
 
-        ingredients.add(Ingredient("", -1, "")) // 리스트 맨 위 헤더
+        ingredients.add(Ingredient("", "", "")) // 리스트 맨 위 헤더
         ingredientAdapter = AddIngredientAdapter(ingredients, onAddClicked, onDeleteClicked)
         binding.recyclerViewWriteRecipeIngredients.apply {
             adapter = ingredientAdapter
@@ -364,11 +364,11 @@ class WriteRecipeActivity : AppCompatActivity() {
             null,
             "${MediaStore.Images.Media.DISPLAY_NAME} ASC"
         ).use { cursor ->
-            val idColumn = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            val displayNameColumn =
-                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-            val bucketDisplayNameColumn =
-                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+//            val idColumn = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+//            val displayNameColumn =
+//                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+//            val bucketDisplayNameColumn =
+//                cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
             val dataColumn = cursor?.getColumnIndexOrThrow("_data")
 
             if (cursor?.moveToFirst()!!) {

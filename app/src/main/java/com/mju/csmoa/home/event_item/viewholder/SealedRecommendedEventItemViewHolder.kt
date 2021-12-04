@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mju.csmoa.databinding.ItemRecommendedEventItemListBinding
+import com.mju.csmoa.databinding.ItemSealedRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.adapter.RecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.model.EventItem
@@ -16,17 +16,17 @@ class SealedRecommendedEventItemViewHolder(
     private val eventItemChangedListener: EventItemChangedListener
 ) :
     RecyclerView.ViewHolder(
-        ItemRecommendedEventItemListBinding.inflate(
+        ItemSealedRecommendedEventItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         ).root
     ) {
 
-    private val binding = ItemRecommendedEventItemListBinding.bind(itemView)
+    private val binding = ItemSealedRecommendedEventItemBinding.bind(itemView)
 
     init {
-        binding.recyclerViewItemRecommendedEventItemListRecommendedItems.addItemDecoration(
+        binding.recyclerViewItemSealedRecommendedEventItemRecommendedItems.addItemDecoration(
             RecyclerViewDecoration(0, 0, 0, 30)
         )
     }
@@ -39,7 +39,7 @@ class SealedRecommendedEventItemViewHolder(
         eventItemChangedListener.setRecommendedEventItemAdapter(recommendedEventItemAdapter)
 
         with(binding) {
-            recyclerViewItemRecommendedEventItemListRecommendedItems.apply {
+            recyclerViewItemSealedRecommendedEventItemRecommendedItems.apply {
                 adapter = recommendedEventItemAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }

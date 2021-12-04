@@ -1,25 +1,17 @@
 package com.mju.csmoa.home.review.viewholder
 
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemDetailedReviewBinding
-import com.mju.csmoa.home.cs_location.CSMapActivity
-import com.mju.csmoa.home.review.adapter.DetailedReviewImageAdapter
+import com.mju.csmoa.home.review.adapter.DetailedReviewOrRecipeImageAdapter
 import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.util.MyApplication
-import com.skydoves.balloon.BalloonAnimation
-import com.skydoves.balloon.BalloonSizeSpec
-import com.skydoves.balloon.OnBalloonClickListener
-import com.skydoves.balloon.createBalloon
 
 class DetailedReviewViewHolder(
     private val parent: ViewGroup,
@@ -69,7 +61,7 @@ class DetailedReviewViewHolder(
 
             // 뷰페이저 설정
             viewpager2DetailedReviewBestReviews.apply {
-                adapter = DetailedReviewImageAdapter(detailedReview.itemImageUrls)
+                adapter = DetailedReviewOrRecipeImageAdapter(detailedReview.itemImageUrls)
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
                 dotsIndicatorDetailedReviewIndicator.setViewPager2(this)
             }

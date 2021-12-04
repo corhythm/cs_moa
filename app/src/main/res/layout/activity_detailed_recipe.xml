@@ -1,0 +1,235 @@
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    tools:context=".home.recipe.DetailedRecipeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout_detailedRecipe_appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar_detailedRecipe_toolbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:background="#ffffff"
+                    android:padding="5dp"
+                    app:navigationIcon="@drawable/ic_all_back"
+                    app:title="레시피 상세정보" />
+
+                <ImageView
+                    android:id="@+id/imageView_detailedRecipe_likeImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_all_empty_stroke_colored_heart" />
+
+                <TextView
+                    android:id="@+id/textView_detailedRecipe_likeNum"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/airbnb_cereal_medium"
+                    android:textSize="20dp"
+                    tools:text="121" />
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_detailedRecipe_recipeImagesContainer"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout_detailedRecipe_appbarLayout"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintWidth_percent="0.95"
+            tools:background="@color/enabled">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager2_detailedRecipe_recipes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal" />
+
+            <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                android:id="@+id/dotsIndicator_detailedRecipe_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                app:dotsColor="#F1F1F1"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="10dp"
+                app:dotsSpacing="3dp"
+                app:dotsWidthFactor="2.5"
+                app:progressMode="true"
+                app:selectedDotColor="#FFC107" />
+        </RelativeLayout>
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/cardView_detailedReview_profileImageContainer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="30dp"
+            app:layout_constraintStart_toStartOf="@id/relativeLayout_detailedRecipe_recipeImagesContainer"
+            app:layout_constraintTop_toBottomOf="@id/relativeLayout_detailedRecipe_recipeImagesContainer">
+
+            <ImageView
+                android:id="@+id/imageView_detailedRecipe_profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                tools:src="@drawable/img_all_basic_profile" />
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <TextView
+            android:id="@+id/textView_detailedRecipe_nickname"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/ohneulbam_regular"
+            android:maxLines="1"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardView_detailedReview_profileImageContainer"
+            app:layout_constraintStart_toEndOf="@id/cardView_detailedReview_profileImageContainer"
+            app:layout_constraintTop_toTopOf="@id/cardView_detailedReview_profileImageContainer"
+            tools:text="인생은 실전이다" />
+
+        <TextView
+            android:id="@+id/textView_detailedRecipe_createdAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/textView_detailedRecipe_nickname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".8"
+            app:layout_constraintStart_toEndOf="@id/textView_detailedRecipe_nickname"
+            app:layout_constraintTop_toTopOf="@id/textView_detailedRecipe_nickname"
+            tools:text="1개월 전" />
+
+        <ImageView
+            android:id="@+id/imageView_detailedRecipe_viewNumImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_all_eye"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/textView_detailedRecipe_createdAt"
+            app:layout_constraintTop_toBottomOf="@id/textView_detailedRecipe_createdAt"/>
+
+        <TextView
+            android:id="@+id/textView_detailedRecipe_viewNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="121"
+            android:gravity="center"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/imageView_detailedRecipe_viewNumImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_detailedRecipe_viewNumImage"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_detailedRecipe_viewNumImage" />
+
+        <TextView
+            android:id="@+id/textView_detailedRecipe_recipeName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="start|center_vertical"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView_detailedReview_profileImageContainer"
+            app:layout_constraintWidth_percent="0.9"
+            tools:text="치계밥" />
+
+        <TextView
+            android:id="@+id/textView_detailedRecipe_ingredientLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="&lt;재료&gt;"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@id/textView_detailedRecipe_recipeName"
+            app:layout_constraintTop_toBottomOf="@id/textView_detailedRecipe_recipeName" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_detailedRecipe_ingredients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_detailedRecipe_ingredientLabel"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <View
+            android:id="@+id/view_detailedRecipe_divider"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="5dp"
+            android:background="#F0F2F3"
+            android:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView_detailedRecipe_ingredients" />
+
+        <TextView
+            android:id="@+id/textView_detailedRecipe_recipeContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="8dp"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_detailedRecipe_divider"
+            app:layout_constraintWidth_percent=".9"
+            tools:text="1. 2080)바이오유산균요거민트125G을 활용한 레시피 만들기!! 기대하세요! 와아!!!@@@ :)!_1을 넣고 전자레이지에 돌린다.
+2. 2080)바이오유산균요거민트125G을 활용한 레시피 만들기!! 기대하세요! 와아!!!@@@ :)!_1위에 참기를 넣는다!!
+3. 2080)바이오유산균요거민트125G을 활용한 레시피 만들기!! 기대하세요! 와아!!!@@@ :)!_1위 간장 한 숫갈을 올린다
+4. 2080)바이오유산균요거민트125G을 활용한 레시피 만들기!! 기대하세요! 와아!!!@@@ :)!_1을 맛있게 먹는다~! ^^ :)
+5. 맛있게 먹고 레시피를 다른 사람과 공유한다!!" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_detailedRecipe_loading"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+

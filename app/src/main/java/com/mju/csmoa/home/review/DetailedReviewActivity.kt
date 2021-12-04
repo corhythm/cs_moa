@@ -89,7 +89,12 @@ class DetailedReviewActivity : AppCompatActivity() {
             !intent.hasExtra("type")
         ) {
             Log.d(TAG, "필수 값 다 안 넘어 왔음")
-            makeToast()
+            MyApplication.makeToast(
+                this,
+                "리뷰 상세 정보",
+                "리뷰 데이터를 가져오는데 실패했습니다.",
+                MotionToastStyle.ERROR
+            )
             return
         }
 
@@ -99,7 +104,12 @@ class DetailedReviewActivity : AppCompatActivity() {
         type = intent.getIntExtra("type", -1)
 
         if (reviewId == (-1).toLong() && position == -1 && type == -1) {
-            makeToast()
+            MyApplication.makeToast(
+                this,
+                "리뷰 상세 정보",
+                "리뷰 데이터를 가져오는데 실패했습니다.",
+                MotionToastStyle.ERROR
+            )
             return
         }
         if (type == 0) { // bestReview일 때
@@ -120,7 +130,14 @@ class DetailedReviewActivity : AppCompatActivity() {
                 reviewId!!
             )
             if (response?.result == null) {
-                launch(Dispatchers.Main) { makeToast() }
+                launch(Dispatchers.Main) {
+                    MyApplication.makeToast(
+                        this@DetailedReviewActivity,
+                        "리뷰 상세 정보",
+                        "리뷰 데이터를 가져오는데 실패했습니다.",
+                        MotionToastStyle.ERROR
+                    )
+                }
                 return@launch
             }
 
@@ -182,7 +199,7 @@ class DetailedReviewActivity : AppCompatActivity() {
                         )
                     )
                     setBackgroundColorResource(R.color.balloon_color)
-                    setOnBalloonClickListener(OnBalloonClickListener {
+                    setOnBalloonClickListener {
                         // Map으로 이동하기 전에 원하시는 물건이 없을 수도 있다고 사전 고지
                         EitherAOrBDialog(
                             context = this@DetailedReviewActivity,
@@ -203,7 +220,7 @@ class DetailedReviewActivity : AppCompatActivity() {
                                     })
                             }
                         ).show()
-                    })
+                    }
                     setBalloonAnimation(BalloonAnimation.FADE)
                     setLifecycleOwner(lifecycleOwner)
                 }.showAlignBottom(anchorView)
@@ -251,7 +268,12 @@ class DetailedReviewActivity : AppCompatActivity() {
         binding.imageViewDetailedReviewSend.setOnClickListener {
             val content = binding.editTextDetailedReviewInputComment.text.toString().trim()
             if (content.isEmpty()) {
-                makeToast("대댓글 입력", "텍스트를 입력해주세요!", MotionToastStyle.WARNING)
+                MyApplication.makeToast(
+                    this,
+                    "대댓글 입력",
+                    "텍스트를 입력해주세요.",
+                    MotionToastStyle.WARNING
+                )
                 return@setOnClickListener
             }
 
@@ -278,36 +300,26 @@ class DetailedReviewActivity : AppCompatActivity() {
                     detailedReview!!.commentNum = detailedReview!!.commentNum.plus(1)
                     detailedReviewAdapter.notifyItemChanged(0) // header에 있는 댓글 카운터 개수 증가시키고
                     pagingDataCommentAdapter.refresh()
-                    makeToast("댓글 등록", "댓글이 성공적으로 등록되었습니다.", MotionToastStyle.SUCCESS)
+                    MyApplication.makeToast(
+                        this@DetailedReviewActivity,
+                        "댓글 등록",
+                        "댓글이 성공적으로 등록되었습니다.",
+                        MotionToastStyle.SUCCESS
+                    )
                     binding.editTextDetailedReviewInputComment.setText("")
                 } else {
-                    makeToast("댓글 등록", "댓글을 등록하는 데 실패했습니다.", MotionToastStyle.ERROR)
+                    MyApplication.makeToast(
+                        this@DetailedReviewActivity,
+                        "댓글 등록",
+                        "댓글을 등록하는 데 실패했습니다.",
+                        MotionToastStyle.ERROR
+                    )
                 }
             }
         }
     }
 
-    private fun makeToast(
-        title: String = "리뷰 상세 정보",
-        content: String = "리뷰 데이터를 가져오는데 실패했습니다",
-        motionToastStyle: MotionToastStyle = MotionToastStyle.ERROR
-    ) {
-        MotionToast.createColorToast(
-            this,
-            title,
-            content,
-            motionToastStyle,
-            MotionToast.GRAVITY_BOTTOM,
-            MotionToast.SHORT_DURATION,
-            ResourcesCompat.getFont(this, R.font.helvetica_regular)
-        )
-    }
-
     override fun onBackPressed() {
-        Log.d(
-            TAG,
-            "종료되기 전 / detailedReview = $detailedReview, type = $type, position = $position, rootPosition = $rootPosition"
-        )
         if (detailedReview != null && position != null && type != null) {
             val detailedReviewIntent = Intent().apply {
                 putExtra("detailedReview", detailedReview)

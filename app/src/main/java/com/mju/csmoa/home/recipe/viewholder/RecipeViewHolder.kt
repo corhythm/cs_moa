@@ -4,23 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.mju.csmoa.databinding.ItemRecommendedRecipeBinding
+import com.mju.csmoa.databinding.ItemRecipeBinding
 import com.mju.csmoa.home.recipe.domain.model.Recipe
 
-class RecommendedRecipeViewHolder(
+class RecipeViewHolder(
     private val parent: ViewGroup,
     private val onRecipeClicked: (position: Int) -> Unit
 ) : RecyclerView.ViewHolder(
-    ItemRecommendedRecipeBinding.inflate(
+    ItemRecipeBinding.inflate(
         LayoutInflater.from(parent.context),
         parent,
         false
     ).root
 ) {
-    private val binding = ItemRecommendedRecipeBinding.bind(super.itemView)
+    private val binding = ItemRecipeBinding.bind(super.itemView)
 
     init {
-        binding.root.setOnClickListener { onRecipeClicked.invoke(absoluteAdapterPosition) }
+        binding.root.setOnClickListener { onRecipeClicked(absoluteAdapterPosition) }
     }
 
     fun bind(recipe: Recipe) {
@@ -31,16 +31,17 @@ class RecommendedRecipeViewHolder(
                 .error(com.mju.csmoa.R.drawable.ic_all_404)
                 .fallback(com.mju.csmoa.R.drawable.ic_all_404)
                 .centerCrop()
-                .into(imageViewRecommendedRecipeRecipeImage)
+                .into(imageViewRecipeRecipeImage)
 
-            textViewRecommendedRecipeRecipeName.text = recipe.recipeName // 레시피 이름
-            textViewRecommendedRecipeIngredients.text = recipe.ingredients // 재료
-            textViewRecommendedRecipeLike.text = recipe.likeNum.toString() // 좋아요 개수
+            // 재료 문자열 하나로 합치기
+            textViewRecipeRecipeName.text = recipe.recipeName // 레시피 이름
+            textViewRecipeIngredients.text = recipe.ingredients // 레시피 재료
+            textViewRecipeLike.text = recipe.likeNum.toString() // 좋아요 개수
 
             if (recipe.isLike) { // 좋아요 했으면
-                imageViewRecommendedRecipeLikeImage.setImageResource(com.mju.csmoa.R.drawable.ic_all_filledheart)
+                imageViewRecipeLikeImage.setImageResource(com.mju.csmoa.R.drawable.ic_all_filledheart)
             } else {
-                imageViewRecommendedRecipeLikeImage.setImageResource(com.mju.csmoa.R.drawable.ic_all_empty_stroke_colored_heart)
+                imageViewRecipeLikeImage.setImageResource(com.mju.csmoa.R.drawable.ic_all_empty_stroke_colored_heart)
             }
 
         }

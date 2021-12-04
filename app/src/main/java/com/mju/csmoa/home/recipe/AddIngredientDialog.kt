@@ -26,7 +26,7 @@ import www.sanju.motiontoast.MotionToastStyle
 
 class AddIngredientDialog(
     private val mContext: Context,
-    private val onCompletedClick: (ingredientName: String, ingredientPrice: Int, csBrand: String) -> Unit
+    private val onCompletedClick: (ingredientName: String, ingredientPrice: String, csBrand: String) -> Unit
 ) : Dialog(mContext) {
 
     private lateinit var binding: DialogAddIngredientBinding
@@ -43,9 +43,9 @@ class AddIngredientDialog(
         binding.buttonAddIngredientAdd.setOnClickListener {
             val csBrand = checkValid()
             if (csBrand != null) {
-                onCompletedClick.invoke(
+                onCompletedClick(
                     binding.editTextAddIngredientIngredientName.text.toString(),
-                    binding.editTextAddIngredientIngredientPrice.text.toString().toInt(),
+                    binding.editTextAddIngredientIngredientPrice.text.toString(),
                     csBrand
                 )
                 dismiss()

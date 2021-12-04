@@ -8,7 +8,9 @@ import com.mju.csmoa.home.event_item.domain.PostEventItemHistoryAndLikeReq
 import com.mju.csmoa.home.event_item.domain.PostEventItemLikeRes
 import com.mju.csmoa.home.more.model.GetUserInfoRes
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
+import com.mju.csmoa.home.recipe.domain.PostRecipeLikeRes
 import com.mju.csmoa.home.recipe.domain.PostRecipeRes
+import com.mju.csmoa.home.recipe.domain.model.DetailedRecipe
 import com.mju.csmoa.home.recipe.domain.model.Ingredient
 import com.mju.csmoa.home.recipe.domain.model.Recipe
 import com.mju.csmoa.home.review.domain.PostReviewLikeRes
@@ -194,7 +196,7 @@ interface RetrofitService {
     ): BaseResponse<PostRecipeRes>
 
     // NOTE: 추천 레시피 리스트 가져오기
-    @GET("/recipes")
+    @GET("/recommended-recipes")
     suspend fun getRecommendedRecipes(
         @Header("Access-Token") accessToken: String,
     ): BaseResponse<List<Recipe>>
@@ -205,6 +207,20 @@ interface RetrofitService {
         @Header("Access-Token") accessToken: String,
         @Query("page") pageNum: Int
     ): BaseResponse<List<Recipe>>
+
+    // NOTE: 레시피 세부 정보 가져오기
+    @GET("/recipes/{recipeId}")
+    suspend fun getDetailedRecipe(
+        @Header("Access-Token") accessToken: String,
+        @Path("recipeId") recipeId: Long
+    ): BaseResponse<DetailedRecipe>
+
+    // NOTE: 레시피 좋아요 <-> 좋아요 취소
+    @POST("/recipes/{recipeId}/like")
+    suspend fun postRecipeLike(
+        @Header("Access-Token") accessToken: String,
+        @Path("recipeId") recipeId: Long
+    ): BaseResponse<PostRecipeLikeRes>
 
 }
 

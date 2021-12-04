@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/textView_detailedRecipeIngredient_ingredientNameAndPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/godo_maum"
+        android:maxLines="1"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:gravity="start|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="참치마요 삼각김밥 - "/>
+
+    <ImageView
+        android:id="@+id/imageView_detailedRecipeIngredient_csBrand"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textView_detailedRecipeIngredient_ingredientNameAndPrice"
+        app:layout_constraintBottom_toBottomOf="@id/textView_detailedRecipeIngredient_ingredientNameAndPrice"
+        tools:src="@drawable/img_cs_text_emart24"
+        app:layout_constraintStart_toEndOf="@id/textView_detailedRecipeIngredient_ingredientNameAndPrice"
+        app:layout_constraintHorizontal_bias="0.9"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

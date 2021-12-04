@@ -101,7 +101,12 @@ class ReviewsFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions: MutableMap<String, Boolean> ->
                 permissions.forEach { (_, v) ->
                     if (!v) {
-                        makeToast("권한 설정", "권한에 모두 동의해주세요")
+                        MyApplication.makeToast(
+                            requireActivity(),
+                            "권한 설정",
+                            "권한에 모두 동의해주세요",
+                            MotionToastStyle.WARNING
+                        )
                         requireActivity().finish()
                     }
                 }
@@ -213,27 +218,15 @@ class ReviewsFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     Log.d(TAG, "ReviewsFragment - exception / ${ex.stackTrace}")
                     Log.d(TAG, "ReviewsFragment - exception / ${ex.message}")
-                    makeToast()
+                    MyApplication.makeToast(
+                        requireActivity(),
+                        "리뷰 보기",
+                        "리뷰 데이터를 가져오는 데 실패했습니다.",
+                        MotionToastStyle.ERROR
+                    )
                 }
             }
         }
-
-    }
-
-    private fun makeToast(
-        title: String = "리뷰 보기",
-        content: String = "리뷰 데이터를 가져오는 데 실패했습니다.",
-        motionToastStyle: MotionToastStyle = MotionToastStyle.ERROR
-    ) {
-        MotionToast.createColorToast(
-            requireActivity(),
-            title,
-            content,
-            motionToastStyle,
-            MotionToast.GRAVITY_BOTTOM,
-            MotionToast.SHORT_DURATION,
-            ResourcesCompat.getFont(requireContext(), R.font.helvetica_regular)
-        )
     }
 
     override fun onDestroyView() {

@@ -19,7 +19,8 @@ class AddIngredientAdapter(
     }
 
     override fun getItemViewType(position: Int) =
-        if (ingredients[position].price == -1) ADD else INGREDIENT
+        if (ingredients[position].name == "" && ingredients[position].price == "" &&
+            ingredients[position].csBrand == "") ADD else INGREDIENT
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
