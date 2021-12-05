@@ -52,7 +52,7 @@ class ReviewSearchResultActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(
                     binding.frameLayoutReviewSearchResultContainer.id,
-                    NoSearchResultFragment()
+                    NoSearchResultFragment(searchWord)
                 )
                 .commit()
         }

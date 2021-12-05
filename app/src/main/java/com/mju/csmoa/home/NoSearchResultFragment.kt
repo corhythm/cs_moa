@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mju.csmoa.databinding.FragmentNoSearchResultBinding
 
-class NoSearchResultFragment(val searchWord: String? = null) : Fragment(){
+class NoSearchResultFragment(val searchWord: String? = null) : Fragment() {
 
     private var _binding: FragmentNoSearchResultBinding? = null
     private val binding get() = _binding!!
@@ -23,9 +23,8 @@ class NoSearchResultFragment(val searchWord: String? = null) : Fragment(){
     }
 
     private fun init() {
-        if (searchWord != null) {
-            binding.textViewNoSearchResultNoSearchLabel.text = "${searchWord}에 대한 검색 결과가 없습니다."
-        }
+        binding.textViewNoSearchResultNoSearchLabel.text =
+            if (searchWord == null) "검색 결과가 없습니다" else "'${searchWord}'에 대한 검색 결과가 없습니다."
     }
 
     override fun onDestroy() {
