@@ -52,7 +52,7 @@ class BestReviewViewHolder(
 
         with(binding.layoutBestReviewRootContainer1) {
             Glide.with(parent.context)
-                .load(review[0].itemImageUrl)
+                .load(review[0].reviewImageUrls[0])
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
@@ -63,9 +63,9 @@ class BestReviewViewHolder(
                 Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
             cardViewBestReviewItemImageContainer.strokeColor = color
 
-            textViewBestReviewTitle.text = review[0].itemName // 아이템 이름
-            textViewBestReviewPrice.text = review[0].itemPrice // 가격
-            textViewBestReviewRating.text = review[0].itemStarScore.toString() // 별점
+            textViewBestReviewTitle.text = review[0].reviewName // 아이템 이름
+            textViewBestReviewPrice.text = review[0].price // 가격
+            textViewBestReviewRating.text = review[0].starScore.toString() // 별점
             textViewBestReviewCommentNum.text = review[0].commentNum.toString() // 댓글 개수
             textViewBestReviewLikeNum.text = review[0].likeNum.toString() // 좋아요 개수
             textViewBestReviewCommentNum.text = review[0].commentNum.toString() // 댓글 개수
@@ -94,7 +94,7 @@ class BestReviewViewHolder(
 
         with(binding.layoutBestReviewRootContainer2) {
             Glide.with(parent.context)
-                .load(review[1].itemImageUrl)
+                .load(review[1].reviewImageUrls[0])
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
@@ -104,9 +104,9 @@ class BestReviewViewHolder(
                 Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
             cardViewBestReviewItemImageContainer.strokeColor = color
 
-            textViewBestReviewTitle.text = review[1].itemName // 아이템 이름
-            textViewBestReviewPrice.text = review[1].itemPrice // 가격
-            textViewBestReviewRating.text = review[1].itemStarScore.toString() // 별점
+            textViewBestReviewTitle.text = review[1].reviewName // 아이템 이름
+            textViewBestReviewPrice.text = review[1].price // 가격
+            textViewBestReviewRating.text = review[1].starScore.toString() // 별점
             textViewBestReviewCommentNum.text = review[1].commentNum.toString() // 댓글 개수
             textViewBestReviewLikeNum.text = review[1].likeNum.toString() // 좋아요 개수
             textViewBestReviewCommentNum.text = review[1].commentNum.toString() // 댓글 개수
@@ -134,7 +134,7 @@ class BestReviewViewHolder(
 
         with(binding.layoutBestReviewRootContainer3) {
             Glide.with(parent.context)
-                .load(review[2].itemImageUrl)
+                .load(review[2].reviewImageUrls[0])
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
@@ -144,9 +144,9 @@ class BestReviewViewHolder(
                 Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
             cardViewBestReviewItemImageContainer.strokeColor = color
 
-            textViewBestReviewTitle.text = review[2].itemName // 아이템 이름
-            textViewBestReviewPrice.text = review[2].itemPrice // 가격
-            textViewBestReviewRating.text = review[2].itemStarScore.toString() // 별점
+            textViewBestReviewTitle.text = review[2].reviewName // 아이템 이름
+            textViewBestReviewPrice.text = review[2].price // 가격
+            textViewBestReviewRating.text = review[2].starScore.toString() // 별점
             textViewBestReviewCommentNum.text = review[2].commentNum.toString() // 댓글 개수
             textViewBestReviewLikeNum.text = review[2].likeNum.toString() // 좋아요 개수
             textViewBestReviewCommentNum.text = review[2].commentNum.toString() // 댓글 개수

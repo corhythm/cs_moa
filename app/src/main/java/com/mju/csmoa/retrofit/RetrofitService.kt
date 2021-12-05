@@ -11,7 +11,6 @@ import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.recipe.domain.PostRecipeLikeRes
 import com.mju.csmoa.home.recipe.domain.PostRecipeRes
 import com.mju.csmoa.home.recipe.domain.model.DetailedRecipe
-import com.mju.csmoa.home.recipe.domain.model.Ingredient
 import com.mju.csmoa.home.recipe.domain.model.Recipe
 import com.mju.csmoa.home.review.domain.PostReviewLikeRes
 import com.mju.csmoa.home.review.domain.PostReviewRes
@@ -120,10 +119,11 @@ interface RetrofitService {
         @Header("Access-Token") accessToken: String
     ): BaseResponse<List<Review>>
 
-    // NOTE: 일반 리뷰 가져오기
+    // NOTE: 일반 리뷰 가져오기 & 리뷰 검색
     @GET("/reviews")
     suspend fun getReviews(
         @Header("Access-Token") accessToken: String,
+        @Query("search") searchWord: String? = null,
         @Query("page") pageNum: Int
     ): BaseResponse<List<Review>>
 
@@ -221,6 +221,7 @@ interface RetrofitService {
         @Header("Access-Token") accessToken: String,
         @Path("recipeId") recipeId: Long
     ): BaseResponse<PostRecipeLikeRes>
+
 
 }
 

@@ -20,17 +20,19 @@ import com.mju.csmoa.*
 import com.mju.csmoa.databinding.ActivityHomeBinding
 import com.mju.csmoa.home.event_item.EventItemsFragment
 import com.mju.csmoa.home.more.MoreFragment
+import com.mju.csmoa.home.recipe.RecipeSearchResultActivity
 import com.mju.csmoa.home.recipe.RecipesFragment
+import com.mju.csmoa.home.review.ReviewSearchResultActivity
 import com.mju.csmoa.home.review.ReviewsFragment
-import com.mju.csmoa.home.search.SearchHistoryFragment
-import com.mju.csmoa.home.search.SearchResultActivity
+import com.mju.csmoa.util.MyApplication
+import www.sanju.motiontoast.MotionToastStyle
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private var isSearchbarState = false
-    private var nowFragment: Fragment = ReviewsFragment()
+    private var nowFragment: Fragment = ReviewsFragment() // 제일 처음은 reviews로 시작
     private var backKeyPressedTime: Long = 0 // 마지막으로 back key를 눌렀던 시간
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +83,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-        // 텍스트 일력할 시, X 버튼 노출
+        // 텍스트 일력할 시, X 버튼 노출 -> 이것도 X 버튼 누르면 editText empty되게 수정해야 함.
         val searchBarTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence,
@@ -109,7 +111,6 @@ class HomeActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable) {}
         }
-
         binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar
             .addTextChangedListener(searchBarTextWatcher)
 
@@ -118,8 +119,7 @@ class HomeActivity : AppCompatActivity() {
             .setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     val searchWord =
-                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
-                            .trim()
+                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString().trim()
                     goToSearchResults(searchWord)
 
                     return@setOnEditorActionListener true
@@ -156,7 +156,6 @@ class HomeActivity : AppCompatActivity() {
 
     // 일반상태일 떄
     private fun initMainState() {
-
         // init toolbar
         isSearchbarState = false
         setSupportActionBar(binding.includeHomeMainToolBar.toolbarMainToolbarToolbar)
@@ -171,14 +170,15 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavViewHomeBottomMenu.visibility = View.VISIBLE
     }
 
-    // 검색창상태 때
+    // 검색창 상태일 때
     private fun initSearchState() {
         // init toolbar
         isSearchbarState = true
         setSupportActionBar(binding.includeHomeSearchToolbar.toolbarSearchToolbarToolbar) // 검색창 툴바로 변경
 
-        // change fragment
-        replaceFragment(SearchHistoryFragment())
+        // change fragment (이건 replace가 아니라 add를 해줘야 함, replace하면 review를 다시 가져와야 하므로)
+        supportFragmentManager.beginTransaction()
+            .add(binding.frameLayoutHomeContainer.id, SearchHistoryFragment()).commit()
 
         with(binding) {
             // MainToolbar invisible
@@ -188,6 +188,7 @@ class HomeActivity : AppCompatActivity() {
 
             // when navigationIcon clicked in searchState
             includeHomeSearchToolbar.toolbarSearchToolbarToolbar.setNavigationOnClickListener { onBackPressed() }
+
             // focus searchWindow
             if (includeHomeSearchToolbar.editTextSearchToolbarSearchbar.requestFocus()) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -197,20 +198,26 @@ class HomeActivity : AppCompatActivity() {
                 )
             }
         }
-
     }
 
-    // 검색 결과 프래그먼트로 이동
+    // 검색 결과로 이동
     fun goToSearchResults(searchWord: String) {
-
         if (searchWord.trim().isEmpty()) {
-            Toast.makeText(baseContext, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            MyApplication.makeToast(this, "검색", "검색어를 입력해주세요", MotionToastStyle.WARNING)
             return
         }
-        val searchIntent = Intent(this@HomeActivity, SearchResultActivity::class.java).apply {
-            putExtra("searchWord", searchWord)
+
+        val searchResultIntent: Intent = if (nowFragment is ReviewsFragment) { // 리뷰에서 검색하면 -> ReviewSearchResultActivity
+            Intent(this@HomeActivity, ReviewSearchResultActivity::class.java).apply {
+                putExtra("searchWord", searchWord)
+            }
+        } else { // 레시피에서 검색하면 -> RecipeSearchResultActivity
+            Intent(this@HomeActivity, RecipeSearchResultActivity::class.java).apply {
+                putExtra("searchWord", searchWord)
+            }
         }
-        startActivity(searchIntent)
+        startActivity(searchResultIntent)
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -227,12 +234,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-
         if (isSearchbarState) { // back previous fragment
             initMainState()
             return
         }
-
         // Application end
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis()
@@ -243,7 +248,6 @@ class HomeActivity : AppCompatActivity() {
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish()
         }
-
     }
 
 

@@ -14,7 +14,7 @@ import java.util.*
 
 class ReviewViewHolder(
     private val parent: ViewGroup,
-    private val reviewOnClicked: (position: Int) -> Unit
+    private val onReviewClicked: (position: Int) -> Unit
 ) : RecyclerView.ViewHolder(
     ItemReviewBinding.inflate(
         LayoutInflater.from(parent.context), parent, false
@@ -23,7 +23,7 @@ class ReviewViewHolder(
     private val binding = ItemReviewBinding.bind(itemView)
 
     init {
-        binding.root.setOnClickListener { reviewOnClicked.invoke(absoluteAdapterPosition) }
+        binding.root.setOnClickListener { onReviewClicked(absoluteAdapterPosition) }
     }
 
     fun bind(review: Review?) {
@@ -31,19 +31,19 @@ class ReviewViewHolder(
 
         with(binding) {
             Glide.with(parent.context)
-                .load(review!!.itemImageUrl)
+                .load(review!!.reviewImageUrls[0])
                 .fitCenter()
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)
                 .into(imageViewReviewItemImage)
 
-            textViewReviewItemName.text = review.itemName
+            textViewReviewItemName.text = review.reviewName
             textViewReviewCommentNum.text = review.commentNum.toString()
             textViewReviewLikeNum.text = review.likeNum.toString()
-            textViewReviewRating.text = "(${review.itemStarScore})"
-            ratingBarReviewReviewRating.rating = review.itemStarScore
-            textViewReviewPrice.text = review.itemPrice
+            textViewReviewRating.text = "(${review.starScore})"
+            ratingBarReviewReviewRating.rating = review.starScore
+            textViewReviewPrice.text = review.price
             textViewReviewViewNum.text = review.viewNum.toString()
             textViewReviewCreatedAt.text = review.createdAt
 

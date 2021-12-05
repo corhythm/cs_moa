@@ -8,8 +8,14 @@ import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants
 import com.mju.csmoa.util.MyApplication
+import kotlinx.coroutines.DisposableHandle
+import kotlinx.coroutines.withContext
 
-class ReviewPagingDataSource : PagingSource<Int, Review>() {
+class ReviewPagingDataSource(
+    private var searchWord: String? = null,
+    private val whenSearchingComplete: (() -> Unit)? = null,
+    private val whenNoReviewSearchResult: (() -> Unit)? = null
+) : PagingSource<Int, Review>() {
 
     private lateinit var jwtTokenInfo: JwtTokenInfo
 
@@ -39,10 +45,19 @@ class ReviewPagingDataSource : PagingSource<Int, Review>() {
             val response =
                 RetrofitManager.retrofitService?.getReviews(
                     jwtTokenInfo.accessToken,
+                    searchWord = searchWord, // null이면 그냥 리뷰 리스트를 가져올 것이고, null이 아니면 검색을 할 것임
                     pageNum = position
                 )
 
-            val reviews = response?.result!!
+            val reviews = response?.result as List<Review>
+
+            // dirty code
+            if (searchWord != null && position == 1 && whenSearchingComplete != null) {
+                whenSearchingComplete.invoke()
+            }
+            if (searchWord != null && position == 1 && whenNoReviewSearchResult != null && reviews.isEmpty()) {
+                whenNoReviewSearchResult.invoke()
+            }
 
             LoadResult.Page(
                 data = reviews,

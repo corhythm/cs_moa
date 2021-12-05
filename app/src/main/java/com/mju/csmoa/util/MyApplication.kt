@@ -52,7 +52,7 @@ class MyApplication : Application() {
                 "cu" -> R.drawable.img_cs_text_cu
                 "gs25" -> R.drawable.img_cs_text_gs25
                 "seven" -> R.drawable.img_cs_text_seven
-                "ministop" -> R.drawable.img_cs_text_ministop
+                "ministop" -> R.drawable.img_cs_mini_ministop
                 "emart24" -> R.drawable.img_cs_text_emart24
                 "기타" -> R.drawable.img_all_etc
                 else -> -1

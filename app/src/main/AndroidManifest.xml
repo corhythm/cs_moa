@@ -32,6 +32,12 @@
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".home.recipe.RecipeSearchResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".home.review.ReviewSearchResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.recipe.DetailedRecipeActivity"
             android:exported="false" />
         <activity
@@ -60,7 +66,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".home.search.SearchResultActivity"
+            android:name=".home.SearchResultActivity"
             android:exported="false" />
         <activity
             android:name=".home.HomeActivity"
