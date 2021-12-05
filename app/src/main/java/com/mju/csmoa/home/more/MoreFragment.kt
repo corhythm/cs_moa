@@ -21,6 +21,7 @@ import com.mju.csmoa.databinding.ItemMoreBinding
 import com.mju.csmoa.home.cs_location.CSMapActivity
 import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.more.model.UserInfo
+import com.mju.csmoa.home.review.MyReviewsActivity
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
@@ -90,10 +91,14 @@ class MoreFragment : Fragment() {
 
         // 아이템 클릭됐을 때
         val onItemClicked: (position: Int) -> Unit = {
-            when(itemMoreMenuList[it].menuName) {
-                "주변 편의점 찾기" -> {
-                    startActivity(Intent(requireContext(), CSMapActivity::class.java))
-                }
+            when (itemMoreMenuList[it].menuName) {
+                "주변 편의점 찾기" -> startActivity(Intent(requireContext(), CSMapActivity::class.java))
+                "내가 작성한 리뷰" -> startActivity(
+                    Intent(
+                        requireContext(),
+                        MyReviewsActivity::class.java
+                    )
+                )
             }
         }
         moreMenuRecyclerAdapter = MoreMenuRecyclerAdapter(itemMoreMenuList, onItemClicked)

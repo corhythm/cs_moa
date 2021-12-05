@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="최근 검색어"
         android:textColor="#9C9797"
-        android:textSize="20dp"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"

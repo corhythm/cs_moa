@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_recipeSearchResult_type1Container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#99B898"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/imageView_recipeSearchResult_type1Image1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            tools:src="@drawable/img_review_item1" />
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_recipeSearchResult_type2Container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#FECEAB"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView_recipeSearchResult_type2Image1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                tools:src="@drawable/ic_item_snack" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:background="#FECEAB"
+                android:elevation="1dp" />
+
+            <ImageView
+                android:id="@+id/imageView_recipeSearchResult_type2Image2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                tools:src="@drawable/ic_item_icecream" />
+        </LinearLayout>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:id="@+id/cardView_recipeSearchResult_type3Container"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#EDE574"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView_recipeSearchResult_type3Image1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.5"
+                android:scaleType="fitXY"
+                tools:src="@drawable/ic_item_snack" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:background="#EDE574"
+                android:elevation="1dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView_recipeSearchResult_type3Image2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/ic_item_snack" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#EDE574"
+                    android:elevation="1dp" />
+
+                <ImageView
+                    android:id="@+id/imageView_recipeSearchResult_type3Image3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/ic_item_snack" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#E6FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/cardView_recipeSearchResult_type1Container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cardView_recipeSearchResult_type1Container"
+        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintWidth_percent="0.9">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView_recipeSearchResult_recipeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/godo_maum"
+                android:maxLines="1"
+                android:textSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".6"
+                tools:text="얌샘김밥 수원이의점" />
+
+            <TextView
+                android:id="@+id/textView_recipeSearchResult_createdAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sandol_m"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/textView_recipeSearchResult_recipeName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textView_recipeSearchResult_recipeName"
+                app:layout_constraintTop_toTopOf="@id/textView_recipeSearchResult_recipeName"
+                tools:text="2021.01.30 12:11" />
+
+            <ImageView
+                android:id="@+id/imageView_recipeSearchResult_viewNumImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_all_eye"
+                app:layout_constraintEnd_toStartOf="@id/textView_recipeSearchResult_viewNum"
+                app:layout_constraintTop_toTopOf="@id/textView_recipeSearchResult_viewNum"
+                app:layout_constraintBottom_toBottomOf="@id/textView_recipeSearchResult_viewNum"/>
+
+            <TextView
+                android:id="@+id/textView_recipeSearchResult_viewNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/ohneulbam_regular"
+                android:gravity="center"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="@id/imageView_recipeSearchResult_likeNumImage"
+                app:layout_constraintEnd_toStartOf="@id/imageView_recipeSearchResult_likeNumImage"
+                app:layout_constraintTop_toTopOf="@id/imageView_recipeSearchResult_likeNumImage"
+                tools:text="81" />
+
+            <ImageView
+                android:id="@+id/imageView_recipeSearchResult_likeNumImage"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/ic_all_empty_stroke_colored_heart"
+                app:layout_constraintBottom_toBottomOf="@id/textView_recipeSearchResult_likeNum"
+                app:layout_constraintEnd_toStartOf="@id/textView_recipeSearchResult_likeNum"
+                app:layout_constraintTop_toTopOf="@id/textView_recipeSearchResult_likeNum" />
+
+            <TextView
+                android:id="@+id/textView_recipeSearchResult_likeNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/ohneulbam_regular"
+                android:gravity="center"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_recipeSearchResult_createdAt"
+                tools:text="34" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

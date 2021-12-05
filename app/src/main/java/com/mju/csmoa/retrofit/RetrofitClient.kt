@@ -19,14 +19,12 @@ object RetrofitClient {
     private var retrofitClient: Retrofit? = null
 
     fun getClient(baseUrl: String): Retrofit? {
-
         // okhttp instance 생성
         val client = OkHttpClient.Builder()
 
         // 통신 중 일어나는 로그를 인터셉트하는 Interceptor
         // 로그를 찍기 위해 로깅 인터셉터 추가 (전반적인 통신 내역 볼 수 있음)
         val loggingInterceptor = HttpLoggingInterceptor { message ->
-
             when {
                 message.isJsonObject() ->
                     Log.d(TAG, JSONObject(message).toString(4))

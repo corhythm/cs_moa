@@ -23,10 +23,10 @@ import com.kakao.sdk.user.UserApiClient
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivitySignInBinding
 import com.mju.csmoa.home.HomeActivity
-import com.mju.csmoa.login.domain.model.JwtToken
-import com.mju.csmoa.login.domain.model.PostLoginReq
-import com.mju.csmoa.login.domain.model.PostLoginRes
-import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
+import com.mju.csmoa.login.domain.JwtToken
+import com.mju.csmoa.login.domain.PostLoginReq
+import com.mju.csmoa.login.domain.PostLoginRes
+import com.mju.csmoa.login.domain.PostOAuthLoginReq
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
@@ -53,15 +53,14 @@ class SignInActivity : AppCompatActivity() {
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) {
+                    Log.d(TAG, "구글 로그인 성공")
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                     handleSignInResult(task)
                 }
             }
-
     }
 
     private fun init() {
-
         // Set TextWatcher
         val emailTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

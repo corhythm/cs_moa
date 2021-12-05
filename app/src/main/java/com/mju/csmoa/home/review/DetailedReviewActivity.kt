@@ -85,8 +85,7 @@ class DetailedReviewActivity : AppCompatActivity() {
                 }
             }
 
-        if (!intent.hasExtra("reviewId") && !intent.hasExtra("position") &&
-            !intent.hasExtra("type")
+        if (!intent.hasExtra("reviewId") && !intent.hasExtra("position") && !intent.hasExtra("type")
         ) {
             Log.d(TAG, "필수 값 다 안 넘어 왔음")
             MyApplication.makeToast(

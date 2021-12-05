@@ -26,7 +26,7 @@ class RecommendedRecipeViewHolder(
     fun bind(recipe: Recipe) {
         with(binding) {
             Glide.with(parent.context)
-                .load(recipe.recipeMainImageUrl)
+                .load(recipe.recipeImageUrls[0])
                 .placeholder(com.mju.csmoa.R.drawable.ic_all_loading)
                 .error(com.mju.csmoa.R.drawable.ic_all_404)
                 .fallback(com.mju.csmoa.R.drawable.ic_all_404)

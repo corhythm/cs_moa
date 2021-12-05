@@ -32,6 +32,9 @@
         android:theme="@style/Theme.Cs_prototype"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".home.review.MyReviewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.recipe.RecipeSearchResultActivity"
             android:exported="false" />
         <activity

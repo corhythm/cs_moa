@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.dataStore
 import com.mju.csmoa.JwtTokenInfo
-import com.mju.csmoa.login.domain.model.JwtToken
+import com.mju.csmoa.login.domain.JwtToken
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication

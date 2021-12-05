@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/cardView_myReview_reviewImageContainer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:id="@+id/imageView_myReview_reviewImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                tools:src="@drawable/img_all_itemimage" />
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+        <TextView
+            android:id="@+id/textView_myReview_reviewName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/sandol_m"
+            android:maxLines="1"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardView_myReview_reviewImageContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@id/cardView_myReview_reviewImageContainer"
+            app:layout_constraintTop_toTopOf="@id/cardView_myReview_reviewImageContainer"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintWidth_percent="0.6"
+            tools:text="빅 소시지 150g" />
+        <!--        -->
+        <TextView
+            android:id="@+id/textView_myReview_createdAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/airbnb_cereal_light"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="@id/textView_myReview_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toEndOf="@id/textView_myReview_price"
+            app:layout_constraintTop_toTopOf="@id/textView_myReview_price"
+            tools:text="2021.11.31 10:34" />
+
+        <TextView
+            android:id="@+id/textView_myReview_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/textView_myReview_reviewName"
+            app:layout_constraintTop_toBottomOf="@id/textView_myReview_reviewName"
+            tools:text="3,200원" />
+
+        <ImageView
+            android:id="@+id/imageView_myReview_csBrand"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            tools:src="@drawable/img_cs_cu" />
+
+        <ImageView
+            android:id="@+id/imageView_myReview_starScoreImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_all_filled_star"
+            app:layout_constraintStart_toStartOf="@id/textView_myReview_price"
+            app:layout_constraintTop_toBottomOf="@id/textView_myReview_price" />
+
+        <TextView
+            android:id="@+id/textView_myReview_starScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="3.4"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_myReview_starScoreImage"
+            app:layout_constraintStart_toEndOf="@id/imageView_myReview_starScoreImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_myReview_starScoreImage" />
+
+        <ImageView
+            android:id="@+id/imageView_myReview_viewNumImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_all_eye"
+            app:layout_constraintBottom_toBottomOf="@id/textView_myReview_starScore"
+            app:layout_constraintStart_toEndOf="@id/textView_myReview_starScore"
+            app:layout_constraintTop_toTopOf="@id/textView_myReview_starScore" />
+
+        <TextView
+            android:id="@+id/textView_myReview_viewNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_myReview_starScoreImage"
+            app:layout_constraintStart_toEndOf="@id/imageView_myReview_viewNumImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_myReview_starScoreImage"
+            tools:text="113" />
+
+        <ImageView
+            android:id="@+id/imageView_myReview_commentNumImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_all_child_comment"
+            app:layout_constraintBottom_toBottomOf="@id/textView_myReview_starScore"
+            app:layout_constraintStart_toEndOf="@id/textView_myReview_viewNum"
+            app:layout_constraintTop_toTopOf="@id/textView_myReview_starScore" />
+
+        <TextView
+            android:id="@+id/textView_myReview_commentNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_myReview_starScoreImage"
+            app:layout_constraintStart_toEndOf="@id/imageView_myReview_commentNumImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_myReview_starScoreImage"
+            tools:text="23" />
+
+        <ImageView
+            android:id="@+id/imageView_myReview_likeNumImage"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_all_filledheart"
+            app:layout_constraintBottom_toBottomOf="@id/textView_myReview_starScore"
+            app:layout_constraintStart_toEndOf="@id/textView_myReview_commentNum"
+            app:layout_constraintTop_toTopOf="@id/textView_myReview_starScore" />
+
+        <TextView
+            android:id="@+id/textView_myReview_likeNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView_myReview_starScoreImage"
+            app:layout_constraintStart_toEndOf="@id/imageView_myReview_likeNumImage"
+            app:layout_constraintTop_toTopOf="@id/imageView_myReview_starScoreImage"
+            tools:text="23" />
+
+        <TextView
+            android:id="@+id/textView_myReview_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="10dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/cardView_myReview_reviewImageContainer"
+            app:layout_constraintTop_toBottomOf="@id/cardView_myReview_reviewImageContainer"
+            tools:text="새로 출시되고 4번 사먹었어요. 질리지가 않는 맛이에요. 처음 맛은 시원하면서도 뒷맛은 칼칼해서 정말 시원합니다. 적극 추천해요. 유통기한만 아니면 집에 100개 정도 사놓고 사먹고 싶네요." />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.circularreveal.cardview.CircularRevealCardView>

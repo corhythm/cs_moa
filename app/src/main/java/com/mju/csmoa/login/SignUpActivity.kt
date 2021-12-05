@@ -1,6 +1,5 @@
 package com.mju.csmoa.login
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,7 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.mju.csmoa.R
 import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivitySignUpBinding
-import com.mju.csmoa.login.domain.model.PostSignUpReq
+import com.mju.csmoa.login.domain.PostSignUpReq
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants.TAG
 import www.sanju.motiontoast.MotionToast
@@ -51,7 +50,8 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RetrofitManager.instance.signUp(PostSignUpReq(
+            RetrofitManager.instance.signUp(
+                PostSignUpReq(
                 email = binding.textInputEditTextSignUpEmailInput.text.toString(),
                 password = binding.textInputEditTextSignUpPasswordInput.text.toString(),
                 nickname = binding.textInputEditTextSignUpNicknameInput.text.toString()

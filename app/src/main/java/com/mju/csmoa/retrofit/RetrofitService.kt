@@ -17,10 +17,10 @@ import com.mju.csmoa.home.review.domain.PostReviewRes
 import com.mju.csmoa.home.review.domain.model.Comment
 import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
-import com.mju.csmoa.login.domain.model.GetRefreshJwtTokenRes
-import com.mju.csmoa.login.domain.model.PostLoginReq
-import com.mju.csmoa.login.domain.model.PostOAuthLoginReq
-import com.mju.csmoa.login.domain.model.PostSignUpReq
+import com.mju.csmoa.login.domain.GetRefreshJwtTokenRes
+import com.mju.csmoa.login.domain.PostLoginReq
+import com.mju.csmoa.login.domain.PostOAuthLoginReq
+import com.mju.csmoa.login.domain.PostSignUpReq
 import com.mju.csmoa.retrofit.common_domain.BaseResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -205,6 +205,7 @@ interface RetrofitService {
     @GET("/recipes")
     suspend fun getRecipes(
         @Header("Access-Token") accessToken: String,
+        @Query("search") searchWord: String? = null,
         @Query("page") pageNum: Int
     ): BaseResponse<List<Recipe>>
 
@@ -222,6 +223,12 @@ interface RetrofitService {
         @Path("recipeId") recipeId: Long
     ): BaseResponse<PostRecipeLikeRes>
 
+    // NOTE: 내가 쓴 리뷰
+    @GET("/my-reviews")
+    suspend fun getMyReviews(
+        @Header("Access-Token") accessToken: String,
+        @Query("page") pageNum: Int
+    ): BaseResponse<List<Review>>
 
 }
 

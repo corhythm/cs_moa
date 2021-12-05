@@ -1,4 +1,4 @@
-package com.mju.csmoa.login.domain.model
+package com.mju.csmoa.login.domain
 
 import com.google.gson.annotations.SerializedName
 

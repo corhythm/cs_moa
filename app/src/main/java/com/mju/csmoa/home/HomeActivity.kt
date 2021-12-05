@@ -27,6 +27,12 @@ import com.mju.csmoa.home.review.ReviewsFragment
 import com.mju.csmoa.util.MyApplication
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.*
+import android.view.MotionEvent
+
+import android.view.View.OnTouchListener
+
+import android.R.string.no
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -82,8 +88,7 @@ class HomeActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
-
-        // 텍스트 일력할 시, X 버튼 노출 -> 이것도 X 버튼 누르면 editText empty되게 수정해야 함.
+        // 텍스트 일력할 시, X 버튼 노출 -> 이것도 X 버튼 누르면 editText empty되게 수정해야 함(근데 하려고 하면 custom editText 만들어야 함)
         val searchBarTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence,
@@ -94,8 +99,8 @@ class HomeActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
-                        .isNotEmpty()
+                if (binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar
+                        .text.toString().isNotEmpty()
                 ) {
                     binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.setCompoundDrawablesWithIntrinsicBounds(
                         null,
@@ -119,7 +124,8 @@ class HomeActivity : AppCompatActivity() {
             .setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     val searchWord =
-                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString().trim()
+                        binding.includeHomeSearchToolbar.editTextSearchToolbarSearchbar.text.toString()
+                            .trim()
                     goToSearchResults(searchWord)
 
                     return@setOnEditorActionListener true
@@ -207,17 +213,17 @@ class HomeActivity : AppCompatActivity() {
             return
         }
 
-        val searchResultIntent: Intent = if (nowFragment is ReviewsFragment) { // 리뷰에서 검색하면 -> ReviewSearchResultActivity
-            Intent(this@HomeActivity, ReviewSearchResultActivity::class.java).apply {
-                putExtra("searchWord", searchWord)
+        val searchResultIntent: Intent =
+            if (nowFragment is ReviewsFragment) { // 리뷰에서 검색하면 -> ReviewSearchResultActivity
+                Intent(this@HomeActivity, ReviewSearchResultActivity::class.java).apply {
+                    putExtra("searchWord", searchWord)
+                }
+            } else { // 레시피에서 검색하면 -> RecipeSearchResultActivity
+                Intent(this@HomeActivity, RecipeSearchResultActivity::class.java).apply {
+                    putExtra("searchWord", searchWord)
+                }
             }
-        } else { // 레시피에서 검색하면 -> RecipeSearchResultActivity
-            Intent(this@HomeActivity, RecipeSearchResultActivity::class.java).apply {
-                putExtra("searchWord", searchWord)
-            }
-        }
         startActivity(searchResultIntent)
-
     }
 
     private fun replaceFragment(fragment: Fragment) {

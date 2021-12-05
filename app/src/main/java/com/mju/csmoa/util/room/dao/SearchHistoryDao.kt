@@ -12,9 +12,6 @@ interface SearchHistoryDao {
     @Delete
     suspend fun deleteSearchHistory(searchHistory: SearchHistory)
 
-//    @Query("SELECT * FROM SearchHistory ORDER BY createdAt DESC;")
-//    fun getSearchHistoriesFlow(): Flow<List<SearchHistory>>
-
     // 리뷰 최근 검색어
     @Query("SELECT * FROM SearchHistory WHERE type = 0 ORDER BY createdAt DESC")
     fun getReviewSearchHistoriesFlow(): Flow<List<SearchHistory>>
@@ -22,9 +19,6 @@ interface SearchHistoryDao {
     // 레시피 최근 검색어
     @Query("SELECT * FROM SearchHistory WHERE type = 1 ORDER BY createdAt DESC")
     fun getRecipeSearchHistoriesFlow(): Flow<List<SearchHistory>>
-
-//    @Query("DELETE FROM SearchHistory")
-//    suspend fun deleteAllSearchHistory()
 
     // 리뷰 최근 검색어 모두 삭제
     @Query("DELETE FROM SearchHistory WHERE type = 0")

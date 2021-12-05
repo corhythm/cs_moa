@@ -49,7 +49,7 @@ class ReviewPagingDataSource(
                     pageNum = position
                 )
 
-            val reviews = response?.result as List<Review>
+            val reviews = response?.result!!
 
             // dirty code
             if (searchWord != null && position == 1 && whenSearchingComplete != null) {

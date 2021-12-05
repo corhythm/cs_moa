@@ -43,6 +43,11 @@ class SearchHistoryFragment(private val nowFragment: Fragment) : Fragment() {
 
     private fun init() {
 
+        if (nowFragment is ReviewsFragment)
+            binding.textViewSearchHistoryRecentSearchLabel.text = "리뷰 최근 검색어"
+        else
+            binding.textViewSearchHistoryRecentSearchLabel.text = "레시피 최근 검색어"
+
         // 특정 검색어 삭제
         val onDeleteClicked: (position: Int) -> Unit = {
             // remove specific search history

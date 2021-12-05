@@ -1,11 +1,8 @@
 package com.mju.csmoa.retrofit
 
 import android.util.Log
-import com.google.gson.Gson
 import com.google.gson.JsonElement
-import com.mju.csmoa.home.event_item.domain.GetEventItemsRes
-import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.login.domain.model.*
+import com.mju.csmoa.login.domain.*
 import com.mju.csmoa.util.Constants.API_BASE_URL
 import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication

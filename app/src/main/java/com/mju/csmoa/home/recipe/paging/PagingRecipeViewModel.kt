@@ -11,8 +11,29 @@ import kotlinx.coroutines.flow.Flow
 
 class PagingRecipeViewModel : ViewModel() {
 
+    // 이렇게 하는 게 맞는지 잘 모르겠다....
+    private var searchWord: String? = null
+    private var whenSearchingComplete: (() -> Unit)? = null
+    private var whenNoReviewSearchResult: (() -> Unit)? = null
+
+    fun setSearchForInfo(
+        searchWord: String,
+        whenSearchingComplete: () -> Unit,
+        whenNoReviewSearchResult: () -> Unit
+    ) {
+        this.searchWord = searchWord
+        this.whenSearchingComplete = whenSearchingComplete
+        this.whenNoReviewSearchResult = whenNoReviewSearchResult
+    }
+
     fun getRecipes(): Flow<PagingData<Recipe>> {
         return Pager(config = PagingConfig(pageSize = RecipePagingDataSource.PAGE_SIZE),
-            pagingSourceFactory = { RecipePagingDataSource() }).flow.cachedIn(viewModelScope)
+            pagingSourceFactory = {
+                RecipePagingDataSource(
+                    searchWord,
+                    whenSearchingComplete,
+                    whenNoReviewSearchResult
+                )
+            }).flow.cachedIn(viewModelScope)
     }
 }
