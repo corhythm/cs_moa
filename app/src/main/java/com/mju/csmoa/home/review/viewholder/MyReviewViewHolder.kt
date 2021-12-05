@@ -42,6 +42,12 @@ class MyReviewViewHolder(
             textViewMyReviewCreatedAt.text = review.createdAt // createdAt
             val csBrandImageResourceId = MyApplication.getCsTextBrandResourceId(review.csBrand)
             imageViewMyReviewCsBrand.setImageResource(csBrandImageResourceId) // csBrand
+
+            if (review.isLike) {
+                imageViewMyReviewLikeNumImage.setImageResource(R.drawable.ic_all_filledheart)
+            } else {
+                imageViewMyReviewLikeNumImage.setImageResource(R.drawable.ic_all_empty_stroke_colored_heart)
+            }
         }
     }
 }

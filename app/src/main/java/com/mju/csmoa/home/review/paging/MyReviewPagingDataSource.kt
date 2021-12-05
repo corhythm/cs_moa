@@ -7,7 +7,6 @@ import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.retrofit.RetrofitManager
 import com.mju.csmoa.util.Constants
-import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 
 
