@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.FragmentSearchHistoryBinding
 import com.mju.csmoa.databinding.ItemSearchHistoryBinding
+import com.mju.csmoa.home.review.ReviewsFragment
 import com.mju.csmoa.util.MyApplication
 import com.mju.csmoa.util.room.database.LocalRoomDatabase
 import com.mju.csmoa.util.room.entity.SearchHistory
@@ -20,13 +21,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SearchHistoryFragment : Fragment() {
+class SearchHistoryFragment(private val nowFragment: Fragment) : Fragment() {
 
     private var _binding: FragmentSearchHistoryBinding? = null
     private val binding get() = _binding!!
 
     private val  searchHistoryViewModel: SearchHistoryViewModel by viewModels {
-        SearchHistoryViewModelFactory(MyApplication.instance.repository)
+        SearchHistoryViewModelFactory(nowFragment, MyApplication.instance.repository)
     }
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
 
@@ -80,7 +81,10 @@ class SearchHistoryFragment : Fragment() {
         binding.textViewSearchHistoryClearAll.setOnClickListener {
             val database = LocalRoomDatabase.getDatabase(requireContext())
             lifecycleScope.launch(Dispatchers.IO) {
-                database.searchHistoryDao().deleteAllSearchHistory()
+                if (nowFragment is ReviewsFragment)
+                    database.searchHistoryDao().deleteAllReviewSearchHistory()
+                else
+                    database.searchHistoryDao().deleteAllRecipeSearchHistory()
             }
         }
     }

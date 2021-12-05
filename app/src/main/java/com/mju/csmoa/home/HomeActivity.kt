@@ -178,7 +178,7 @@ class HomeActivity : AppCompatActivity() {
 
         // change fragment (이건 replace가 아니라 add를 해줘야 함, replace하면 review를 다시 가져와야 하므로)
         supportFragmentManager.beginTransaction()
-            .add(binding.frameLayoutHomeContainer.id, SearchHistoryFragment()).commit()
+            .add(binding.frameLayoutHomeContainer.id, SearchHistoryFragment(nowFragment)).commit()
 
         with(binding) {
             // MainToolbar invisible

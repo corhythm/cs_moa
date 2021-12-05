@@ -1,12 +1,8 @@
 package com.mju.csmoa.util
 
-import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.graphics.Color
-import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import com.kakao.sdk.common.KakaoSdk
 import com.mju.csmoa.R

@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 class SearchHistoryRepository(private val searchHistoryDao: SearchHistoryDao) {
 
-    val allSearchHistories: Flow<List<SearchHistory>> = searchHistoryDao.getSearchHistoriesFlow()
+    val allReviewSearchHistories: Flow<List<SearchHistory>> = searchHistoryDao.getReviewSearchHistoriesFlow()
+    val allRecipeSearchHistories: Flow<List<SearchHistory>> = searchHistoryDao.getRecipeSearchHistoriesFlow()
 
     suspend fun insert(searchHistory: SearchHistory) {
         searchHistoryDao.insertSearchHistory(searchHistory)
