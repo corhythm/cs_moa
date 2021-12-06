@@ -1,6 +1,5 @@
 package com.mju.csmoa.home.event_item.viewholder
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,11 +7,11 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemDetailRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.util.Constants.TAG
 import com.mju.csmoa.util.MyApplication
 
 class DetailEventItemViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    onDetailedRecommendedEventItemClicked: (position: Int) -> Unit
 ) :
     RecyclerView.ViewHolder(
         ItemDetailRecommendedEventItemBinding.inflate(
@@ -22,7 +21,15 @@ class DetailEventItemViewHolder(
         ).root
     ) {
 
-    private val binding = ItemDetailRecommendedEventItemBinding.bind(itemView)
+    private val binding = ItemDetailRecommendedEventItemBinding.bind(super.itemView)
+
+    init {
+        binding.root.setOnClickListener {
+            onDetailedRecommendedEventItemClicked(
+                absoluteAdapterPosition
+            )
+        }
+    }
 
     fun bind(eventItem: EventItem) {
 

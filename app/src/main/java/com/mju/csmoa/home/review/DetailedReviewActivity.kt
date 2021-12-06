@@ -176,7 +176,6 @@ class DetailedReviewActivity : AppCompatActivity() {
                 childCommentLauncher.launch(childCommentIntent)
             }
 
-
             // NOTE: 편의점 위치 보러 맵으로 이동
             val goToMapClicked = { anchorView: View, csBrand: String ->
                 createBalloon(this@DetailedReviewActivity) {

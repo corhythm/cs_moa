@@ -2,7 +2,7 @@ package com.mju.csmoa.home.event_item
 
 import android.animation.ValueAnimator
 import android.content.Intent
-import android.graphics.Color
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -40,16 +40,20 @@ class DetailEventItemActivity : AppCompatActivity() {
     private var detailEventItem: EventItem? = null
     private var type = -1 // HEADER(recommended, 0) || BODY(normal, 1)
     private var position = -1
+    private lateinit var detailedRecommendedEventItems: List<EventItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailEventItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
         init()
     }
 
     private fun init() {
-
         // 네비 아이콘 눌르면 -> 뒤로 가기
         binding.toolbarDetailEventItemToolbar.setNavigationOnClickListener {
             onBackPressed()
@@ -61,6 +65,7 @@ class DetailEventItemActivity : AppCompatActivity() {
             eventItemId = intent.getLongExtra("eventItemId", -1)
             type = intent.getIntExtra("type", -1) // recommendEventItem인지 normalEventItem인지
             position = intent.getIntExtra("position", -1) // item absolute position
+            Log.d(TAG, "In DetailEventItemActivity, eventItemId = $eventItemId, position = $position, type = $type")
         }
 
         if (eventItemId == (-1).toLong() || type == -1 || position == -1) {
@@ -77,12 +82,24 @@ class DetailEventItemActivity : AppCompatActivity() {
                         eventItemId = eventItemId
                     )
 
+                val onDetailedRecommendedEventItemClicked: (position: Int) -> Unit = {
+                    Log.d(TAG, "clicked = ${detailedRecommendedEventItems[it]}")
+                    intent.putExtra("eventItemId", detailedRecommendedEventItems[it].eventItemId)
+                    intent.flags = FLAG_ACTIVITY_CLEAR_TOP // 맨 위 액티비티 제거하고
+                    startActivity(intent)
+                }
+
                 // 데이터 정상적으로 받아오면
                 if (response?.code != null || response?.result != null) {
                     when (response.code) {
                         100 -> {
+                            detailedRecommendedEventItems = response.result!!.detailRecommendedEventItems
+
                             val detailRecommendedEventItemRecyclerAdapter =
-                                DetailRecommendedEventItemAdapter(response.result!!.detailRecommendedEventItems)
+                                DetailRecommendedEventItemAdapter(
+                                    detailedRecommendedEventItems,
+                                    onDetailedRecommendedEventItemClicked
+                                )
 
                             withContext(Dispatchers.Main) {
                                 // init recyclerView

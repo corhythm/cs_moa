@@ -56,6 +56,7 @@
         <activity
             android:name=".home.review.DetailedReviewActivity"
             android:exported="false"
+            android:launchMode="standard"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".home.review.WriteReviewActivity"
@@ -68,9 +69,6 @@
             android:name=".home.more.EditProfileActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".home.SearchResultActivity"
-            android:exported="false" />
         <activity
             android:name=".home.HomeActivity"
             android:exported="true" />

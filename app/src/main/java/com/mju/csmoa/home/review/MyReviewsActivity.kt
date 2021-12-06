@@ -34,7 +34,8 @@ class MyReviewsActivity : AppCompatActivity() {
             toolbarMyReviewsToolbar.setNavigationOnClickListener { onBackPressed() }
 
             pagingMyReviewAdapter = PagingDataMyReviewAdapter { position: Int ->
-                val detailedIntent = Intent(this@MyReviewsActivity, DetailedReviewActivity::class.java)
+                val detailedIntent =
+                    Intent(this@MyReviewsActivity, DetailedReviewActivity::class.java)
                 detailedIntent.apply {
                     val review = pagingMyReviewAdapter.peek(position)
                     putExtra("reviewId", review!!.reviewId)
@@ -50,9 +51,7 @@ class MyReviewsActivity : AppCompatActivity() {
                     LinearLayoutManager(this@MyReviewsActivity, LinearLayoutManager.VERTICAL, false)
             }
 
-            val whenLoadingFinished = {
-                progressBarMyReviewsLoading.visibility = View.INVISIBLE
-            }
+            val whenLoadingFinished = { progressBarMyReviewsLoading.visibility = View.INVISIBLE }
 
             myReviewViewModel.setWhenLoadingFinished(whenLoadingFinished)
             lifecycleScope.launch(Dispatchers.IO) {
