@@ -64,7 +64,7 @@
 
 > **프로젝트 구조는 다음과 같습니다.**
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/43941383/145292511-6e0f9b5b-3dcc-443e-84fd-b58cc3e5cd3a.png)
 
 ## Django (Crawling Server)
 
@@ -99,7 +99,7 @@
 
 구조는 다음과 같습니다.
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled%201.png)
+![Untitled 1](https://user-images.githubusercontent.com/43941383/145292403-c9a64569-5534-4e04-8c41-c3ebb43a20da.png)
 
 - **이름/이메일/사진 3가지 정보만 oauth provider에 요청해, token 유출에 따른 보안 문제를 최소화했습니다.**
 
@@ -109,7 +109,7 @@
 
 > **로컬 로그인, 구글 로그인, 카카오 로그인을 할 수 있습니다. 로컬 로그인을 할 경우에는 회원가입을 해야합니다.**
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled%202.png)
+![Untitled 2](https://user-images.githubusercontent.com/43941383/145292499-11c66d2c-6003-4f30-ac74-eb04acccce63.png)
 
 # 2. 제품 리뷰 게시판 / 리뷰 작성 / 리뷰 상세정보 / 댓글 / 대댓글
 
@@ -117,7 +117,7 @@
 
 > **사용자가 편의점 제품을 리뷰를 작성하고, 해당 리뷰에 댓글 및 대댓글을 달 수 있는 제품 리뷰 게시판입니다.**
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled%203.png)
+![Untitled 3](https://user-images.githubusercontent.com/43941383/145292501-c28fb768-6b31-4d87-81aa-bcb44efad45f.png)
 
 ## 3. 행사 상품 게시판 / 행사 상품 상세정보
 
@@ -125,7 +125,7 @@
 
 > **현재 대한민국 주요 편의점에서 행사 하고 있는 제품 리스트를 보여주고, 상세 정보 페이지에서는 해당 제품 상세 정보 및 비슷한 제품 추천 서비스를 제공합니다.**
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled%204.png)
+![Untitled 4](https://user-images.githubusercontent.com/43941383/145292503-ddbd1481-6ab3-4ddc-a147-b533dee15342.png)
 
 ## 4. 꿀조합 레시피
 
@@ -133,7 +133,7 @@
 
 > **편의점에서 파는 제품을 조합해 만든 레시피를 다른 유저와 공유할 수 있는 꿀조합 레시피 게시판입니다.**
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled%205.png)
+![Untitled 5](https://user-images.githubusercontent.com/43941383/145292506-83deac2e-944b-46b1-adf6-af9fba123a00.png)
 
 ## 5. 프로필 정보 수정
 
@@ -141,4 +141,4 @@
 
 > **사용자 프로필 정보를 수정할 수 있습니다. 보안을 위해 수정할 수 있는 정보는 프로필 이미지와 닉네임으로 한정했습니다.**
 
-![Untitled](CS%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1(Convenience%20Store%20%E1%84%86%E1%85%A9%E1%84%8B%E1%85%A1)%208b131e8e968c46f1885acfc44e9725ab/Untitled%206.png)
+![Untitled 6](https://user-images.githubusercontent.com/43941383/145292509-0cc4724d-75fd-4d72-b01a-0f17b182f3b0.png)
