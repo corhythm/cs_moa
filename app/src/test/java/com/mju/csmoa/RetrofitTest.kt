@@ -62,5 +62,21 @@ class RetrofitTest {
         }
     }
 
+    @Test
+    fun stringTest() {
+
+        var string = "Hello"
+        println(string.hashCode())
+        string = "world"
+        println(string.hashCode())
+
+        val stringBuild = StringBuffer()
+        stringBuild.append("Hello")
+        println(stringBuild.hashCode())
+        stringBuild.append("World")
+        println(stringBuild.hashCode())
+        println(stringBuild)
+    }
+
     data class Temp(val alpha: Int)
 }

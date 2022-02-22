@@ -229,6 +229,5 @@ interface RetrofitService {
         @Header("Access-Token") accessToken: String,
         @Query("page") pageNum: Int
     ): BaseResponse<List<Review>>
-
 }
 
