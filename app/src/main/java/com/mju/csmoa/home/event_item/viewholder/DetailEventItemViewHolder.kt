@@ -35,7 +35,7 @@ class DetailEventItemViewHolder(
 
         with(binding) {
             // 제품 이미지 불러오기
-            Glide.with(root.context).load(eventItem.itemImageSrc)
+            Glide.with(root.context).load(eventItem.itemImageUrl)
                 .placeholder(R.drawable.ic_all_loading)
                 .fallback(R.drawable.ic_all_404)
                 .error(R.drawable.ic_all_404)

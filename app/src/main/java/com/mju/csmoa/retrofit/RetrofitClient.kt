@@ -44,29 +44,6 @@ object RetrofitClient {
         // 위에서 설정한 로깅 인터셉터를 okhttp 클라이언트에 추가
         client.addInterceptor(loggingInterceptor)
 
-
-        // 기본 파라미터 인터셉터 설정
-//        val baseParameterInterceptor = Interceptor { chain ->
-//            Log.d(TAG, "RetrofitClient -intercept() called")
-//            // original request
-//            val originalRequest = chain.request()
-//
-//            // query parameter 추가하기
-//            // localhost:4000?client_id=100
-//            val addedUrl =
-//                originalRequest.url.newBuilder().addQueryParameter("client_id", "100").build()
-//
-//            val finalRequest = originalRequest.newBuilder()
-//                .url(addedUrl)
-//                .method(originalRequest.method, originalRequest.body)
-//                .build()
-//
-//            return@Interceptor chain.proceed(finalRequest)
-//        }
-
-        // 위에서 설정한 기본 파라미터 인터셉터를 okhttp 클라이언트에 추가
-//        client.addInterceptor(baseParameterInterceptor)
-
         // connection timeout
         client.connectTimeout(10, TimeUnit.SECONDS)
         client.readTimeout(10, TimeUnit.SECONDS)

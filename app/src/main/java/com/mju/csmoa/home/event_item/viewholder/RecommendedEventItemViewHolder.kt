@@ -61,7 +61,7 @@ class RecommendedEventItemViewHolder(
                     ColorStateList.valueOf(Color.parseColor(eventItem.colorCode))
             }
 
-            Glide.with(root.context).load(eventItem.itemImageSrc)
+            Glide.with(root.context).load(eventItem.itemImageUrl)
                 .placeholder(R.drawable.ic_all_loading)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

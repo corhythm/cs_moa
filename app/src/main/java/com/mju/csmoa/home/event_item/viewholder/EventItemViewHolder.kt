@@ -1,6 +1,5 @@
 package com.mju.csmoa.home.event_item.viewholder
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -55,7 +54,7 @@ class EventItemViewHolder(
             }
 
             // 행사 제품 이미지 로딩
-            Glide.with(root.context).load(eventItem.itemImageSrc)
+            Glide.with(root.context).load(eventItem.itemImageUrl)
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404) // 리소스를 불러오다가 에러가 발생했을 때 보여줄 이미지를 설정한다.
                 .fallback(R.drawable.ic_all_404) // load할 url이 null인 경우 등 비어있을 때 보여줄 이미지를 설정한다.

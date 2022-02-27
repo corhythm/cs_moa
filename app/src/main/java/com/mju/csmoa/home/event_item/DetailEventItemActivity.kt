@@ -142,7 +142,7 @@ class DetailEventItemActivity : AppCompatActivity() {
         with(binding) {
             // 이미지 가져오기
             Glide.with(this@DetailEventItemActivity)
-                .load(detailEventItem.itemImageSrc)
+                .load(detailEventItem.itemImageUrl)
                 .placeholder(R.drawable.ic_all_loading)
                 .error(R.drawable.ic_all_404)
                 .fallback(R.drawable.ic_all_404)

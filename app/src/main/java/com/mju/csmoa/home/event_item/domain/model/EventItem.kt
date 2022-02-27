@@ -6,18 +6,18 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class EventItem(
-    val eventItemId: Long?,
-    val itemName: String?,
-    var itemPrice: String?,
-    var itemActualPrice: String?,
-    val itemImageSrc: String?,
-    val itemCategory: String?,
-    val csBrand: String?,
-    val itemEventType: String?,
-    var viewCount: Int?,
-    var likeCount: Int?,
-    var colorCode: String?,
-    var isLike: Boolean?
+        val eventItemId: Long?,
+        val itemName: String?,
+        var itemPrice: String?,
+        var itemActualPrice: String?,
+        val itemImageUrl: String?,
+        val itemCategory: String?,
+        val csBrand: String?,
+        val itemEventType: String?,
+        var viewCount: Int?,
+        var likeCount: Int?,
+        var colorCode: String?,
+        var isLike: Boolean?
 ) : Parcelable
 
 
