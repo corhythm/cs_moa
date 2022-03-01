@@ -1,15 +1,12 @@
 package com.mju.csmoa.retrofit
 
 import android.util.Log
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.isJsonArray
-import com.mju.csmoa.util.isJsonObject
-import okhttp3.Interceptor
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.isJsonArray
+import com.mju.csmoa.common.util.isJsonObject
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit

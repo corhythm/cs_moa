@@ -22,11 +22,10 @@ import com.mju.csmoa.home.recipe.adapter.SealedRecommendedRecipeAdapter
 import com.mju.csmoa.home.recipe.domain.model.DetailedRecipe
 import com.mju.csmoa.home.recipe.domain.model.Recipe
 import com.mju.csmoa.home.recipe.paging.PagingRecipeViewModel
-import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import www.sanju.motiontoast.MotionToastStyle

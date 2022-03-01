@@ -2,7 +2,6 @@ package com.mju.csmoa.home.recipe
 
 import android.app.Dialog
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -18,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.DialogAddIngredientBinding
 import com.mju.csmoa.databinding.ItemIngredientCsbrandBinding
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 

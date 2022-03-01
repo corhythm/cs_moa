@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mju.csmoa.databinding.DialogSelectMenuBinding
-import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.common.util.Constants.TAG
 import java.io.IOException
 
 class SelectMenuDialog// (dirty code) check if lottie file exists.

@@ -23,8 +23,8 @@ import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivityEditProfileBinding
 import com.mju.csmoa.home.more.model.UserInfo
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +37,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.io.*
-import java.util.*
 
 class EditProfileActivity : AppCompatActivity() {
 

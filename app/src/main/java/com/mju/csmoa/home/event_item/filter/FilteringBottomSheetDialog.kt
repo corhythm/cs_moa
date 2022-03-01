@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.DialogFileringBottomSheetBinding
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 
 class FilteringBottomSheetDialog(
     context: Context,

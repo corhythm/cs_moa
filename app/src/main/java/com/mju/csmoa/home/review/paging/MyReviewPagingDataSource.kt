@@ -6,8 +6,8 @@ import androidx.paging.PagingState
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants
+import com.mju.csmoa.common.util.MyApplication
 
 
 class MyReviewPagingDataSource(private val whenLoadingFinished: () -> Unit) : PagingSource<Int, Review>() {

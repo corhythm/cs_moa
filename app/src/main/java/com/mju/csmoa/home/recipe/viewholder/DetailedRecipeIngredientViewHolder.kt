@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemDetailedRecipeIngredientBinding
 import com.mju.csmoa.home.recipe.domain.model.Ingredient
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 
 class DetailedRecipeIngredientViewHolder(
     parent: ViewGroup,

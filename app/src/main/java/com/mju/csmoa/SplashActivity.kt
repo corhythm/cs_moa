@@ -9,8 +9,8 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.mju.csmoa.databinding.ActivitySplashBinding
 import com.mju.csmoa.home.HomeActivity
 import com.mju.csmoa.login.SignInActivity
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {

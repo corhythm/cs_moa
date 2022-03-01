@@ -6,11 +6,8 @@ import androidx.paging.PagingState
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 
 class EventItemPagingSource(
     private val csBrands: MutableList<String>,

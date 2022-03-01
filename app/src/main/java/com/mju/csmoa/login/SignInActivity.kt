@@ -28,10 +28,9 @@ import com.mju.csmoa.login.domain.PostLoginReq
 import com.mju.csmoa.login.domain.PostLoginRes
 import com.mju.csmoa.login.domain.PostOAuthLoginReq
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle

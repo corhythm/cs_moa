@@ -18,13 +18,12 @@ import com.mju.csmoa.home.recipe.adapter.DetailedRecipeIngredientAdapter
 import com.mju.csmoa.home.recipe.domain.model.DetailedRecipe
 import com.mju.csmoa.home.review.adapter.DetailedReviewOrRecipeImageAdapter
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.createBalloon
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

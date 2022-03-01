@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemDetailRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 
 class DetailEventItemViewHolder(
     parent: ViewGroup,

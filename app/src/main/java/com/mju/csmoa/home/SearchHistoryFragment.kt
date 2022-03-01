@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.FragmentSearchHistoryBinding
 import com.mju.csmoa.databinding.ItemSearchHistoryBinding
 import com.mju.csmoa.home.review.ReviewsFragment
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.room.database.LocalRoomDatabase
-import com.mju.csmoa.util.room.entity.SearchHistory
-import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModel
-import com.mju.csmoa.util.room.viewmodel.SearchHistoryViewModelFactory
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.room.database.LocalRoomDatabase
+import com.mju.csmoa.common.util.room.entity.SearchHistory
+import com.mju.csmoa.common.util.room.viewmodel.SearchHistoryViewModel
+import com.mju.csmoa.common.util.room.viewmodel.SearchHistoryViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*

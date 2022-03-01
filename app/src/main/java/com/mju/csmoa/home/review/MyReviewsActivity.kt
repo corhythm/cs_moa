@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mju.csmoa.databinding.ActivityMyReviewsBinding
 import com.mju.csmoa.home.review.adapter.PagingDataMyReviewAdapter
 import com.mju.csmoa.home.review.paging.PagingMyReviewViewModel
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

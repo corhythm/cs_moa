@@ -3,14 +3,13 @@ package com.mju.csmoa.home.review.viewholder
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemCommentBinding
 import com.mju.csmoa.home.review.domain.model.Comment
-import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.common.util.Constants.TAG
 
 class ParentCommentViewHolder(
     private val parent: ViewGroup,

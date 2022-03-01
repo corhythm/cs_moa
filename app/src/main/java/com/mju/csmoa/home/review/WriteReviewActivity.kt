@@ -22,8 +22,8 @@ import com.mju.csmoa.home.review.adapter.WriteReviewPhotoAdapter.Companion.CAMER
 import com.mju.csmoa.home.review.adapter.WriteReviewPhotoAdapter.Companion.PHOTO
 import com.mju.csmoa.home.review.domain.model.Photo
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import com.swein.easypermissionmanager.EasyPermissionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

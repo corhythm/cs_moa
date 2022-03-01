@@ -1,6 +1,6 @@
 package com.mju.csmoa
 
-import com.mju.csmoa.util.secret.Secret
+import com.mju.csmoa.common.util.secret.Secret
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys

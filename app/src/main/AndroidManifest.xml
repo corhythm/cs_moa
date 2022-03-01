@@ -20,7 +20,7 @@
         android:required="false" />
 
     <application
-        android:name=".util.MyApplication"
+        android:name="com.mju.csmoa.common.util.MyApplication"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/launcher_icon_round"

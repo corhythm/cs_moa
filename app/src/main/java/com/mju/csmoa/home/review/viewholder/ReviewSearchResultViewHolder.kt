@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemReviewSearchResultBinding
 import com.mju.csmoa.home.review.domain.model.Review
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 
 class ReviewSearchResultViewHolder(
     private val parent: ViewGroup,

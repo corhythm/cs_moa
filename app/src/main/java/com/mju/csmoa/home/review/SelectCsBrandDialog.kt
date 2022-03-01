@@ -2,7 +2,6 @@ package com.mju.csmoa.home.review
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,7 @@ import com.mju.csmoa.databinding.DialogSelectCsBrandBinding
 import com.mju.csmoa.databinding.ItemCsBrandBinding
 import com.mju.csmoa.databinding.ItemCsBrandEtcBinding
 import com.mju.csmoa.home.review.SelectCsBrandDialog.Companion.ETC
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

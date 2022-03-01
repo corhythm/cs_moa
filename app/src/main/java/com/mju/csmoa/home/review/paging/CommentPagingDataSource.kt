@@ -5,7 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mju.csmoa.home.review.domain.model.Comment
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants
+import com.mju.csmoa.common.util.Constants
 
 class CommentPagingDataSource(private val depth: Int, private val id: Long) :
     PagingSource<Int, Comment>() {

@@ -2,12 +2,10 @@ package com.mju.csmoa.home.event_item.filter
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemCategoryBinding
-import com.mju.csmoa.util.Constants.TAG
 
 class ItemCategoryRecyclerAdapter(
     private val itemCategoryList: List<ItemCategory>,

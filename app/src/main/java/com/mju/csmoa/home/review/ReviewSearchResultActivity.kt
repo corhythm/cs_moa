@@ -12,11 +12,11 @@ import com.mju.csmoa.databinding.ActivityReviewSearchResultBinding
 import com.mju.csmoa.home.NoSearchResultFragment
 import com.mju.csmoa.home.review.adapter.PagingDataReviewSearchResultAdapter
 import com.mju.csmoa.home.review.paging.PagingReviewViewModel
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.RecyclerViewDecoration
-import com.mju.csmoa.util.room.database.LocalRoomDatabase
-import com.mju.csmoa.util.room.entity.SearchHistory
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.room.database.LocalRoomDatabase
+import com.mju.csmoa.common.util.room.entity.SearchHistory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

@@ -13,7 +13,7 @@ import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivitySignUpBinding
 import com.mju.csmoa.login.domain.PostSignUpReq
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.common.util.Constants.TAG
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.*

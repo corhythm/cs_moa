@@ -28,9 +28,9 @@ import com.mju.csmoa.home.event_item.domain.model.EventItem
 import com.mju.csmoa.home.event_item.filter.FilteringBottomSheetDialog
 import com.mju.csmoa.home.event_item.paging.PagingEventItemViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import www.sanju.motiontoast.MotionToast

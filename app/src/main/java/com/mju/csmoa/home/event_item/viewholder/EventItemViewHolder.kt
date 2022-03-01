@@ -11,8 +11,8 @@ import com.mju.csmoa.databinding.ItemEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 
 class EventItemViewHolder(
     parent: ViewGroup,

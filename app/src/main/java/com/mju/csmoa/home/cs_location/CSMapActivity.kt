@@ -17,14 +17,13 @@ import com.mju.csmoa.databinding.ActivityCsmapBinding
 import com.mju.csmoa.home.cs_location.domain.GetSearchKeyWordRes
 import com.mju.csmoa.home.cs_location.domain.Place
 import com.mju.csmoa.retrofit.RetrofitService
-import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.common.util.Constants.TAG
 import kotlinx.coroutines.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.min
 
 class CSMapActivity : AppCompatActivity(), MapView.CurrentLocationEventListener {
 

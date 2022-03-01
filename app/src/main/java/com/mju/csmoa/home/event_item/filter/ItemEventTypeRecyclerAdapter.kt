@@ -1,12 +1,10 @@
 package com.mju.csmoa.home.event_item.filter
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemEventTypeBinding
-import com.mju.csmoa.util.Constants.TAG
 
 
 class ItemEventTypeRecyclerAdapter(

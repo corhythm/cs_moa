@@ -11,11 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
 import com.mju.csmoa.common.EitherAOrBDialog
 import com.mju.csmoa.databinding.ActivityDetailedReviewBinding
@@ -24,23 +22,20 @@ import com.mju.csmoa.home.review.adapter.DetailedReviewAdapter
 import com.mju.csmoa.home.review.adapter.PagingDataCommentAdapter
 import com.mju.csmoa.home.review.domain.model.Comment
 import com.mju.csmoa.home.review.domain.model.DetailedReview
-import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.home.review.paging.CommentPagingDataSource.Companion.PARENT_COMMENT
 import com.mju.csmoa.home.review.paging.PagingCommentViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
-import com.skydoves.balloon.OnBalloonClickListener
 import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
 class DetailedReviewActivity : AppCompatActivity() {

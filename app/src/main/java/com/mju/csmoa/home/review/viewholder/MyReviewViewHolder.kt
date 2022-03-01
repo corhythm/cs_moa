@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemMyReviewBinding
 import com.mju.csmoa.home.review.domain.model.Review
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 
 class MyReviewViewHolder(
     private val parent: ViewGroup,

@@ -6,10 +6,8 @@ import androidx.paging.PagingState
 import com.mju.csmoa.JwtTokenInfo
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants
-import com.mju.csmoa.util.MyApplication
-import kotlinx.coroutines.DisposableHandle
-import kotlinx.coroutines.withContext
+import com.mju.csmoa.common.util.Constants
+import com.mju.csmoa.common.util.MyApplication
 
 class ReviewPagingDataSource(
     private var searchWord: String? = null,

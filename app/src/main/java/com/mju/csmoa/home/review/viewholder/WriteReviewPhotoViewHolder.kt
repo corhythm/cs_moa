@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.databinding.ItemWriteReviewCameraBinding
 import com.mju.csmoa.databinding.ItemWriteReviewPhotoBinding
 import com.mju.csmoa.home.review.domain.model.Photo
-import com.mju.csmoa.util.Constants.TAG
+import com.mju.csmoa.common.util.Constants.TAG
 
 
 class WriteReviewCameraViewHolder(parent: ViewGroup, onCameraClicked: () -> Unit) :

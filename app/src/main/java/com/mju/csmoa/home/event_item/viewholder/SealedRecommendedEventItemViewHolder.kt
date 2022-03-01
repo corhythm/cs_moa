@@ -8,7 +8,7 @@ import com.mju.csmoa.databinding.ItemSealedRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.adapter.RecommendedEventItemAdapter
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 
 // 추천 행사 상품 리사이클러뷰 뷰홀더
 class SealedRecommendedEventItemViewHolder(

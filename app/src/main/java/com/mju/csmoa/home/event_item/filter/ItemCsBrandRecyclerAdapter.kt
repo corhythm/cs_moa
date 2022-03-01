@@ -3,12 +3,10 @@ package com.mju.csmoa.home.event_item.filter
 import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.databinding.ItemCsBrandBinding
-import com.mju.csmoa.util.Constants.TAG
 
 class ItemCsBrandRecyclerAdapter(
     private val itemCsBrandList: List<ItemCsBrand>,

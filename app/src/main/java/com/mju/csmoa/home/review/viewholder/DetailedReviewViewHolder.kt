@@ -11,7 +11,7 @@ import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemDetailedReviewBinding
 import com.mju.csmoa.home.review.adapter.DetailedReviewOrRecipeImageAdapter
 import com.mju.csmoa.home.review.domain.model.DetailedReview
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 
 class DetailedReviewViewHolder(
     private val parent: ViewGroup,

@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ItemRecipeSearchResultBinding
 import com.mju.csmoa.home.recipe.domain.model.Recipe
-import com.mju.csmoa.util.MyApplication
 
 class RecipeSearchResultViewHolder(
     private val parent: ViewGroup,

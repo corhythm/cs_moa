@@ -12,7 +12,7 @@ import com.mju.csmoa.databinding.ItemRecommendedEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.HEADER
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 
 class RecommendedEventItemViewHolder(
     parent: ViewGroup,

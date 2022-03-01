@@ -11,30 +11,22 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.withCreated
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.mju.csmoa.R
 import com.mju.csmoa.databinding.FragmentReviewsBinding
-import com.mju.csmoa.home.event_item.adapter.EventItemLoadStateAdapter
-import com.mju.csmoa.home.more.model.PatchUserInfoRes
 import com.mju.csmoa.home.review.adapter.PagingDataReviewAdapter
 import com.mju.csmoa.home.review.adapter.SealedBestReviewsAdapter
 import com.mju.csmoa.home.review.domain.model.DetailedReview
 import com.mju.csmoa.home.review.domain.model.Review
 import com.mju.csmoa.home.review.paging.PagingReviewViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
 class ReviewsFragment : Fragment() {

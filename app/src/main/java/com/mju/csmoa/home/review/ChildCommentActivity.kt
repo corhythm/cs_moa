@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mju.csmoa.R
 import com.mju.csmoa.databinding.ActivityChildCommentBinding
 import com.mju.csmoa.home.review.adapter.PagingDataCommentAdapter
@@ -20,9 +19,9 @@ import com.mju.csmoa.home.review.domain.model.Comment
 import com.mju.csmoa.home.review.paging.CommentPagingDataSource
 import com.mju.csmoa.home.review.paging.PagingCommentViewModel
 import com.mju.csmoa.retrofit.RetrofitManager
-import com.mju.csmoa.util.Constants.TAG
-import com.mju.csmoa.util.MyApplication
-import com.mju.csmoa.util.RecyclerViewDecoration
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
+import com.mju.csmoa.common.util.RecyclerViewDecoration
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -30,7 +29,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
-import kotlin.math.log
 
 
 class ChildCommentActivity : AppCompatActivity() {

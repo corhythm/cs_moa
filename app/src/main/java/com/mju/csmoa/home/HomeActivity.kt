@@ -24,14 +24,8 @@ import com.mju.csmoa.home.recipe.RecipeSearchResultActivity
 import com.mju.csmoa.home.recipe.RecipesFragment
 import com.mju.csmoa.home.review.ReviewSearchResultActivity
 import com.mju.csmoa.home.review.ReviewsFragment
-import com.mju.csmoa.util.MyApplication
+import com.mju.csmoa.common.util.MyApplication
 import www.sanju.motiontoast.MotionToastStyle
-import java.util.*
-import android.view.MotionEvent
-
-import android.view.View.OnTouchListener
-
-import android.R.string.no
 
 
 class HomeActivity : AppCompatActivity() {
