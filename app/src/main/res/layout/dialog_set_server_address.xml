@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet_container"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background">
+
+    <TextView
+        android:id="@+id/textView_dialogSelectSetServerAddress_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/airbnb_cereal_bold"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textColor="@color/colorGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Set server address" />
+
+    <View
+        android:id="@+id/view_dialogSelectSetServerAddress_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#DAD2D2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_dialogSelectSetServerAddress_title" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView_dialogSelectSetServerAddress_lottie"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_dialogSelectSetServerAddress_divider"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="set_server.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_dialogSelectSetServerAddress_addressInputLayout"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:hintAnimationEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView_dialogSelectSetServerAddress_lottie"
+        app:layout_constraintWidth_percent="0.8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText_dialogSelectSetServerAddress_addressInput"
+            style="@style/TextInputEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1"
+            android:hint="서버 주소를 입력해주세요."
+            android:background="#00000000"
+            app:background="@null" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/button_dialogSelectSetServerAddress_setServerAddress"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#B4ED18"
+        android:text="Set server address"
+        android:textStyle="italic|bold"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_dialogSelectSetServerAddress_addressInputLayout"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_dialogSelectSetServerAddress_addressInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_dialogSelectSetServerAddress_addressInputLayout"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

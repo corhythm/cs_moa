@@ -71,6 +71,8 @@
                 style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1"
                 android:hint="아이디(이메일)"
                 android:background="#00000000"
                 app:background="@null" />

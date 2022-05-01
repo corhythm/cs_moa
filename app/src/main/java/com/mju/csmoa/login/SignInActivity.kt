@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Task
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import com.mju.csmoa.R
+import com.mju.csmoa.common.SelectMenuDialog
 import com.mju.csmoa.databinding.ActivitySignInBinding
 import com.mju.csmoa.home.HomeActivity
 import com.mju.csmoa.login.domain.JwtToken
@@ -34,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
+import java.io.File
 
 
 class SignInActivity : AppCompatActivity() {
@@ -41,6 +44,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private var isValid = false
+    private var serverDialogCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +64,17 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun init() {
+
+        // set server address (연속으로 로고 5번 누르면 server address 설정 다이얼로그 노출)
+        binding.imageViewSignInAppImage.setOnClickListener {
+            serverDialogCounter++
+            if (serverDialogCounter == 5) {
+                SetServerAddressDialog(this, R.style.BottomSheetDialogTheme).show()
+                serverDialogCounter = 0
+            }
+        }
+
+
         // Set TextWatcher
         val emailTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

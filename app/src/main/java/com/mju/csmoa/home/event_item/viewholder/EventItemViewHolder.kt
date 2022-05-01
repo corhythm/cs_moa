@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mju.csmoa.R
+import com.mju.csmoa.common.util.Constants.TAG
+import com.mju.csmoa.common.util.MyApplication
 import com.mju.csmoa.databinding.ItemEventItemBinding
 import com.mju.csmoa.home.event_item.EventItemChangedListener
 import com.mju.csmoa.home.event_item.adapter.EventItemPagingDataAdapter.Companion.BODY
 import com.mju.csmoa.home.event_item.domain.model.EventItem
-import com.mju.csmoa.common.util.Constants.TAG
-import com.mju.csmoa.common.util.MyApplication
 
 class EventItemViewHolder(
     parent: ViewGroup,
-    private val eventItemChangedListner: EventItemChangedListener
+    private val eventItemChangedListener: EventItemChangedListener
 ) :
     RecyclerView.ViewHolder(
         ItemEventItemBinding.inflate(
@@ -32,7 +32,7 @@ class EventItemViewHolder(
         // 특정 아이템 클릭 시
         binding.root.setOnClickListener {
             Log.d(TAG, "viewHolder position = $absoluteAdapterPosition")
-            eventItemChangedListner.onClickedEventItem(
+            eventItemChangedListener.onClickedEventItem(
                 type = BODY,
                 position = absoluteAdapterPosition
             )

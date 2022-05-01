@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">간편식</string>
+    <string name="app_name">CS모아</string>
     <string name="title_activity_bookmark">BookmarkActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

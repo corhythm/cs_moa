@@ -15,7 +15,7 @@ class RetrofitManager {
     companion object {
         val instance = RetrofitManager()
         val retrofitService: RetrofitService? =
-            RetrofitClient.getClient(API_BASE_URL)?.create(RetrofitService::class.java)
+            RetrofitClient.getRetrofitClient(API_BASE_URL)?.create(RetrofitService::class.java)
     }
 
     // 회원가입
